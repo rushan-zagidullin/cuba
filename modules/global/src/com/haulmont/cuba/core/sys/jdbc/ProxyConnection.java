@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.haulmont.cuba.core.sys.work.jdbc;
+package com.haulmont.cuba.core.sys.jdbc;
 
 import java.sql.*;
 import java.util.Map;

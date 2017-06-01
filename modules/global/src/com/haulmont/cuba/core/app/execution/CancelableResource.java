@@ -14,20 +14,8 @@
  * limitations under the License.
  */
 
-package com.haulmont.cuba.core.sys.work;
+package com.haulmont.cuba.core.app.execution;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-public class UnitOfWork {
-    protected String group;
-    protected String key;
-    protected List<Resource> resources = new CopyOnWriteArrayList<>();
-
-
-    public void addResource(Resource resource) {
-        resources.add(resource);
-    }
-
-    public static  createWork()
+public interface CancelableResource {
+    void cancel();
 }

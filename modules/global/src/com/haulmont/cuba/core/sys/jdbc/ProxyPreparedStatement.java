@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.haulmont.cuba.core.sys.work.jdbc;
+package com.haulmont.cuba.core.sys.jdbc;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -31,20 +31,17 @@ public class ProxyPreparedStatement<T extends PreparedStatement> extends ProxySt
 
     @Override
     public ResultSet executeQuery() throws SQLException {
-        //TODO: implement
-        return null;
+        return executeWithWork(() -> statement.executeQuery());
     }
 
     @Override
     public int executeUpdate() throws SQLException {
-        //TODO: implement
-        return 0;
+        return executeWithWork(() -> statement.executeUpdate());
     }
 
     @Override
     public boolean execute() throws SQLException {
-        //TODO: implement
-        return false;
+        return executeWithWork(() -> statement.execute());
     }
 
     @Override
