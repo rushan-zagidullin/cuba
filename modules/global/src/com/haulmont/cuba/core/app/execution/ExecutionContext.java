@@ -20,10 +20,15 @@ import com.haulmont.cuba.core.global.UuidProvider;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ExecutionContext {
+
+
+
+
     protected UUID id;
     protected String key;
     protected String group;
@@ -49,5 +54,18 @@ public class ExecutionContext {
         for (CancelableResource resource : resources) {
             resource.cancel();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExecutionContext context = (ExecutionContext) o;
+        return Objects.equals(id, context.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
