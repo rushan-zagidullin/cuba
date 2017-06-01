@@ -24,6 +24,7 @@ import com.haulmont.cuba.core.app.importexport.EntityImportExportService;
 import com.haulmont.cuba.core.app.importexport.EntityImportView;
 import com.haulmont.cuba.core.app.importexport.ReferenceImportBehaviour;
 import com.haulmont.cuba.core.entity.Entity;
+import com.haulmont.cuba.core.entity.EntityId;
 import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.gui.WindowManager.OpenType;
 import com.haulmont.cuba.gui.components.*;
@@ -57,7 +58,7 @@ import java.util.*;
 
 public class GroupBrowser extends AbstractWindow {
 
-    protected static final Logger log = LoggerFactory.getLogger(GroupBrowser.class);
+    private final Logger log = LoggerFactory.getLogger(GroupBrowser.class);
 
     @Inject
     protected UserManagementService userManagementService;
@@ -301,7 +302,7 @@ public class GroupBrowser extends AbstractWindow {
     public void copyGroup() {
         Group group = groupsDs.getItem();
         if (group != null) {
-            userManagementService.copyAccessGroup(group.getId());
+            userManagementService.copyAccessGroup(EntityId.of(group));
             groupsDs.refresh();
         }
     }
