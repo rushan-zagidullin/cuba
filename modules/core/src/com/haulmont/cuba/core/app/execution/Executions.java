@@ -70,7 +70,7 @@ public class Executions implements ExecutionsAPI {
         }
     }
 
-    public ExecutionContext start(String key, String group) {
+    public ExecutionContext startExecution(String key, String group) {
         if (ExecutionContextHolder.getCurrentContext() != null) {
             throw new IllegalStateException("Execution context already started");
         }
@@ -90,7 +90,7 @@ public class Executions implements ExecutionsAPI {
         return context;
     }
 
-    public void end() {
+    public void endExecution() {
         ExecutionContextImpl context = (ExecutionContextImpl) ExecutionContextHolder.getCurrentContext();
         if (context == null) {
             throw new IllegalStateException("No execution context found");
@@ -102,7 +102,7 @@ public class Executions implements ExecutionsAPI {
         ExecutionContextHolder.removeContext();
     }
 
-    public void cancel(UUID userSessionId, String group, String key) {
+    public void cancelExecution(UUID userSessionId, String group, String key) {
         UserSession userSession = userSessionsAPI.get(userSessionId, false);
         if (userSession == null) {
             log.warn("User session {} not found, execution context: group={}, key={}", userSessionId, group, key);

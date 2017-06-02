@@ -16,8 +16,9 @@
 
 package com.haulmont.cuba.core.sys.jdbc;
 
-import com.haulmont.cuba.core.app.execution.ExecutionContextImpl;
 import com.haulmont.cuba.core.app.execution.ExecutionContextHolder;
+import com.haulmont.cuba.core.app.execution.ExecutionContextImpl;
+import com.haulmont.cuba.core.app.execution.ResourceCanceledException;
 
 import java.sql.*;
 
@@ -259,6 +260,12 @@ public class ProxyStatement<T extends Statement> implements Statement {
             try {
                 currentWork.addResource(resource);
                 return callable.call();
+            } catch (SQLException e) {
+                if (currentWork.isCanceled()) {
+                    throw new ResourceCanceledException("Resource is canceled by request");
+                } else {
+                    throw e;
+                }
             } finally {
                 currentWork.removeResource(resource);
             }

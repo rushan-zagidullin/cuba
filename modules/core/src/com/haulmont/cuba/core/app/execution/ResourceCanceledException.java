@@ -16,15 +16,24 @@
 
 package com.haulmont.cuba.core.app.execution;
 
-import java.util.UUID;
 
-public interface ExecutionsAPI {
-    String NAME = "cuba_ExecutionsAPI";
+public class ResourceCanceledException extends RuntimeException {
+    public ResourceCanceledException() {
+    }
 
-    ExecutionContext startExecution(String key, String group);
+    public ResourceCanceledException(String message) {
+        super(message);
+    }
 
-    void endExecution();
+    public ResourceCanceledException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-    void cancelExecution(UUID userSessionId, String group, String key);
+    public ResourceCanceledException(Throwable cause) {
+        super(cause);
+    }
 
+    public ResourceCanceledException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }
