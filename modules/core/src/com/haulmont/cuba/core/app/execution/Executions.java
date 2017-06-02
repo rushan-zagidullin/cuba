@@ -116,6 +116,11 @@ public class Executions implements ExecutionsAPI {
         }
     }
 
+    @Override
+    public ExecutionContext getCurrentContext() {
+        return ExecutionContextHolder.getCurrentContext();
+    }
+
     protected void cancelLocally(UserSession userSession, String group, String key) {
         List<ExecutionContext> result = findExecutionContextsByKeyAndGroup(userSession, group, key);
         for (ExecutionContext context : result) {

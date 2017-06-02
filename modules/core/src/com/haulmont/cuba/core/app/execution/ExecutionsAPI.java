@@ -27,4 +27,6 @@ public interface ExecutionsAPI {
 
     void cancelExecution(UUID userSessionId, String group, String key);
 
+    ExecutionContext getCurrentContext();
+
 }
