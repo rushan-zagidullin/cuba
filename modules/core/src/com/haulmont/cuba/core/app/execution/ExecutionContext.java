@@ -14,26 +14,28 @@
  * limitations under the License.
  */
 
-package com.haulmont.cuba.core.sys.jdbc;
+package com.haulmont.cuba.core.app.execution;
 
-import com.haulmont.cuba.core.app.execution.CancelableResource;
+import java.util.Date;
 
-import java.sql.SQLException;
-import java.sql.Statement;
-
-public class JDBCCancelableResource implements CancelableResource {
-    protected Statement statement;
-
-    public JDBCCancelableResource(Statement statement) {
-        this.statement = statement;
+public interface ExecutionContext {
+    enum State {
+        ACTIVE,
+        COMPLETED,
+        CANCELED
     }
 
-    @Override
-    public void cancel() {
-        try {
-            statement.cancel();
-        } catch (SQLException e) {
-            throw new RuntimeException("test",e);
-        }
-    }
+    String getKey();
+
+    String getGroup();
+
+    Date getStartTime();
+
+    State getState();
+
+    boolean isCanceled();
+
+    void addResource(CancelableResource resource);
+
+    void removeResource(CancelableResource resource);
 }

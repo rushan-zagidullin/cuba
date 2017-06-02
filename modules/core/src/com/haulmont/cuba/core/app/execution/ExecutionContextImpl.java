@@ -24,28 +24,55 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class ExecutionContext {
-
-
-
-
+public class ExecutionContextImpl implements ExecutionContext {
     protected UUID id;
     protected String key;
     protected String group;
     protected Date startTime;
+    protected volatile State state;
     protected List<CancelableResource> resources = new CopyOnWriteArrayList<>();
 
-    public ExecutionContext(String key, String group, Date startTime) {
+    public ExecutionContextImpl(String key, String group, Date startTime) {
         this.id = UuidProvider.createUuid();
         this.key = key;
         this.group = group;
         this.startTime = startTime;
+        this.state = State.ACTIVE;
     }
 
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    @Override
+    public String getGroup() {
+        return group;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    @Override
+    public boolean isCanceled() {
+        return state == State.CANCELED;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    @Override
     public void addResource(CancelableResource resource) {
         resources.add(resource);
     }
 
+    @Override
     public void removeResource(CancelableResource resource) {
         resources.remove(resource);
     }
@@ -54,13 +81,14 @@ public class ExecutionContext {
         for (CancelableResource resource : resources) {
             resource.cancel();
         }
+        resources.clear();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ExecutionContext context = (ExecutionContext) o;
+        ExecutionContextImpl context = (ExecutionContextImpl) o;
         return Objects.equals(id, context.id);
     }
 

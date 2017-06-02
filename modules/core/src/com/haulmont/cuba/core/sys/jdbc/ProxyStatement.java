@@ -16,7 +16,7 @@
 
 package com.haulmont.cuba.core.sys.jdbc;
 
-import com.haulmont.cuba.core.app.execution.ExecutionContext;
+import com.haulmont.cuba.core.app.execution.ExecutionContextImpl;
 import com.haulmont.cuba.core.app.execution.ExecutionContextHolder;
 
 import java.sql.*;
@@ -251,7 +251,7 @@ public class ProxyStatement<T extends Statement> implements Statement {
     }
 
     protected <V> V executeWithWork(SQLCallable<V> callable) throws SQLException {
-        ExecutionContext currentWork = ExecutionContextHolder.getCurrentContext();
+        ExecutionContextImpl currentWork = (ExecutionContextImpl) ExecutionContextHolder.getCurrentContext();
         if (currentWork == null) {
             return callable.call();
         } else {

@@ -17,11 +17,7 @@
 
 package com.haulmont.cuba.core.sys;
 
-import com.haulmont.cuba.core.sys.jdbc.ProxyDataSource;
 import org.springframework.jndi.JndiObjectFactoryBean;
-
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 
 /**
  * This class is used for locating objects by name defined in application properties before
@@ -42,15 +38,5 @@ public class CubaJndiObjectFactoryBean extends JndiObjectFactoryBean {
     public void setJndiNameAppProperty(String jndiNameAppProperty) {
         this.jndiNameAppProperty = jndiNameAppProperty;
         setJndiName(AppContext.getProperty(jndiNameAppProperty));
-    }
-
-    @Override
-    protected Object lookupWithFallback() throws NamingException {
-        Object object = super.lookupWithFallback();
-        if (object instanceof DataSource) {
-            return new ProxyDataSource((DataSource) object);
-        } else {
-            return object;
-        }
     }
 }
