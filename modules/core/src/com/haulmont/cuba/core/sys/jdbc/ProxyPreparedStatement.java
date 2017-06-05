@@ -31,17 +31,17 @@ public class ProxyPreparedStatement<T extends PreparedStatement> extends ProxySt
 
     @Override
     public ResultSet executeQuery() throws SQLException {
-        return executeWithWork(() -> statement.executeQuery());
+        return executeSqlStatement(() -> statement.executeQuery());
     }
 
     @Override
     public int executeUpdate() throws SQLException {
-        return executeWithWork(() -> statement.executeUpdate());
+        return executeSqlStatement(() -> statement.executeUpdate());
     }
 
     @Override
     public boolean execute() throws SQLException {
-        return executeWithWork(() -> statement.execute());
+        return executeSqlStatement(() -> statement.execute());
     }
 
     @Override

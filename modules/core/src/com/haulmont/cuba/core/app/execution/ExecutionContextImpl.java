@@ -18,10 +18,7 @@ package com.haulmont.cuba.core.app.execution;
 
 import com.haulmont.cuba.core.global.UuidProvider;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ExecutionContextImpl implements ExecutionContext {
@@ -29,11 +26,13 @@ public class ExecutionContextImpl implements ExecutionContext {
     protected String key;
     protected String group;
     protected Date startTime;
+    protected Thread thread;
     protected volatile State state;
     protected List<CancelableResource> resources = new CopyOnWriteArrayList<>();
 
-    public ExecutionContextImpl(String key, String group, Date startTime) {
+    public ExecutionContextImpl(Thread thread, String key, String group, Date startTime) {
         this.id = UuidProvider.createUuid();
+        this.thread = thread;
         this.key = key;
         this.group = group;
         this.startTime = startTime;
@@ -77,10 +76,15 @@ public class ExecutionContextImpl implements ExecutionContext {
         resources.remove(resource);
     }
 
-    public void cancelResources() {
-        for (CancelableResource resource : resources) {
-            resource.cancel();
-        }
+    public Thread getThread() {
+        return thread;
+    }
+
+    public List<CancelableResource> getResources() {
+        return new ArrayList<>(resources);
+    }
+
+    public void clearResources() {
         resources.clear();
     }
 
