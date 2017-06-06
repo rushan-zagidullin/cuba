@@ -953,17 +953,24 @@ public class WebDataGrid<E extends Entity> extends WebAbstractComponent<CubaGrid
 
     @Override
     public void editItem(Object itemId) {
+        checkNotNullArgument(itemId, "Item's Id must be non null");
+        //noinspection unchecked
+        Entity item = datasource.getItem(itemId);
+        edit(item);
+    }
+
+    @Override
+    public void edit(Entity entity) {
+        checkNotNullArgument(entity, "Entity must be non null");
+
+        Object itemId = entity.getId();
+
         //noinspection unchecked
         if (!datasource.containsItem(itemId)) {
             throw new IllegalArgumentException("Datasource doesn't contain item");
         }
 
         component.editItem(itemId);
-    }
-
-    @Override
-    public void edit(Entity entity) {
-        editItem(entity.getId());
     }
 
     @Override
