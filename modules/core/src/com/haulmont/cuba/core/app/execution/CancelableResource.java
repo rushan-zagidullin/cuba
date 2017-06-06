@@ -16,6 +16,7 @@
 
 package com.haulmont.cuba.core.app.execution;
 
+
 public interface CancelableResource {
     void cancel();
 }
