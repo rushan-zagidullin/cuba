@@ -962,7 +962,7 @@ public class WebDataGrid<E extends Entity> extends WebAbstractComponent<CubaGrid
     }
 
     @Override
-    public void editItem(Entity entity) {
+    public void edit(Entity entity) {
         editItem(entity.getId());
     }
 

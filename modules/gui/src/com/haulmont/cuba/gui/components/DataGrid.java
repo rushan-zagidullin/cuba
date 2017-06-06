@@ -409,6 +409,7 @@ public interface DataGrid<E extends Entity> extends ListComponent<E>, Component.
      * @throws IllegalArgumentException if datasource doesn't contain item with given id
      * @see #setEditorEnabled(boolean)
      */
+    @Deprecated
     void editItem(Object itemId);
 
     /**
@@ -420,7 +421,7 @@ public interface DataGrid<E extends Entity> extends ListComponent<E>, Component.
      * @throws IllegalArgumentException if datasource doesn't contain the entity
      * @see #setEditorEnabled(boolean)
      */
-    void editItem(Entity entity);
+    void edit(Entity entity);
 
     /**
      * Field generator that generates component for column in {@link DataGrid} editor.
