@@ -401,7 +401,7 @@ public interface DataGrid<E extends Entity> extends ListComponent<E>, Component.
     boolean isEditorActive();
 
     /**
-     * Opens the editor interface for the provided item. Scrolls the Grid to
+     * Opens the editor interface for the provided item Id. Scrolls the Grid to
      * bring the item to view if it is not already visible.
      *
      * @param itemId the id of the item to edit
@@ -410,6 +410,17 @@ public interface DataGrid<E extends Entity> extends ListComponent<E>, Component.
      * @see #setEditorEnabled(boolean)
      */
     void editItem(Object itemId);
+
+    /**
+     * Opens the editor interface for the provided entity. Scrolls the Grid to
+     * bring the entity to view if it is not already visible.
+     *
+     * @param entity the entity to edit
+     * @throws IllegalStateException    if the editor is not enabled or already editing an entity in buffered mode
+     * @throws IllegalArgumentException if datasource doesn't contain the entity
+     * @see #setEditorEnabled(boolean)
+     */
+    void editItem(Entity entity);
 
     /**
      * Field generator that generates component for column in {@link DataGrid} editor.

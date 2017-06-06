@@ -962,6 +962,11 @@ public class WebDataGrid<E extends Entity> extends WebAbstractComponent<CubaGrid
     }
 
     @Override
+    public void editItem(Entity entity) {
+        editItem(entity.getId());
+    }
+
+    @Override
     public void addEditorCloseListener(EditorCloseListener listener) {
         getEventRouter().addListener(EditorCloseListener.class, listener);
 
