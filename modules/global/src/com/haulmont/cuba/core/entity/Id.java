@@ -24,16 +24,16 @@ import java.util.stream.Collectors;
 import static com.haulmont.bali.util.Preconditions.checkNotNullArgument;
 
 /**
- * Convenient class for methods that receive EntityId of an entity as a parameter.
+ * Convenient class for methods that receive Id of an entity as a parameter.
  *
  * @param <K> type of entity key
  * @param <T> entity type
  */
-public final class EntityId<T extends Entity<K>, K> implements Serializable {
+public final class Id<T extends Entity<K>, K> implements Serializable {
     private final K id;
     private final Class<T> entityClass;
 
-    private EntityId(K id, Class<T> entityClass) {
+    private Id(K id, Class<T> entityClass) {
         this.id = id;
         this.entityClass = entityClass;
     }
@@ -56,15 +56,15 @@ public final class EntityId<T extends Entity<K>, K> implements Serializable {
      * @param entity entity instance
      * @param <K>    type of entity key
      * @param <T>    entity type
-     * @return EntityId of the passed entity
+     * @return Id of the passed entity
      */
-    public static <T extends Entity<K>, K> EntityId<T, K> of(T entity) {
+    public static <T extends Entity<K>, K> Id<T, K> of(T entity) {
         checkNotNullArgument(entity);
         checkNotNullArgument(entity.getId());
 
         @SuppressWarnings("unchecked")
         Class<T> entityClass = (Class<T>) entity.getClass();
-        return new EntityId<>(entity.getId(), entityClass);
+        return new Id<>(entity.getId(), entityClass);
     }
 
     /**
@@ -72,13 +72,13 @@ public final class EntityId<T extends Entity<K>, K> implements Serializable {
      * @param entityClass entity class
      * @param <K>    type of entity key
      * @param <T>    entity type
-     * @return EntityId of the passed entity
+     * @return Id of the passed entity
      */
-    public static <T extends Entity<K>, K> EntityId<T, K> of(K id, Class<T> entityClass) {
+    public static <T extends Entity<K>, K> Id<T, K> of(K id, Class<T> entityClass) {
         checkNotNullArgument(id);
         checkNotNullArgument(entityClass);
 
-        return new EntityId<>(id, entityClass);
+        return new Id<>(id, entityClass);
     }
 
     /**
@@ -87,7 +87,7 @@ public final class EntityId<T extends Entity<K>, K> implements Serializable {
      * @param <T>      entity type
      * @return list of ids of the passed entities
      */
-    public static <T extends Entity<K>, K> List<EntityId<T, K>> of(Collection<T> entities) {
+    public static <T extends Entity<K>, K> List<Id<T, K>> of(Collection<T> entities) {
         return entities.stream()
                 .map(entity -> {
                     checkNotNullArgument(entity);
@@ -95,7 +95,7 @@ public final class EntityId<T extends Entity<K>, K> implements Serializable {
 
                     @SuppressWarnings("unchecked")
                     Class<T> entityClass = (Class<T>) entity.getClass();
-                    return new EntityId<>(entity.getId(), entityClass);
+                    return new Id<>(entity.getId(), entityClass);
                 })
                 .collect(Collectors.toList());
     }

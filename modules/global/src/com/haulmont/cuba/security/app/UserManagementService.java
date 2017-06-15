@@ -17,7 +17,7 @@
 
 package com.haulmont.cuba.security.app;
 
-import com.haulmont.cuba.core.entity.EntityId;
+import com.haulmont.cuba.core.entity.Id;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.Role;
 
@@ -39,7 +39,7 @@ public interface UserManagementService {
      * @param accessGroupId Source access group Id
      * @return Cloned group
      */
-    Group copyAccessGroup(EntityId<Group, UUID> accessGroupId);
+    Group copyAccessGroup(Id<Group, UUID> accessGroupId);
 
     /**
      * Copy user role with all its permissions.

@@ -24,7 +24,7 @@ import com.haulmont.cuba.core.app.importexport.EntityImportExportService;
 import com.haulmont.cuba.core.app.importexport.EntityImportView;
 import com.haulmont.cuba.core.app.importexport.ReferenceImportBehaviour;
 import com.haulmont.cuba.core.entity.Entity;
-import com.haulmont.cuba.core.entity.EntityId;
+import com.haulmont.cuba.core.entity.Id;
 import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.gui.WindowManager.OpenType;
 import com.haulmont.cuba.gui.components.*;
@@ -302,7 +302,7 @@ public class GroupBrowser extends AbstractWindow {
     public void copyGroup() {
         Group group = groupsDs.getItem();
         if (group != null) {
-            userManagementService.copyAccessGroup(EntityId.of(group));
+            userManagementService.copyAccessGroup(Id.of(group));
             groupsDs.refresh();
         }
     }

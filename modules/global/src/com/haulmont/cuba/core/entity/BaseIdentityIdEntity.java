@@ -28,7 +28,7 @@ public abstract class BaseIdentityIdEntity extends BaseDbGeneratedIdEntity {
 
     private static final long serialVersionUID = 3083677558630811496L;
 
-    @Id
+    @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     protected Long id;

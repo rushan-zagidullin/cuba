@@ -22,7 +22,7 @@ import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.cuba.core.*;
 import com.haulmont.cuba.core.app.EmailerAPI;
 import com.haulmont.cuba.core.app.ServerConfig;
-import com.haulmont.cuba.core.entity.EntityId;
+import com.haulmont.cuba.core.entity.Id;
 import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.security.entity.*;
 import groovy.text.SimpleTemplateEngine;
@@ -103,7 +103,7 @@ public class UserManagementServiceBean implements UserManagementService {
     }
 
     @Override
-    public Group copyAccessGroup(EntityId<Group, UUID> accessGroupId) {
+    public Group copyAccessGroup(Id<Group, UUID> accessGroupId) {
         checkNotNullArgument(accessGroupId, "Null access group id");
         checkUpdatePermission(Group.class);
 
