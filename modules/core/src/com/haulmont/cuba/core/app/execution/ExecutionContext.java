@@ -18,24 +18,57 @@ package com.haulmont.cuba.core.app.execution;
 
 import java.util.Date;
 
+/**
+ * INTERNAL
+ * Object represents execution and
+ * all resources associated with the execution
+ */
 public interface ExecutionContext {
+    /**
+     * ACTIVE - execution is started
+     * COMPLETED - execution is completed
+     * CANCELED - execution is canceled by user request
+     */
     enum State {
         ACTIVE,
         COMPLETED,
         CANCELED
     }
 
+    /**
+     * @return key - unique identifier of execution
+     */
     String getKey();
 
+    /**
+     * @return group which is used for grouping execution by type.
+     * E.g. group 'Reporting' is used for all reporting
+     * module executions
+     */
     String getGroup();
 
+    /**
+     * @return execution start time
+     */
     Date getStartTime();
 
+    /**
+     * @return state - execution state
+     */
     State getState();
 
+    /**
+     * @return true if execution in CANCELED state
+     */
     boolean isCanceled();
 
+    /**
+     * add cancelable resource to the current execution
+     */
     void addResource(CancelableResource resource);
 
+    /**
+     * remove cancelable resource to the current execution
+     */
     void removeResource(CancelableResource resource);
 }

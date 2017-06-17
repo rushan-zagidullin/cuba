@@ -16,7 +16,14 @@
 
 package com.haulmont.cuba.core.app.execution;
 
-
+/**
+ * INTERNAL
+ * Resource that support cancel by user request.
+ * All resources are aggregated in execution context
+ */
 public interface CancelableResource {
+    /**
+     * cancel resource
+     */
     void cancel();
 }
