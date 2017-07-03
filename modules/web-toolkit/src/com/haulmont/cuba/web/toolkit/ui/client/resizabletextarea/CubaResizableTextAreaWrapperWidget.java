@@ -27,9 +27,15 @@ import com.vaadin.client.ui.VCustomField;
 public class CubaResizableTextAreaWrapperWidget extends VCustomField {
 
     public static final String RESIZE_ELEMENT = "c-resizabletextarea-resize-corner";
+    public static final String RESIZE_ELEMENT_WIDTH = "c-resizabletextarea-resize-corner-width";
+    public static final String RESIZE_ELEMENT_HEIGHT = "c-resizabletextarea-resize-corner-height";
 
     protected boolean dragDrop = false;
     protected boolean enabled = true;
+
+    protected boolean isResizableWidth = false;
+    protected boolean isResizableHeight = false;
+    protected boolean isResizable = false;
 
     protected Element resizeElement;
 
@@ -43,28 +49,61 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
     }
 
     public void setResizable(boolean resizable) {
-        if (isResizable() == resizable) {
+        isResizable = resizable;
+        if (!isResizable() && !isResizable) {
             return;
         }
+        initOrRemoveResizeElement();
+    }
 
-        if (resizable) {
+    public void setResizableWidth(boolean resizable) {
+        isResizableWidth = resizable;
+        if (!isResizable() && !isResizableWidth) {
+            return;
+        }
+        initOrRemoveResizeElement();
+    }
+
+    public void setResizableHeight(boolean resizable){
+        isResizableHeight = resizable;
+        if (!isResizable() && !isResizableHeight) {
+            return;
+        }
+        initOrRemoveResizeElement();
+    }
+
+    protected void initOrRemoveResizeElement(){
+        if (isResizable()) {
+            if (!isResizable && !isResizableWidth && !isResizableHeight) {
+                DOM.sinkEvents(resizeElement, 0);
+                DOM.setEventListener(resizeElement, null);
+                resizeElement.removeFromParent();
+                resizeElement = null;
+            } else {
+                resizeElement.setClassName(getCssClassName());
+            }
+        } else {
             resizeElement = DOM.createDiv();
-            resizeElement.setClassName(RESIZE_ELEMENT);
+            resizeElement.setClassName(getCssClassName());
 
             getElement().appendChild(resizeElement);
 
             DOM.sinkEvents(resizeElement, MOUSE_EVENTS);
             DOM.setEventListener(resizeElement, new ResizeEventListener());
-        } else {
-            if (resizeElement != null) {
-                DOM.sinkEvents(resizeElement, 0);
-                DOM.setEventListener(resizeElement, null);
-
-                resizeElement.removeFromParent();
-
-                resizeElement = null;
-            }
         }
+    }
+
+    protected String getCssClassName() {
+        if (isResizable || (isResizableWidth && isResizableHeight)
+                || (isResizable && isResizableWidth)
+                || (isResizable && isResizableHeight)) {
+            return RESIZE_ELEMENT;
+        } else if (isResizableWidth && !isResizableHeight) {
+            return RESIZE_ELEMENT_WIDTH;
+        } else if (!isResizableWidth && isResizableHeight) {
+            return RESIZE_ELEMENT_HEIGHT;
+        }
+        return null;
     }
 
     public boolean isEnabled() {
@@ -138,8 +177,18 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
                 int width = mouseX - absoluteLeft + 2;
                 int height = mouseY - absoluteTop + 2;
 
-                setHeight(height + "px");
-                setWidth(width + "px");
+                switch (getCssClassName()) {
+                    case RESIZE_ELEMENT:
+                        setHeight(height + "px");
+                        setWidth(width + "px");
+                        break;
+                    case RESIZE_ELEMENT_HEIGHT:
+                        setHeight(height + "px");
+                        break;
+                    case RESIZE_ELEMENT_WIDTH:
+                        setWidth(width + "px");
+                        break;
+                }
 
                 if (resizeHandler != null) {
                     resizeHandler.handleResize();

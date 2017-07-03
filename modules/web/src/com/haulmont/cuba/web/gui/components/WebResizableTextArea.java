@@ -298,4 +298,24 @@ public class WebResizableTextArea extends WebAbstractTextArea<CubaTextArea> impl
     public void setTextChangeEventMode(TextChangeEventMode mode) {
         component.setTextChangeEventMode(WebWrapperUtils.toVaadinTextChangeEventMode(mode));
     }
+
+    @Override
+    public void setResizableWidth(boolean resizable) {
+        wrapper.setResizableWidth(resizable);
+    }
+
+    @Override
+    public boolean isResizableWidth() {
+        return wrapper.isResizableWidth();
+    }
+
+    @Override
+    public void setResizableHeight(boolean resizable) {
+        wrapper.setResizableHeight(resizable);
+    }
+
+    @Override
+    public boolean isResizableHeight() {
+        return wrapper.isResizableHeight();
+    }
 }

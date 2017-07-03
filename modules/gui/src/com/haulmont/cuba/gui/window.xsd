@@ -1131,6 +1131,8 @@
                 <xs:attribute name="stylename" type="textAreaStylename"/>
                 <xs:attribute name="maxLength" type="xs:int"/>
                 <xs:attribute name="resizable" type="xs:boolean"/>
+                <xs:attribute name="resizableWidth" type="xs:boolean"/>
+                <xs:attribute name="resizableHeight" type="xs:boolean"/>
                 <xs:attribute name="trim" type="xs:boolean"/>
                 <xs:attribute name="inputPrompt" type="resourceString"/>
                 <xs:attribute name="wordwrap" type="xs:boolean"/>

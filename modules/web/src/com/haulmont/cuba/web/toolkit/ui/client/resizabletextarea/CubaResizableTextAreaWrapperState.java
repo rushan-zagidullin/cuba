@@ -25,4 +25,6 @@ public class CubaResizableTextAreaWrapperState extends AbstractFieldState {
     }
 
     public boolean resizable = false;
+    public boolean resizableWidth = false;
+    public boolean resizableHeight = false;
 }

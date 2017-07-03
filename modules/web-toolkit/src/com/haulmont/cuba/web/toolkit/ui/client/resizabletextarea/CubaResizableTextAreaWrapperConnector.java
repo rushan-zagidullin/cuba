@@ -64,9 +64,14 @@ public class CubaResizableTextAreaWrapperConnector extends CustomFieldConnector 
         if (stateChangeEvent.hasPropertyChanged("resizable")) {
             getWidget().setResizable(getState().resizable);
         }
-
         if (stateChangeEvent.hasPropertyChanged("enabled")) {
             getWidget().setEnabled(isEnabled());
+        }
+        if (stateChangeEvent.hasPropertyChanged("resizableWidth")) {
+            getWidget().setResizableWidth(getState().resizableWidth);
+        }
+        if (stateChangeEvent.hasPropertyChanged("resizableHeight")) {
+            getWidget().setResizableHeight(getState().resizableHeight);
         }
     }
 }

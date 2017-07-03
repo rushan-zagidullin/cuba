@@ -24,6 +24,12 @@ public interface ResizableTextArea extends TextArea, Component.HasSettings {
     void setResizable(boolean resizable);
     boolean isResizable();
 
+    void setResizableWidth(boolean resizable);
+    boolean isResizableWidth();
+
+    void setResizableHeight(boolean resizable);
+    boolean isResizableHeight();
+
     @Deprecated
     void addResizeListener(com.haulmont.cuba.gui.components.ResizeListener resizeListener);
     @Deprecated

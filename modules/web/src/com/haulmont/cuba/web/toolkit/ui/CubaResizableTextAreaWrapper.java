@@ -193,4 +193,20 @@ public class CubaResizableTextAreaWrapper extends CustomField {
     public void removeResizeListener(ResizeListener resizeListener) {
         listeners.remove(resizeListener);
     }
+
+    public void setResizableWidth(boolean resizable){
+        getState().resizableWidth = resizable;
+    }
+
+    public boolean isResizableWidth(){
+        return getState().resizableWidth;
+    }
+
+    public void setResizableHeight(boolean resizable){
+        getState().resizableHeight = resizable;
+    }
+
+    public boolean isResizableHeight(){
+        return getState().resizableHeight;
+    }
 }
