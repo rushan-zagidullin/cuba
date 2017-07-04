@@ -21,14 +21,13 @@ public interface ResizableTextArea extends TextArea, Component.HasSettings {
     String NAME = TextArea.NAME;
 
     /** Note: TextArea with fixed rows or cols can not be resizable */
+    @Deprecated
     void setResizable(boolean resizable);
+    @Deprecated
     boolean isResizable();
 
-    void setResizableWidth(boolean resizable);
-    boolean isResizableWidth();
-
-    void setResizableHeight(boolean resizable);
-    boolean isResizableHeight();
+    void setResizableDirection(Direction direction);
+    Direction getResizableDirection();
 
     @Deprecated
     void addResizeListener(com.haulmont.cuba.gui.components.ResizeListener resizeListener);
@@ -69,6 +68,10 @@ public interface ResizableTextArea extends TextArea, Component.HasSettings {
         public String getWidth() {
             return width;
         }
+    }
+
+    enum Direction{
+        HORIZONTAL, VERTICAL, BOTH, NONE
     }
 
     /**

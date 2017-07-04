@@ -17,6 +17,7 @@
 
 package com.haulmont.cuba.web.gui.components;
 
+import com.haulmont.bali.util.Preconditions;
 import com.haulmont.chile.core.datatypes.Datatype;
 import com.haulmont.cuba.gui.components.ResizableTextArea;
 import com.haulmont.cuba.gui.components.compatibility.ResizeListenerWrapper;
@@ -300,22 +301,13 @@ public class WebResizableTextArea extends WebAbstractTextArea<CubaTextArea> impl
     }
 
     @Override
-    public void setResizableWidth(boolean resizable) {
-        wrapper.setResizableWidth(resizable);
+    public void setResizableDirection(Direction direction) {
+        Preconditions.checkNotNullArgument(direction);
+        wrapper.setResizableDirection(direction);
     }
 
     @Override
-    public boolean isResizableWidth() {
-        return wrapper.isResizableWidth();
-    }
-
-    @Override
-    public void setResizableHeight(boolean resizable) {
-        wrapper.setResizableHeight(resizable);
-    }
-
-    @Override
-    public boolean isResizableHeight() {
-        return wrapper.isResizableHeight();
+    public Direction getResizableDirection() {
+        return wrapper.getResizableDirection();
     }
 }

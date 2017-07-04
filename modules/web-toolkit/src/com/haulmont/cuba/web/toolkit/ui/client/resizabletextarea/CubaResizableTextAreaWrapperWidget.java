@@ -26,16 +26,15 @@ import com.vaadin.client.ui.VCustomField;
 
 public class CubaResizableTextAreaWrapperWidget extends VCustomField {
 
-    public static final String RESIZE_ELEMENT = "c-resizabletextarea-resize-corner";
-    public static final String RESIZE_ELEMENT_WIDTH = "c-resizabletextarea-resize-corner-width";
-    public static final String RESIZE_ELEMENT_HEIGHT = "c-resizabletextarea-resize-corner-height";
+    public static final String RESIZE_ELEMENT_BOTH = "c-resizabletextarea-resize-corner";
+    public static final String RESIZE_ELEMENT_HORIZONTAL = "c-resizabletextarea-resize-corner-width";
+    public static final String RESIZE_ELEMENT_VERTICAL = "c-resizabletextarea-resize-corner-height";
+    public static String RESIZE_ELEMENT = RESIZE_ELEMENT_BOTH;
 
     protected boolean dragDrop = false;
     protected boolean enabled = true;
 
-    protected boolean isResizableWidth = false;
-    protected boolean isResizableHeight = false;
-    protected boolean isResizable = false;
+    protected String resizableDirection;
 
     protected Element resizeElement;
 
@@ -49,61 +48,74 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
     }
 
     public void setResizable(boolean resizable) {
-        isResizable = resizable;
-        if (!isResizable() && !isResizable) {
+        if (isResizable() == resizable) {
             return;
         }
-        initOrRemoveResizeElement();
-    }
 
-    public void setResizableWidth(boolean resizable) {
-        isResizableWidth = resizable;
-        if (!isResizable() && !isResizableWidth) {
+        if(resizableDirection != null){
             return;
         }
-        initOrRemoveResizeElement();
-    }
 
-    public void setResizableHeight(boolean resizable){
-        isResizableHeight = resizable;
-        if (!isResizable() && !isResizableHeight) {
-            return;
-        }
-        initOrRemoveResizeElement();
-    }
-
-    protected void initOrRemoveResizeElement(){
-        if (isResizable()) {
-            if (!isResizable && !isResizableWidth && !isResizableHeight) {
-                DOM.sinkEvents(resizeElement, 0);
-                DOM.setEventListener(resizeElement, null);
-                resizeElement.removeFromParent();
-                resizeElement = null;
-            } else {
-                resizeElement.setClassName(getCssClassName());
-            }
-        } else {
+        if (resizable) {
             resizeElement = DOM.createDiv();
-            resizeElement.setClassName(getCssClassName());
+            resizeElement.setClassName(RESIZE_ELEMENT);
 
             getElement().appendChild(resizeElement);
 
             DOM.sinkEvents(resizeElement, MOUSE_EVENTS);
             DOM.setEventListener(resizeElement, new ResizeEventListener());
+        } else {
+            if (resizeElement != null) {
+                DOM.sinkEvents(resizeElement, 0);
+                DOM.setEventListener(resizeElement, null);
+
+                resizeElement.removeFromParent();
+
+                resizeElement = null;
+            }
+        }
+    }
+
+    public void setResizableDirection(String resizableDirection) {
+        this.resizableDirection = resizableDirection;
+        if(getCssClassName() != null){
+            if (isResizable()){
+                resizeElement.setClassName(getCssClassName());
+            } else {
+                resizeElement = DOM.createDiv();
+                resizeElement.setClassName(getCssClassName());
+                getElement().appendChild(resizeElement);
+                DOM.sinkEvents(resizeElement, MOUSE_EVENTS);
+                DOM.setEventListener(resizeElement, new ResizeEventListener());
+            }
+        } else {
+            if (resizeElement != null) {
+                DOM.sinkEvents(resizeElement, 0);
+                DOM.setEventListener(resizeElement, null);
+                resizeElement.removeFromParent();
+                resizeElement = null;
+            }
         }
     }
 
     protected String getCssClassName() {
-        if (isResizable || (isResizableWidth && isResizableHeight)
-                || (isResizable && isResizableWidth)
-                || (isResizable && isResizableHeight)) {
-            return RESIZE_ELEMENT;
-        } else if (isResizableWidth && !isResizableHeight) {
-            return RESIZE_ELEMENT_WIDTH;
-        } else if (!isResizableWidth && isResizableHeight) {
-            return RESIZE_ELEMENT_HEIGHT;
+        if(resizableDirection == null){
+            return null;
         }
-        return null;
+        switch (resizableDirection) {
+            case "BOTH":
+                return RESIZE_ELEMENT = RESIZE_ELEMENT_BOTH;
+            case "HORIZONTAL":
+                return RESIZE_ELEMENT = RESIZE_ELEMENT_HORIZONTAL;
+            case "VERTICAL":
+                return RESIZE_ELEMENT = RESIZE_ELEMENT_VERTICAL;
+            default:
+                return null;
+        }
+    }
+
+    public String getResizableDirection() {
+        return this.resizableDirection;
     }
 
     public boolean isEnabled() {
@@ -177,15 +189,21 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
                 int width = mouseX - absoluteLeft + 2;
                 int height = mouseY - absoluteTop + 2;
 
-                switch (getCssClassName()) {
-                    case RESIZE_ELEMENT:
+                switch (resizableDirection) {
+                    case "BOTH":
                         setHeight(height + "px");
                         setWidth(width + "px");
                         break;
-                    case RESIZE_ELEMENT_HEIGHT:
+                    case "VERTICAL":
                         setHeight(height + "px");
                         break;
-                    case RESIZE_ELEMENT_WIDTH:
+                    case "HORIZONTAL":
+                        setWidth(width + "px");
+                        break;
+                    case "NONE":
+                        break;
+                    default:
+                        setHeight(height + "px");
                         setWidth(width + "px");
                         break;
                 }
