@@ -24,7 +24,5 @@ public class CubaResizableTextAreaWrapperState extends AbstractFieldState {
         primaryStyleName = "c-resizabletextarea-wrapper";
     }
 
-    public boolean resizable = false;
-
-    public String resizableDirection = null;
+    public String resizableDirection = "NONE";
 }

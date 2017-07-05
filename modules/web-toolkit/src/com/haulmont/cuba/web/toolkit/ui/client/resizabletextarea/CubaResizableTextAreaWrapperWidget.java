@@ -26,10 +26,7 @@ import com.vaadin.client.ui.VCustomField;
 
 public class CubaResizableTextAreaWrapperWidget extends VCustomField {
 
-    public static final String RESIZE_ELEMENT_BOTH = "c-resizabletextarea-resize-corner";
-    public static final String RESIZE_ELEMENT_HORIZONTAL = "c-resizabletextarea-resize-corner-width";
-    public static final String RESIZE_ELEMENT_VERTICAL = "c-resizabletextarea-resize-corner-height";
-    public static String RESIZE_ELEMENT = RESIZE_ELEMENT_BOTH;
+    public static final String RESIZE_ELEMENT = "c-resizabletextarea-resize-corner";
 
     protected boolean dragDrop = false;
     protected boolean enabled = true;
@@ -47,70 +44,23 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
         return resizeElement != null;
     }
 
-    public void setResizable(boolean resizable) {
-        if (isResizable() == resizable) {
-            return;
-        }
-
-        if(resizableDirection != null){
-            return;
-        }
-
-        if (resizable) {
-            resizeElement = DOM.createDiv();
-            resizeElement.setClassName(RESIZE_ELEMENT);
-
-            getElement().appendChild(resizeElement);
-
-            DOM.sinkEvents(resizeElement, MOUSE_EVENTS);
-            DOM.setEventListener(resizeElement, new ResizeEventListener());
-        } else {
-            if (resizeElement != null) {
-                DOM.sinkEvents(resizeElement, 0);
-                DOM.setEventListener(resizeElement, null);
-
-                resizeElement.removeFromParent();
-
-                resizeElement = null;
-            }
-        }
-    }
-
     public void setResizableDirection(String resizableDirection) {
         this.resizableDirection = resizableDirection;
-        if(getCssClassName() != null){
-            if (isResizable()){
-                resizeElement.setClassName(getCssClassName());
-            } else {
+        if (resizableDirection.equals("NONE")) {
+            if (isResizable()) {
+                DOM.sinkEvents(resizeElement, 0);
+                DOM.setEventListener(resizeElement, null);
+                resizeElement.removeFromParent();
+                resizeElement = null;
+            }
+        } else {
+            if (!isResizable()) {
                 resizeElement = DOM.createDiv();
-                resizeElement.setClassName(getCssClassName());
+                resizeElement.setClassName(RESIZE_ELEMENT);
                 getElement().appendChild(resizeElement);
                 DOM.sinkEvents(resizeElement, MOUSE_EVENTS);
                 DOM.setEventListener(resizeElement, new ResizeEventListener());
             }
-        } else {
-            if (resizeElement != null) {
-                DOM.sinkEvents(resizeElement, 0);
-                DOM.setEventListener(resizeElement, null);
-                resizeElement.removeFromParent();
-                resizeElement = null;
-            }
-        }
-    }
-
-    protected String getCssClassName() {
-        if(resizableDirection == null){
-            return null;
-        }
-        switch (resizableDirection) {
-            case "BOTH":
-                return RESIZE_ELEMENT = RESIZE_ELEMENT_BOTH;
-            case "HORIZONTAL":
-                return RESIZE_ELEMENT = RESIZE_ELEMENT_HORIZONTAL;
-            case "VERTICAL":
-                return RESIZE_ELEMENT = RESIZE_ELEMENT_VERTICAL;
-            default:
-                return null;
         }
     }
 
@@ -189,30 +139,36 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
                 int width = mouseX - absoluteLeft + 2;
                 int height = mouseY - absoluteTop + 2;
 
-                switch (resizableDirection) {
-                    case "BOTH":
-                        setHeight(height + "px");
-                        setWidth(width + "px");
-                        break;
-                    case "VERTICAL":
-                        setHeight(height + "px");
-                        break;
-                    case "HORIZONTAL":
-                        setWidth(width + "px");
-                        break;
-                    case "NONE":
-                        break;
-                    default:
-                        setHeight(height + "px");
-                        setWidth(width + "px");
-                        break;
-                }
+                    switch (resizableDirection) {
+                        case "BOTH":
+                            if (isAllowedToResizeHeight(mouseY))
+                                setHeight(height + "px");
+                            if (isAllowedToResizeWidth(mouseX))
+                                setWidth(width + "px");
+                            break;
+                        case "VERTICAL":
+                            if (isAllowedToResizeHeight(mouseY))
+                                setHeight(height + "px");
+                            break;
+                        case "HORIZONTAL":
+                            if (isAllowedToResizeWidth(mouseX))
+                                setWidth(width + "px");
+                            break;
+                    }
 
-                if (resizeHandler != null) {
-                    resizeHandler.handleResize();
-                }
+                    if (resizeHandler != null) {
+                        resizeHandler.handleResize();
+                    }
             }
         }
+    }
+
+    protected boolean isAllowedToResizeWidth(int mouseX) {
+        return getAbsoluteLeft() + getParent().getOffsetWidth() > mouseX + 1;
+    }
+
+    protected boolean isAllowedToResizeHeight(int mouseY) {
+        return getAbsoluteTop() + getParent().getOffsetHeight() > mouseY + 1;
     }
 
     protected Element getTextArea() {

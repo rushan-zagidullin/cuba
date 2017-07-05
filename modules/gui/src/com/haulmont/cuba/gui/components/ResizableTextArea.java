@@ -26,8 +26,8 @@ public interface ResizableTextArea extends TextArea, Component.HasSettings {
     @Deprecated
     boolean isResizable();
 
-    void setResizableDirection(Direction direction);
-    Direction getResizableDirection();
+    void setResizableDirection(ResizeDirection direction);
+    ResizeDirection getResizableDirection();
 
     @Deprecated
     void addResizeListener(com.haulmont.cuba.gui.components.ResizeListener resizeListener);
@@ -70,7 +70,7 @@ public interface ResizableTextArea extends TextArea, Component.HasSettings {
         }
     }
 
-    enum Direction{
+    enum ResizeDirection{
         HORIZONTAL, VERTICAL, BOTH, NONE
     }
 

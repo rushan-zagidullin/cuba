@@ -39,7 +39,7 @@ public class ResizableTextAreaLoader extends TextAreaLoader {
 
         String resizableDirection = element.attributeValue("resizableDirection");
         if (StringUtils.isNotEmpty(resizableDirection)) {
-            textArea.setResizableDirection(ResizableTextArea.Direction.valueOf(resizableDirection));
+            textArea.setResizableDirection(ResizableTextArea.ResizeDirection.valueOf(resizableDirection));
         }
 
         loadSettingsEnabled(textArea, element);
