@@ -533,16 +533,12 @@ public class WebDateField extends WebAbstractField<CubaDateFieldWrapper> impleme
             tt = (TemporalType) metaProperty.getAnnotations().get(MetadataTools.TEMPORAL_ANN_NAME);
         }
 
-        if (tt == TemporalType.DATE) {
-            setResolution(DateField.Resolution.DAY);
-        }
-        String formatStr;
-        Messages messages = AppBeans.get(Messages.NAME);
-        if (tt == TemporalType.DATE) {
-            formatStr = messages.getMainMessage("dateFormat");
-        } else {
-            formatStr = messages.getMainMessage("dateTimeFormat");
-        }
+        setResolution(tt == TemporalType.DATE
+                ? DateField.Resolution.DAY
+                : Resolution.MIN);
+
+        MessageTools messageTools = AppBeans.get(MessageTools.NAME);
+        String formatStr = messageTools.getDefaultDateFormat(tt);
         setDateFormat(formatStr);
     }
 
