@@ -162,6 +162,8 @@ public class DesktopDateField extends DesktopAbstractField<JPanel> implements Da
         this.resolution = resolution;
         if (resolution.ordinal() < Resolution.DAY.ordinal()) {
             timeField.setResolution(resolution);
+            // while changing resolution, timeField loses its value, so we need to set it again
+            timeField.setValue(datePicker.getDate());
         }
     }
 

@@ -285,6 +285,8 @@ public class WebDateField extends WebAbstractField<CubaDateFieldWrapper> impleme
     protected void __setResolution(Resolution resolution) {
         if (resolution.ordinal() < Resolution.DAY.ordinal()) {
             timeField.setResolution(resolution);
+            // while changing resolution, timeField loses its value, so we need to set it again
+            timeField.setValue(dateField.getValue());
         } else {
             dateField.setResolution(WebComponentsHelper.convertDateFieldResolution(resolution));
         }
