@@ -309,6 +309,6 @@ public class WebResizableTextArea extends WebAbstractTextArea<CubaTextArea> impl
 
     @Override
     public ResizeDirection getResizableDirection() {
-        return wrapper.getResizableDirection();
+        return ResizeDirection.valueOf(wrapper.getResizableDirection().name());
     }
 }

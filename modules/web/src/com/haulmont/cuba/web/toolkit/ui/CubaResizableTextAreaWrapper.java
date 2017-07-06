@@ -212,7 +212,7 @@ public class CubaResizableTextAreaWrapper extends CustomField {
         getState().resizableDirection = direction;
     }
 
-    public ResizableTextArea.ResizeDirection getResizableDirection() {
-        return ResizableTextArea.ResizeDirection.valueOf(getState(false).resizableDirection.name());
+    public ResizeDirection getResizableDirection() {
+        return getState(false).resizableDirection;
     }
 }

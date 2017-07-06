@@ -139,30 +139,30 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
                 int width = mouseX - absoluteLeft + 2;
                 int height = mouseY - absoluteTop + 2;
 
-                    switch (resizableDirection) {
-                        case BOTH:
-                            if (isAllowedToResizeHeight(mouseY)) {
-                                setHeight(height + "px");
-                            }
-                            if (isAllowedToResizeWidth(mouseX)){
-                                setWidth(width + "px");
-                            }
-                            break;
-                        case VERTICAL:
-                            if (isAllowedToResizeHeight(mouseY)){
-                                setHeight(height + "px");
-                            }
-                            break;
-                        case HORIZONTAL:
-                            if (isAllowedToResizeWidth(mouseX)){
-                                setWidth(width + "px");
-                            }
-                            break;
-                    }
+                switch (resizableDirection) {
+                    case BOTH:
+                        if (isAllowedToResizeHeight(mouseY)) {
+                            setHeight(height + "px");
+                        }
+                        if (isAllowedToResizeWidth(mouseX)) {
+                            setWidth(width + "px");
+                        }
+                        break;
+                    case VERTICAL:
+                        if (isAllowedToResizeHeight(mouseY)) {
+                            setHeight(height + "px");
+                        }
+                        break;
+                    case HORIZONTAL:
+                        if (isAllowedToResizeWidth(mouseX)) {
+                            setWidth(width + "px");
+                        }
+                        break;
+                }
 
-                    if (resizeHandler != null) {
-                        resizeHandler.handleResize();
-                    }
+                if (resizeHandler != null) {
+                    resizeHandler.handleResize();
+                }
             }
         }
     }

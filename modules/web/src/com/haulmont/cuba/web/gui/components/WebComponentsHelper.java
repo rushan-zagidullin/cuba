@@ -658,8 +658,8 @@ public class WebComponentsHelper {
         return null;
     }
 
-    public static ResizeDirection convertResizeDirection(ResizableTextArea.ResizeDirection direction){
-        switch (direction){
+    public static ResizeDirection convertResizeDirection(ResizableTextArea.ResizeDirection direction) {
+        switch (direction) {
             case BOTH:
                 return ResizeDirection.BOTH;
             case VERTICAL:
