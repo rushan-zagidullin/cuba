@@ -20,6 +20,7 @@ package com.haulmont.cuba.web.toolkit.ui;
 import com.haulmont.cuba.gui.components.ResizableTextArea;
 import com.haulmont.cuba.web.toolkit.ui.client.resizabletextarea.CubaResizableTextAreaWrapperServerRpc;
 import com.haulmont.cuba.web.toolkit.ui.client.resizabletextarea.CubaResizableTextAreaWrapperState;
+import com.haulmont.cuba.web.toolkit.ui.client.resizabletextarea.ResizeDirection;
 import com.vaadin.server.AbstractErrorMessage;
 import com.vaadin.server.CompositeErrorMessage;
 import com.vaadin.server.ErrorMessage;
@@ -110,14 +111,12 @@ public class CubaResizableTextAreaWrapper extends CustomField {
     }
 
     public boolean isResizable() {
-        if (getResizableDirection() == ResizableTextArea.ResizeDirection.NONE)
-            return false;
-        else return true;
+        return getState(false).resizableDirection != ResizeDirection.NONE;
     }
 
     public void setResizable(boolean resizable) {
-        if (resizable) setResizableDirection(ResizableTextArea.ResizeDirection.BOTH);
-        else setResizableDirection(ResizableTextArea.ResizeDirection.NONE);
+        ResizeDirection value = resizable ? ResizeDirection.BOTH : ResizeDirection.NONE;
+        setResizableDirection(value);
     }
 
     public boolean isEditable() {
@@ -175,23 +174,23 @@ public class CubaResizableTextAreaWrapper extends CustomField {
     public void beforeClientResponse(boolean initial) {
         super.beforeClientResponse(initial);
 
-        if (getState(false).resizableDirection.equals(ResizableTextArea.ResizeDirection.BOTH.toString())
+        if (getState(false).resizableDirection.equals(ResizeDirection.BOTH)
                 && (textArea.getRows() > 0 && textArea.getColumns() > 0
                 || isPercentageSize())) {
             LoggerFactory.getLogger(CubaResizableTextAreaWrapper.class).warn(
                     "TextArea with fixed rows and cols or percentage size can not be resizable");
-            getState().resizableDirection = String.valueOf(ResizableTextArea.ResizeDirection.NONE);
-        } else if (getState(false).resizableDirection.equals(ResizableTextArea.ResizeDirection.VERTICAL.toString())
+            getState().resizableDirection = ResizeDirection.NONE;
+        } else if (getState(false).resizableDirection.equals(ResizeDirection.VERTICAL)
                 && Unit.PERCENTAGE.equals(getHeightUnits())) {
             LoggerFactory.getLogger(CubaResizableTextAreaWrapper.class).warn(
                     "TextArea height with percentage size can not be resizable to vertical direction");
-            getState().resizableDirection = String.valueOf(ResizableTextArea.ResizeDirection.NONE);
-        } else if (getState(false).resizableDirection.equals(ResizableTextArea.ResizeDirection.HORIZONTAL.toString())
+            getState().resizableDirection = ResizeDirection.NONE;
+        } else if (getState(false).resizableDirection.equals(ResizeDirection.HORIZONTAL)
                 && (Unit.PERCENTAGE.equals(getWidthUnits())
                 || (textArea.getColumns() > 0))) {
             LoggerFactory.getLogger(CubaResizableTextAreaWrapper.class).warn(
                     "TextArea with fixed cols and width with percentage size can not be resizable to horizontal direction");
-            getState().resizableDirection = String.valueOf(ResizableTextArea.ResizeDirection.NONE);
+            getState().resizableDirection = ResizeDirection.NONE;
         }
     }
 
@@ -209,11 +208,11 @@ public class CubaResizableTextAreaWrapper extends CustomField {
         listeners.remove(resizeListener);
     }
 
-    public void setResizableDirection(ResizableTextArea.ResizeDirection direction) {
-        getState().resizableDirection = String.valueOf(direction);
+    public void setResizableDirection(ResizeDirection direction) {
+        getState().resizableDirection = direction;
     }
 
     public ResizableTextArea.ResizeDirection getResizableDirection() {
-        return ResizableTextArea.ResizeDirection.valueOf(getState(false).resizableDirection);
+        return ResizableTextArea.ResizeDirection.valueOf(getState(false).resizableDirection.name());
     }
 }

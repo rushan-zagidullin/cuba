@@ -70,7 +70,7 @@ public class WebResizableTextArea extends WebAbstractTextArea<CubaTextArea> impl
 
     @Override
     public boolean isResizable() {
-        return wrapper.isResizable();
+        return getResizableDirection() != ResizeDirection.NONE;
     }
 
     @Override
@@ -85,7 +85,8 @@ public class WebResizableTextArea extends WebAbstractTextArea<CubaTextArea> impl
 
     @Override
     public void setResizable(boolean resizable) {
-        wrapper.setResizable(resizable);
+        ResizeDirection value = resizable ? ResizeDirection.BOTH : ResizeDirection.NONE;
+        setResizableDirection(value);
     }
 
     @Override
@@ -303,7 +304,7 @@ public class WebResizableTextArea extends WebAbstractTextArea<CubaTextArea> impl
     @Override
     public void setResizableDirection(ResizeDirection direction) {
         Preconditions.checkNotNullArgument(direction);
-        wrapper.setResizableDirection(direction);
+        wrapper.setResizableDirection(WebComponentsHelper.convertResizeDirection(direction));
     }
 
     @Override

@@ -31,7 +31,7 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
     protected boolean dragDrop = false;
     protected boolean enabled = true;
 
-    protected String resizableDirection;
+    protected ResizeDirection resizableDirection;
 
     protected Element resizeElement;
 
@@ -44,9 +44,9 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
         return resizeElement != null;
     }
 
-    public void setResizableDirection(String resizableDirection) {
+    public void setResizableDirection(ResizeDirection resizableDirection) {
         this.resizableDirection = resizableDirection;
-        if (resizableDirection.equals("NONE")) {
+        if (resizableDirection == ResizeDirection.NONE) {
             if (isResizable()) {
                 DOM.sinkEvents(resizeElement, 0);
                 DOM.setEventListener(resizeElement, null);
@@ -64,7 +64,7 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
         }
     }
 
-    public String getResizableDirection() {
+    public ResizeDirection getResizableDirection() {
         return this.resizableDirection;
     }
 
@@ -140,19 +140,23 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
                 int height = mouseY - absoluteTop + 2;
 
                     switch (resizableDirection) {
-                        case "BOTH":
-                            if (isAllowedToResizeHeight(mouseY))
+                        case BOTH:
+                            if (isAllowedToResizeHeight(mouseY)) {
                                 setHeight(height + "px");
-                            if (isAllowedToResizeWidth(mouseX))
+                            }
+                            if (isAllowedToResizeWidth(mouseX)){
                                 setWidth(width + "px");
+                            }
                             break;
-                        case "VERTICAL":
-                            if (isAllowedToResizeHeight(mouseY))
+                        case VERTICAL:
+                            if (isAllowedToResizeHeight(mouseY)){
                                 setHeight(height + "px");
+                            }
                             break;
-                        case "HORIZONTAL":
-                            if (isAllowedToResizeWidth(mouseX))
+                        case HORIZONTAL:
+                            if (isAllowedToResizeWidth(mouseX)){
                                 setWidth(width + "px");
+                            }
                             break;
                     }
 
