@@ -141,22 +141,14 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
 
                 switch (resizableDirection) {
                     case BOTH:
-                        if (isAllowedToResizeHeight(mouseY)) {
-                            setHeight(height + "px");
-                        }
-                        if (isAllowedToResizeWidth(mouseX)) {
-                            setWidth(width + "px");
-                        }
+                        setHeight(height + "px");
+                        setWidth(width + "px");
                         break;
                     case VERTICAL:
-                        if (isAllowedToResizeHeight(mouseY)) {
-                            setHeight(height + "px");
-                        }
+                        setHeight(height + "px");
                         break;
                     case HORIZONTAL:
-                        if (isAllowedToResizeWidth(mouseX)) {
-                            setWidth(width + "px");
-                        }
+                        setWidth(width + "px");
                         break;
                 }
 
@@ -165,14 +157,6 @@ public class CubaResizableTextAreaWrapperWidget extends VCustomField {
                 }
             }
         }
-    }
-
-    protected boolean isAllowedToResizeWidth(int mouseX) {
-        return getAbsoluteLeft() + getParent().getOffsetWidth() > mouseX + 1;
-    }
-
-    protected boolean isAllowedToResizeHeight(int mouseY) {
-        return getAbsoluteTop() + getParent().getOffsetHeight() > mouseY + 1;
     }
 
     protected Element getTextArea() {

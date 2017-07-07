@@ -658,7 +658,7 @@ public class WebComponentsHelper {
         return null;
     }
 
-    public static ResizeDirection convertResizeDirection(ResizableTextArea.ResizeDirection direction) {
+    public static ResizeDirection convertToVaadinResizeDirection(ResizableTextArea.ResizeDirection direction) {
         switch (direction) {
             case BOTH:
                 return ResizeDirection.BOTH;
@@ -668,6 +668,21 @@ public class WebComponentsHelper {
                 return ResizeDirection.HORIZONTAL;
             case NONE:
                 return ResizeDirection.NONE;
+            default:
+                throw new IllegalArgumentException("Unknown direction: " + direction);
+        }
+    }
+
+    public static ResizableTextArea.ResizeDirection convertFromVaadinResizeDirection(ResizeDirection direction) {
+        switch (direction) {
+            case BOTH:
+                return ResizableTextArea.ResizeDirection.BOTH;
+            case VERTICAL:
+                return ResizableTextArea.ResizeDirection.VERTICAL;
+            case HORIZONTAL:
+                return ResizableTextArea.ResizeDirection.HORIZONTAL;
+            case NONE:
+                return ResizableTextArea.ResizeDirection.NONE;
             default:
                 throw new IllegalArgumentException("Unknown direction: " + direction);
         }

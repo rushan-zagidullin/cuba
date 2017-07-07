@@ -17,7 +17,6 @@
 
 package com.haulmont.cuba.web.toolkit.ui;
 
-import com.haulmont.cuba.gui.components.ResizableTextArea;
 import com.haulmont.cuba.web.toolkit.ui.client.resizabletextarea.CubaResizableTextAreaWrapperServerRpc;
 import com.haulmont.cuba.web.toolkit.ui.client.resizabletextarea.CubaResizableTextAreaWrapperState;
 import com.haulmont.cuba.web.toolkit.ui.client.resizabletextarea.ResizeDirection;
@@ -110,10 +109,12 @@ public class CubaResizableTextAreaWrapper extends CustomField {
         return Object.class;
     }
 
+    @Deprecated
     public boolean isResizable() {
         return getState(false).resizableDirection != ResizeDirection.NONE;
     }
 
+    @Deprecated
     public void setResizable(boolean resizable) {
         ResizeDirection value = resizable ? ResizeDirection.BOTH : ResizeDirection.NONE;
         setResizableDirection(value);
