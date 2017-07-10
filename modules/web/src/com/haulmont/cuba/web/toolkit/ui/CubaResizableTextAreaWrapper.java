@@ -109,11 +109,17 @@ public class CubaResizableTextAreaWrapper extends CustomField {
         return Object.class;
     }
 
+    /**
+     * @deprecated Use {@link CubaResizableTextAreaWrapper#getResizableDirection()} instead
+     */
     @Deprecated
     public boolean isResizable() {
         return getState(false).resizableDirection != ResizeDirection.NONE;
     }
 
+    /**
+     * @deprecated Use {@link CubaResizableTextAreaWrapper#setResizableDirection(ResizeDirection)} instead
+     */
     @Deprecated
     public void setResizable(boolean resizable) {
         ResizeDirection value = resizable ? ResizeDirection.BOTH : ResizeDirection.NONE;
