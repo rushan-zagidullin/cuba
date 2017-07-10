@@ -325,6 +325,25 @@ create table SEC_CONSTRAINT (
 
 ------------------------------------------------------------------------------------------------------------
 
+create table SEC_LOCALIZED_CONSTRAINT_MESSAGE (
+    ID varchar(36) not null,
+    CREATE_TS timestamp,
+    CREATED_BY varchar(50),
+    VERSION integer,
+    UPDATE_TS timestamp,
+    UPDATED_BY varchar(50),
+    DELETE_TS timestamp,
+    DELETED_BY varchar(50),
+    --
+    ENTITY_NAME varchar(255) not null,
+    OPERATION_TYPE varchar(50) not null,
+    MESSAGES longvarchar,
+    --
+    primary key (ID)
+)^
+
+------------------------------------------------------------------------------------------------------------
+
 create table SEC_SESSION_ATTR (
     ID varchar(36) not null,
     CREATE_TS timestamp,
