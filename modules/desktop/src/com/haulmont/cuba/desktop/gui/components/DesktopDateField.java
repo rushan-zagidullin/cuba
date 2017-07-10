@@ -81,6 +81,8 @@ public class DesktopDateField extends DesktopAbstractField<JPanel> implements Da
     protected Date startDate;
     protected Date endDate;
 
+    protected boolean updateTimeFieldResolution = false;
+
     public DesktopDateField() {
         impl = new FocusableComposition();
 
@@ -114,7 +116,9 @@ public class DesktopDateField extends DesktopAbstractField<JPanel> implements Da
                 return;
             }
 
-            updateInstance();
+            if (!updateTimeFieldResolution) {
+                updateInstance();
+            }
         });
 
         datePicker.addPropertyChangeListener(evt -> {
@@ -163,7 +167,9 @@ public class DesktopDateField extends DesktopAbstractField<JPanel> implements Da
         if (resolution.ordinal() < Resolution.DAY.ordinal()) {
             timeField.setResolution(resolution);
             // while changing resolution, timeField loses its value, so we need to set it again
+            updateTimeFieldResolution = true;
             timeField.setValue(datePicker.getDate());
+            updateTimeFieldResolution = false;
         }
     }
 

@@ -76,6 +76,7 @@ public class WebDateField extends WebAbstractField<CubaDateFieldWrapper> impleme
     protected WeakItemChangeListener weakItemChangeListener;
 
     protected boolean buffered = false;
+    protected boolean updateTimeFieldResolution = false;
 
     public WebDateField() {
         innerLayout = new com.vaadin.ui.CssLayout();
@@ -127,8 +128,9 @@ public class WebDateField extends WebAbstractField<CubaDateFieldWrapper> impleme
             if (!checkRange(constructDate())) {
                 return;
             }
-
-            updateInstance();
+            if (!updateTimeFieldResolution) {
+                updateInstance();
+            }
         };
     }
 
@@ -286,7 +288,9 @@ public class WebDateField extends WebAbstractField<CubaDateFieldWrapper> impleme
         if (resolution.ordinal() < Resolution.DAY.ordinal()) {
             timeField.setResolution(resolution);
             // while changing resolution, timeField loses its value, so we need to set it again
+            updateTimeFieldResolution = true;
             timeField.setValue(dateField.getValue());
+            updateTimeFieldResolution = false;
         } else {
             dateField.setResolution(WebComponentsHelper.convertDateFieldResolution(resolution));
         }
