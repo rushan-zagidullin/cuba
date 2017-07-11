@@ -33,13 +33,13 @@ public interface ResizableTextArea extends TextArea, Component.HasSettings {
     boolean isResizable();
 
     /**
-     * Allows to resize textArea in appropriate direction.
+     * Allows resizing textArea in a given direction.
      * @param direction the direction in which resizes textArea.
      */
     void setResizableDirection(ResizeDirection direction);
 
     /**
-     * Get {@link ResizeDirection} in which resizes textArea.
+     * Get the direction in which the textArea size changes.
      * @return direction.
      */
     ResizeDirection getResizableDirection();
