@@ -20,21 +20,28 @@ package com.haulmont.cuba.gui.components;
 public interface ResizableTextArea extends TextArea, Component.HasSettings {
     String NAME = TextArea.NAME;
 
-    /** Note: TextArea with fixed rows or cols can not be resizable */
-
     /**
-     * @deprecated Use {@link ResizableTextArea#setResizableDirection(ResizeDirection)} instead
+     * @deprecated Use {@link ResizableTextArea#setResizableDirection(ResizeDirection)} instead.
      */
     @Deprecated
     void setResizable(boolean resizable);
 
     /**
-     * @deprecated Use {@link ResizableTextArea#getResizableDirection()} instead
+     * @deprecated Use {@link ResizableTextArea#getResizableDirection()} instead.
      */
     @Deprecated
     boolean isResizable();
 
+    /**
+     * Allows to resize textArea in appropriate direction.
+     * @param direction the direction in which resizes textArea.
+     */
     void setResizableDirection(ResizeDirection direction);
+
+    /**
+     * Get {@link ResizeDirection} in which resizes textArea.
+     * @return direction.
+     */
     ResizeDirection getResizableDirection();
 
     @Deprecated
@@ -78,6 +85,9 @@ public interface ResizableTextArea extends TextArea, Component.HasSettings {
         }
     }
 
+    /**
+     * Represents directions in which textArea can be resized.
+     */
     enum ResizeDirection{
         HORIZONTAL, VERTICAL, BOTH, NONE
     }
