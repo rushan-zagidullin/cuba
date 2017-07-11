@@ -182,10 +182,9 @@ public class CubaResizableTextAreaWrapper extends CustomField {
         super.beforeClientResponse(initial);
 
         if (getState(false).resizableDirection.equals(ResizeDirection.BOTH)
-                && (textArea.getRows() > 0 && textArea.getColumns() > 0
-                || isPercentageSize())) {
+                && isPercentageSize()) {
             LoggerFactory.getLogger(CubaResizableTextAreaWrapper.class).warn(
-                    "TextArea with fixed rows and cols or percentage size can not be resizable");
+                    "TextArea with percentage size can not be resizable");
             getState().resizableDirection = ResizeDirection.NONE;
         } else if (getState(false).resizableDirection.equals(ResizeDirection.VERTICAL)
                 && Unit.PERCENTAGE.equals(getHeightUnits())) {
@@ -193,10 +192,9 @@ public class CubaResizableTextAreaWrapper extends CustomField {
                     "TextArea height with percentage size can not be resizable to vertical direction");
             getState().resizableDirection = ResizeDirection.NONE;
         } else if (getState(false).resizableDirection.equals(ResizeDirection.HORIZONTAL)
-                && (Unit.PERCENTAGE.equals(getWidthUnits())
-                || (textArea.getColumns() > 0))) {
+                && (Unit.PERCENTAGE.equals(getWidthUnits()))) {
             LoggerFactory.getLogger(CubaResizableTextAreaWrapper.class).warn(
-                    "TextArea with fixed cols and width with percentage size can not be resizable to horizontal direction");
+                    "TextArea width with percentage size can not be resizable to horizontal direction");
             getState().resizableDirection = ResizeDirection.NONE;
         }
     }
