@@ -339,7 +339,8 @@ create table SEC_LOCALIZED_CONSTRAINT_MESSAGE (
     OPERATION_TYPE varchar(50) not null,
     MESSAGES longvarchar,
     --
-    primary key (ID)
+    primary key (ID),
+    constraint SEC_LOCALIZED_CONSTRAINT_MESSAGE_UNIQ unique (ENTITY_NAME, OPERATION_TYPE, DELETE_TS)
 )^
 
 ------------------------------------------------------------------------------------------------------------

@@ -22,6 +22,7 @@ import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.security.entity.ConstraintOperationType;
 import com.haulmont.cuba.security.entity.LocalizedConstraintMessage;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +70,10 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
         Preconditions.checkNotNullArgument(localizedConstraintMessage);
         Preconditions.checkNotNullArgument(localeCode);
 
+        if (StringUtils.isEmpty(localizedConstraintMessage.getMessages())) {
+            return null;
+        }
+
         JSONObject localizationObject = new JSONObject(localizedConstraintMessage.getMessages());
 
         if (localizationObject.has(localeCode)) {
@@ -86,7 +91,10 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
         Preconditions.checkNotNullArgument(localizedConstraintMessage);
         Preconditions.checkNotNullArgument(localeCode);
 
-        JSONObject localizationObject = new JSONObject(localizedConstraintMessage.getMessages());
+
+        JSONObject localizationObject = localizedConstraintMessage.getMessages() != null
+                ? new JSONObject(localizedConstraintMessage.getMessages())
+                : new JSONObject();
 
         JSONObject localeObject = localizationObject.has(localeCode)
                 ? localizationObject.getJSONObject(localeCode)
