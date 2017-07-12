@@ -79,8 +79,8 @@ public class RowLevelSecurityExceptionHandler extends AbstractGenericExceptionHa
                             UserSessionSource userSessionSource = AppBeans.get(UserSessionSource.NAME);
                             Locale locale = userSessionSource.getLocale();
 
-                            userCaption = service.getLocalizationCaption(localizedMessage, locale);
-                            userMessage = service.getLocalizationMessage(localizedMessage, locale);
+                            userCaption = service.getLocalizedCaption(localizedMessage.getMessages(), locale);
+                            userMessage = service.getLocalizedMessage(localizedMessage.getMessages(), locale);
                         }
 
                         String operationId = operationType.getId();

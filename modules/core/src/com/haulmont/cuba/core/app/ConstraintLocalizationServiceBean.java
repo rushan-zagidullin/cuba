@@ -66,15 +66,14 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
     }
 
     @Nullable
-    protected String getValue(LocalizedConstraintMessage localizedConstraintMessage, String localeCode, String key) {
-        Preconditions.checkNotNullArgument(localizedConstraintMessage);
+    protected String getValue(String messages, String localeCode, String key) {
         Preconditions.checkNotNullArgument(localeCode);
 
-        if (StringUtils.isEmpty(localizedConstraintMessage.getMessages())) {
+        if (StringUtils.isEmpty(messages)) {
             return null;
         }
 
-        JSONObject localizationObject = new JSONObject(localizedConstraintMessage.getMessages());
+        JSONObject localizationObject = new JSONObject(messages);
 
         if (localizationObject.has(localeCode)) {
             JSONObject localeObject = localizationObject.getJSONObject(localeCode);
@@ -86,14 +85,12 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
         return null;
     }
 
-    protected String putValue(LocalizedConstraintMessage localizedConstraintMessage,
-                              String localeCode, String key, String value) {
-        Preconditions.checkNotNullArgument(localizedConstraintMessage);
+    protected String putValue(String messages, String localeCode, String key, String value) {
         Preconditions.checkNotNullArgument(localeCode);
 
 
-        JSONObject localizationObject = localizedConstraintMessage.getMessages() != null
-                ? new JSONObject(localizedConstraintMessage.getMessages())
+        JSONObject localizationObject = messages != null
+                ? new JSONObject(messages)
                 : new JSONObject();
 
         JSONObject localeObject = localizationObject.has(localeCode)
@@ -108,53 +105,49 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
 
     @Nullable
     @Override
-    public String getLocalizationCaption(LocalizedConstraintMessage localizedConstraintMessage, Locale locale) {
+    public String getLocalizedCaption(String messages, Locale locale) {
         Preconditions.checkNotNullArgument(locale);
-        return getLocalizationCaption(localizedConstraintMessage, locale.toLanguageTag());
+        return getLocalizedCaption(messages, locale.toLanguageTag());
     }
 
     @Nullable
     @Override
-    public String getLocalizationCaption(LocalizedConstraintMessage localizedConstraintMessage, String localeCode) {
-        return getValue(localizedConstraintMessage, localeCode, CAPTION_KEY);
+    public String getLocalizedCaption(String messages, String localeCode) {
+        return getValue(messages, localeCode, CAPTION_KEY);
     }
 
     @Override
-    public String putLocalizationCaption(LocalizedConstraintMessage localizedConstraintMessage,
-                                         Locale locale, String value) {
+    public String putLocalizedCaption(String messages, Locale locale, String value) {
         Preconditions.checkNotNullArgument(locale);
-        return putLocalizationCaption(localizedConstraintMessage, locale.toLanguageTag(), value);
+        return putLocalizedCaption(messages, locale.toLanguageTag(), value);
     }
 
     @Override
-    public String putLocalizationCaption(LocalizedConstraintMessage localizedConstraintMessage,
-                                         String localeCode, String value) {
-        return putValue(localizedConstraintMessage, localeCode, CAPTION_KEY, value);
+    public String putLocalizedCaption(String messages, String localeCode, String value) {
+        return putValue(messages, localeCode, CAPTION_KEY, value);
     }
 
     @Nullable
     @Override
-    public String getLocalizationMessage(LocalizedConstraintMessage localizedConstraintMessage, Locale locale) {
+    public String getLocalizedMessage(String messages, Locale locale) {
         Preconditions.checkNotNullArgument(locale);
-        return getLocalizationMessage(localizedConstraintMessage, locale.toLanguageTag());
+        return getLocalizedMessage(messages, locale.toLanguageTag());
     }
 
     @Nullable
     @Override
-    public String getLocalizationMessage(LocalizedConstraintMessage localizedConstraintMessage, String localeCode) {
-        return getValue(localizedConstraintMessage, localeCode, MESSAGE_KEY);
+    public String getLocalizedMessage(String messages, String localeCode) {
+        return getValue(messages, localeCode, MESSAGE_KEY);
     }
 
     @Override
-    public String putLocalizationMessage(LocalizedConstraintMessage localizedConstraintMessage,
-                                         Locale locale, String value) {
+    public String putLocalizedMessage(String messages, Locale locale, String value) {
         Preconditions.checkNotNullArgument(locale);
-        return putLocalizationMessage(localizedConstraintMessage, locale.toLanguageTag(), value);
+        return putLocalizedMessage(messages, locale.toLanguageTag(), value);
     }
 
     @Override
-    public String putLocalizationMessage(LocalizedConstraintMessage localizedConstraintMessage,
-                                         String localeCode, String value) {
-        return putValue(localizedConstraintMessage, localeCode, MESSAGE_KEY, value);
+    public String putLocalizedMessage(String messages, String localeCode, String value) {
+        return putValue(messages, localeCode, MESSAGE_KEY, value);
     }
 }

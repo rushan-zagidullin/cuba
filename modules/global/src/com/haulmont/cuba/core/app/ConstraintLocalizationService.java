@@ -34,26 +34,22 @@ public interface ConstraintLocalizationService {
                                                              ConstraintOperationType operationType);
 
     @Nullable
-    String getLocalizationCaption(LocalizedConstraintMessage localizedConstraintMessage, Locale locale);
+    String getLocalizedCaption(String messages, Locale locale);
 
     @Nullable
-    String getLocalizationCaption(LocalizedConstraintMessage localizedConstraintMessage, String localeCode);
+    String getLocalizedCaption(String messages, String localeCode);
 
-    String putLocalizationCaption(LocalizedConstraintMessage localizedConstraintMessage,
-                                  Locale locale, String message);
+    String putLocalizedCaption(String messages, Locale locale, String message);
 
-    String putLocalizationCaption(LocalizedConstraintMessage localizedConstraintMessage,
-                                  String localeCode, String message);
+    String putLocalizedCaption(String messages, String localeCode, String message);
 
     @Nullable
-    String getLocalizationMessage(LocalizedConstraintMessage localizedConstraintMessage, Locale locale);
+    String getLocalizedMessage(String messages, Locale locale);
 
     @Nullable
-    String getLocalizationMessage(LocalizedConstraintMessage localizedConstraintMessage, String localeCode);
+    String getLocalizedMessage(String messages, String localeCode);
 
-    String putLocalizationMessage(LocalizedConstraintMessage localizedConstraintMessage,
-                                  Locale locale, String message);
+    String putLocalizedMessage(String messages, Locale locale, String message);
 
-    String putLocalizationMessage(LocalizedConstraintMessage localizedConstraintMessage,
-                                  String localeCode, String message);
+    String putLocalizedMessage(String messages, String localeCode, String message);
 }

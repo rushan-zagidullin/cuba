@@ -70,8 +70,9 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
         localesSelect.addValueChangeListener(e -> {
             Locale selectedLocale = (Locale) e.getValue();
             internalUpdate = true;
-            caption.setValue(constraintLocalizationService.getLocalizationCaption(getItem(), selectedLocale));
-            message.setValue(constraintLocalizationService.getLocalizationMessage(getItem(), selectedLocale));
+            String messages = getItem().getMessages();
+            caption.setValue(constraintLocalizationService.getLocalizedCaption(messages, selectedLocale));
+            message.setValue(constraintLocalizationService.getLocalizedMessage(messages, selectedLocale));
             internalUpdate = false;
         });
 
@@ -82,7 +83,7 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
         caption.addValueChangeListener(e -> {
             if (!internalUpdate) {
                 Locale selectedLocale = localesSelect.getValue();
-                String messages = constraintLocalizationService.putLocalizationCaption(getItem(),
+                String messages = constraintLocalizationService.putLocalizedCaption(getItem().getMessages(),
                         selectedLocale, (String) e.getValue());
                 getItem().setMessages(messages);
             }
@@ -93,7 +94,7 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
         message.addValueChangeListener(e -> {
             if (!internalUpdate) {
                 Locale selectedLocale = localesSelect.getValue();
-                String messages = constraintLocalizationService.putLocalizationMessage(getItem(),
+                String messages = constraintLocalizationService.putLocalizedMessage(getItem().getMessages(),
                         selectedLocale, (String) e.getValue());
                 getItem().setMessages(messages);
             }
