@@ -52,7 +52,8 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     @Inject
     protected ConstraintLocalizationService constraintLocalizationService;
 
-    protected boolean internalUpdate = false;
+    protected LocalizationValueChangeListener captionValueChangeListener;
+    protected LocalizationValueChangeListener messageValueChangeListener;
 
     @Override
     protected void postInit() {
@@ -67,37 +68,74 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
         Map<String, Locale> locales = globalConfig.getAvailableLocales();
         localesSelect.setOptionsMap(locales);
 
-        localesSelect.addValueChangeListener(e -> {
-            Locale selectedLocale = (Locale) e.getValue();
-            internalUpdate = true;
-            String messages = getItem().getMessages();
-            caption.setValue(constraintLocalizationService.getLocalizedCaption(messages, selectedLocale));
-            message.setValue(constraintLocalizationService.getLocalizedMessage(messages, selectedLocale));
-            internalUpdate = false;
-        });
+        localesSelect.addValueChangeListener(createLocaleSelectValueChangeListener());
 
         localesSelect.setValue(userSessionSource.getLocale());
     }
 
+    protected ValueChangeListener createLocaleSelectValueChangeListener() {
+        return e -> {
+            captionValueChangeListener.suspend();
+            messageValueChangeListener.suspend();
+
+            Locale selectedLocale = (Locale) e.getValue();
+            String messages = getItem().getMessages();
+            caption.setValue(constraintLocalizationService.getLocalizedCaption(messages, selectedLocale));
+            message.setValue(constraintLocalizationService.getLocalizedMessage(messages, selectedLocale));
+
+            captionValueChangeListener.resume();
+            messageValueChangeListener.resume();
+        };
+    }
+
     protected void initCaptionField() {
-        caption.addValueChangeListener(e -> {
-            if (!internalUpdate) {
-                Locale selectedLocale = localesSelect.getValue();
-                String messages = constraintLocalizationService.putLocalizedCaption(getItem().getMessages(),
-                        selectedLocale, (String) e.getValue());
-                getItem().setMessages(messages);
+        captionValueChangeListener = createCaptionValueChangeListener();
+        caption.addValueChangeListener(captionValueChangeListener);
+    }
+
+    protected LocalizationValueChangeListener createCaptionValueChangeListener() {
+        return new LocalizationValueChangeListener() {
+            @Override
+            protected String getUpdatedMessages(String originMessages, Locale selectedLocale, String value) {
+                return constraintLocalizationService.putLocalizedCaption(originMessages, selectedLocale, value);
             }
-        });
+        };
     }
 
     protected void initMessageField() {
-        message.addValueChangeListener(e -> {
-            if (!internalUpdate) {
+        messageValueChangeListener = createMessageValueChangeListener();
+        message.addValueChangeListener(messageValueChangeListener);
+    }
+
+    protected LocalizationValueChangeListener createMessageValueChangeListener() {
+        return new LocalizationValueChangeListener() {
+            @Override
+            protected String getUpdatedMessages(String originMessages, Locale selectedLocale, String value) {
+                return constraintLocalizationService.putLocalizedMessage(originMessages, selectedLocale, value);
+            }
+        };
+    }
+
+    protected abstract class LocalizationValueChangeListener implements ValueChangeListener {
+        protected boolean active = true;
+
+        @Override
+        public void valueChanged(ValueChangeEvent e) {
+            if (active) {
                 Locale selectedLocale = localesSelect.getValue();
-                String messages = constraintLocalizationService.putLocalizedMessage(getItem().getMessages(),
-                        selectedLocale, (String) e.getValue());
+                String messages = getUpdatedMessages(getItem().getMessages(), selectedLocale, (String) e.getValue());
                 getItem().setMessages(messages);
             }
-        });
+        }
+
+        public void suspend() {
+            active = false;
+        }
+
+        public void resume() {
+            active = true;
+        }
+
+        protected abstract String getUpdatedMessages(String originMessages, Locale selectedLocale, String value);
     }
 }
