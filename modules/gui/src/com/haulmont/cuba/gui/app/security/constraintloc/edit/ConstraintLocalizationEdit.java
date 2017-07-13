@@ -59,9 +59,9 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     protected void postInit() {
         operationTypeField.setTextInputAllowed(false);
 
-        initLocalesField();
         initCaptionField();
         initMessageField();
+        initLocalesField();
     }
 
     protected void initLocalesField() {

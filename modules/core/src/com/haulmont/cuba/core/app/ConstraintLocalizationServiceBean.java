@@ -60,7 +60,6 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
         } else if (localizations.size() == 1) {
             return localizations.get(0);
         } else {
-            // TODO: gg, is this needed?
             throw new IllegalStateException("Several entities with the same 'entity name/operation type' combination");
         }
     }
