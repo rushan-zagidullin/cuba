@@ -73,7 +73,7 @@ public class RowLevelSecurityExceptionHandler extends AbstractGenericExceptionHa
                     if (operationType != null) {
                         ConstraintLocalizationService service = AppBeans.get(ConstraintLocalizationService.NAME);
                         LocalizedConstraintMessage localizedMessage =
-                                service.getLocalizedConstraintMessage(entity, operationType);
+                                service.findLocalizedConstraintMessage(entity, operationType);
 
                         if (localizedMessage != null) {
                             UserSessionSource userSessionSource = AppBeans.get(UserSessionSource.NAME);

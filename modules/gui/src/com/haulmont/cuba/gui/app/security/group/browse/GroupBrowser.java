@@ -386,7 +386,7 @@ public class GroupBrowser extends AbstractWindow {
         }
 
         protected void internalOpenEditor(Constraint constraint) {
-            LocalizedConstraintMessage localization = constraintLocalizationService.getLocalizedConstraintMessage(
+            LocalizedConstraintMessage localization = constraintLocalizationService.findLocalizedConstraintMessage(
                     constraint.getEntityName(), constraint.getOperationType());
             if (localization == null) {
                 localization = metadata.create(LocalizedConstraintMessage.class);

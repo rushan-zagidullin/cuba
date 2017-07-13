@@ -42,8 +42,8 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
 
     @Nullable
     @Override
-    public LocalizedConstraintMessage getLocalizedConstraintMessage(String entityName,
-                                                                    ConstraintOperationType operationType) {
+    public LocalizedConstraintMessage findLocalizedConstraintMessage(String entityName,
+                                                                     ConstraintOperationType operationType) {
         Preconditions.checkNotNullArgument(entityName);
         Preconditions.checkNotNullArgument(operationType);
 
