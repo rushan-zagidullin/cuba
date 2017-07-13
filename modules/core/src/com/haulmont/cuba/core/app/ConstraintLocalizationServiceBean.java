@@ -65,14 +65,14 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
     }
 
     @Nullable
-    protected String getValue(String messages, String localeCode, String key) {
+    protected String getValue(String values, String localeCode, String key) {
         Preconditions.checkNotNullArgument(localeCode);
 
-        if (StringUtils.isEmpty(messages)) {
+        if (StringUtils.isEmpty(values)) {
             return null;
         }
 
-        JSONObject localizationObject = new JSONObject(messages);
+        JSONObject localizationObject = new JSONObject(values);
 
         if (localizationObject.has(localeCode)) {
             JSONObject localeObject = localizationObject.getJSONObject(localeCode);
@@ -84,12 +84,12 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
         return null;
     }
 
-    protected String putValue(String messages, String localeCode, String key, String value) {
+    protected String putValue(String values, String localeCode, String key, String value) {
         Preconditions.checkNotNullArgument(localeCode);
 
 
-        JSONObject localizationObject = messages != null
-                ? new JSONObject(messages)
+        JSONObject localizationObject = values != null
+                ? new JSONObject(values)
                 : new JSONObject();
 
         JSONObject localeObject = localizationObject.has(localeCode)
@@ -104,49 +104,49 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
 
     @Nullable
     @Override
-    public String getLocalizedCaption(String messages, Locale locale) {
+    public String getLocalizedCaption(String values, Locale locale) {
         Preconditions.checkNotNullArgument(locale);
-        return getLocalizedCaption(messages, locale.toLanguageTag());
+        return getLocalizedCaption(values, locale.toLanguageTag());
     }
 
     @Nullable
     @Override
-    public String getLocalizedCaption(String messages, String localeCode) {
-        return getValue(messages, localeCode, CAPTION_KEY);
+    public String getLocalizedCaption(String values, String localeCode) {
+        return getValue(values, localeCode, CAPTION_KEY);
     }
 
     @Override
-    public String putLocalizedCaption(String messages, Locale locale, String value) {
+    public String putLocalizedCaption(String values, Locale locale, String value) {
         Preconditions.checkNotNullArgument(locale);
-        return putLocalizedCaption(messages, locale.toLanguageTag(), value);
+        return putLocalizedCaption(values, locale.toLanguageTag(), value);
     }
 
     @Override
-    public String putLocalizedCaption(String messages, String localeCode, String value) {
-        return putValue(messages, localeCode, CAPTION_KEY, value);
+    public String putLocalizedCaption(String values, String localeCode, String value) {
+        return putValue(values, localeCode, CAPTION_KEY, value);
     }
 
     @Nullable
     @Override
-    public String getLocalizedMessage(String messages, Locale locale) {
+    public String getLocalizedMessage(String values, Locale locale) {
         Preconditions.checkNotNullArgument(locale);
-        return getLocalizedMessage(messages, locale.toLanguageTag());
+        return getLocalizedMessage(values, locale.toLanguageTag());
     }
 
     @Nullable
     @Override
-    public String getLocalizedMessage(String messages, String localeCode) {
-        return getValue(messages, localeCode, MESSAGE_KEY);
+    public String getLocalizedMessage(String values, String localeCode) {
+        return getValue(values, localeCode, MESSAGE_KEY);
     }
 
     @Override
-    public String putLocalizedMessage(String messages, Locale locale, String value) {
+    public String putLocalizedMessage(String values, Locale locale, String value) {
         Preconditions.checkNotNullArgument(locale);
-        return putLocalizedMessage(messages, locale.toLanguageTag(), value);
+        return putLocalizedMessage(values, locale.toLanguageTag(), value);
     }
 
     @Override
-    public String putLocalizedMessage(String messages, String localeCode, String value) {
-        return putValue(messages, localeCode, MESSAGE_KEY, value);
+    public String putLocalizedMessage(String values, String localeCode, String value) {
+        return putValue(values, localeCode, MESSAGE_KEY, value);
     }
 }

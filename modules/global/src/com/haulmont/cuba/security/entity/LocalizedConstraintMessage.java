@@ -39,8 +39,8 @@ public class LocalizedConstraintMessage extends StandardEntity {
     protected String operationType;
 
     @Lob
-    @Column(name = "MESSAGES")
-    protected String messages;
+    @Column(name = "VALUES_")
+    protected String values;
 
     public String getEntityName() {
         return entityName;
@@ -58,11 +58,11 @@ public class LocalizedConstraintMessage extends StandardEntity {
         this.operationType = operationType != null ? operationType.getId() : null;
     }
 
-    public String getMessages() {
-        return messages;
+    public String getValues() {
+        return values;
     }
 
-    public void setMessages(String messages) {
-        this.messages = messages;
+    public void setValues(String values) {
+        this.values = values;
     }
 }

@@ -10,7 +10,7 @@ create table SEC_LOCALIZED_CONSTRAINT_MESSAGE (
     --
     ENTITY_NAME varchar(255) not null,
     OPERATION_TYPE varchar(50) not null,
-    MESSAGES text,
+    VALUES_ text,
     --
     primary key (ID)
 )^

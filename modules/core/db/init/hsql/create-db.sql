@@ -337,7 +337,7 @@ create table SEC_LOCALIZED_CONSTRAINT_MESSAGE (
     --
     ENTITY_NAME varchar(255) not null,
     OPERATION_TYPE varchar(50) not null,
-    MESSAGES longvarchar,
+    VALUES_ longvarchar,
     --
     primary key (ID)
 )^

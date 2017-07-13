@@ -44,80 +44,80 @@ public interface ConstraintLocalizationService {
     /**
      * Gets caption value from all messages for given locale.
      *
-     * @param messages all localized messages from a {@link LocalizedConstraintMessage} instance
+     * @param values all localized messages from a {@link LocalizedConstraintMessage} instance
      * @param locale   the locale
      * @return caption value from all messages for given locale
      */
     @Nullable
-    String getLocalizedCaption(String messages, Locale locale);
+    String getLocalizedCaption(String values, Locale locale);
 
     /**
-     * Gets caption value from all messages for given locale code.
+     * Gets caption value from all values for given locale code.
      *
-     * @param messages   all localized messages from a {@link LocalizedConstraintMessage} instance
+     * @param values   all localized values from a {@link LocalizedConstraintMessage} instance
      * @param localeCode the locale code
-     * @return caption value from all messages for given locale code
+     * @return caption value from all values for given locale code
      */
     @Nullable
-    String getLocalizedCaption(String messages, String localeCode);
+    String getLocalizedCaption(String values, String localeCode);
 
     /**
-     * Add caption value to passed messages with given locale.
+     * Add caption value to passed values with given locale.
      *
-     * @param messages all localized messages from a {@link LocalizedConstraintMessage} instance
+     * @param values all localized values from a {@link LocalizedConstraintMessage} instance
      * @param locale   the locale
      * @param value    the value to add
-     * @return messages copy with added value
+     * @return values copy with added value
      */
-    String putLocalizedCaption(String messages, Locale locale, String value);
+    String putLocalizedCaption(String values, Locale locale, String value);
 
     /**
-     * Add caption value to passed messages with given locale code.
+     * Add caption value to passed values with given locale code.
      *
-     * @param messages   all localized messages from a {@link LocalizedConstraintMessage} instance
+     * @param values   all localized values from a {@link LocalizedConstraintMessage} instance
      * @param localeCode the locale code
      * @param value      the value to add
-     * @return messages copy with added value
+     * @return values copy with added value
      */
-    String putLocalizedCaption(String messages, String localeCode, String value);
+    String putLocalizedCaption(String values, String localeCode, String value);
 
     /**
-     * Gets message value from all messages for given locale.
+     * Gets message value from all values for given locale.
      *
-     * @param messages all localized messages from a {@link LocalizedConstraintMessage} instance
+     * @param values all localized values from a {@link LocalizedConstraintMessage} instance
      * @param locale   the locale
-     * @return message value from all messages for given locale
+     * @return message value from all values for given locale
      */
     @Nullable
-    String getLocalizedMessage(String messages, Locale locale);
+    String getLocalizedMessage(String values, Locale locale);
 
     /**
-     * Gets message value from all messages for given locale code.
+     * Gets message value from all values for given locale code.
      *
-     * @param messages   all localized messages from a {@link LocalizedConstraintMessage} instance
+     * @param values   all localized values from a {@link LocalizedConstraintMessage} instance
      * @param localeCode the locale code
-     * @return message value from all messages for given locale code
+     * @return message value from all values for given locale code
      */
     @Nullable
-    String getLocalizedMessage(String messages, String localeCode);
+    String getLocalizedMessage(String values, String localeCode);
 
     /**
-     * Add message value to passed messages with given locale.
+     * Add message value to passed values with given locale.
      *
-     * @param messages all localized messages from a {@link LocalizedConstraintMessage} instance
+     * @param values all localized values from a {@link LocalizedConstraintMessage} instance
      * @param locale   the locale
      * @param value    the value to add
-     * @return messages copy with added value
+     * @return values copy with added value
      */
-    String putLocalizedMessage(String messages, Locale locale, String value);
+    String putLocalizedMessage(String values, Locale locale, String value);
 
     /**
-     * Add message value to passed messages with given locale code.
+     * Add message value to passed values with given locale code.
      *
-     * @param messages   all localized messages from a {@link LocalizedConstraintMessage} instance
+     * @param values   all localized values from a {@link LocalizedConstraintMessage} instance
      * @param localeCode the locale code
      * @param value      the value to add
-     * @return messages copy with added value
+     * @return values copy with added value
      */
-    String putLocalizedMessage(String messages, String localeCode, String value);
+    String putLocalizedMessage(String values, String localeCode, String value);
 }
