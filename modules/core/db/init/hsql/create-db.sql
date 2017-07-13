@@ -325,7 +325,7 @@ create table SEC_CONSTRAINT (
 
 ------------------------------------------------------------------------------------------------------------
 
-create table SEC_LOCALIZED_CONSTRAINT_MESSAGE (
+create table SEC_LOCALIZED_CONSTRAINT_MSG (
     ID varchar(36) not null,
     CREATE_TS timestamp,
     CREATED_BY varchar(50),
@@ -342,8 +342,8 @@ create table SEC_LOCALIZED_CONSTRAINT_MESSAGE (
     primary key (ID)
 )^
 
-create unique index IDX_SEC_LOCALIZED_CONSTRAINT_MSG_UNIQ_ENTITY_NAME_OP_TYPE
-  on SEC_LOCALIZED_CONSTRAINT_MESSAGE (ENTITY_NAME, OPERATION_TYPE, DELETE_TS)^
+create unique index IDX_SEC_LOC_CNSTRNT_MSG_UNIQUE
+  on SEC_LOCALIZED_CONSTRAINT_MSG (ENTITY_NAME, OPERATION_TYPE, DELETE_TS)^
 
 ------------------------------------------------------------------------------------------------------------
 

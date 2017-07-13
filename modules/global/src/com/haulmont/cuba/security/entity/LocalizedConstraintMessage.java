@@ -28,7 +28,7 @@ import javax.persistence.Table;
  * Localized messages for security constraint.
  */
 @Entity(name = "sec$LocalizedConstraintMessage")
-@Table(name = "SEC_LOCALIZED_CONSTRAINT_MESSAGE")
+@Table(name = "SEC_LOCALIZED_CONSTRAINT_MSG")
 @SystemLevel
 public class LocalizedConstraintMessage extends StandardEntity {
 
