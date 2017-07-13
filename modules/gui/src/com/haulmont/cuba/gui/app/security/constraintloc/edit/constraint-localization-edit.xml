@@ -29,10 +29,10 @@
 
     <assign name="width" value="theme://cuba.gui.constraint-localization-edit.field.width"/>
 
-    <dialogMode width="AUTO"/>
+    <dialogMode forceDialog="true"
+                width="AUTO"/>
 
-    <layout expand="windowActions"
-            spacing="true">
+    <layout spacing="true">
         <fieldGroup id="fieldGroup"
                     datasource="localizationDs">
             <column width="${width}">
