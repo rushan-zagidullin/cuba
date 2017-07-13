@@ -16,13 +16,18 @@
 
 package com.haulmont.cuba.security.entity;
 
+import com.haulmont.bali.util.Preconditions;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.SystemLevel;
+import org.apache.commons.lang.StringUtils;
+import org.json.JSONObject;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import java.util.Locale;
 
 /**
  * Localized messages for security constraint.
@@ -31,6 +36,9 @@ import javax.persistence.Table;
 @Table(name = "SEC_LOCALIZED_CONSTRAINT_MSG")
 @SystemLevel
 public class LocalizedConstraintMessage extends StandardEntity {
+
+    protected static final String CAPTION_KEY = "caption";
+    protected static final String MESSAGE_KEY = "message";
 
     @Column(name = "ENTITY_NAME", length = 255, nullable = false)
     protected String entityName;
@@ -64,5 +72,130 @@ public class LocalizedConstraintMessage extends StandardEntity {
 
     public void setValues(String values) {
         this.values = values;
+    }
+
+    @Nullable
+    protected String getValue(String localeCode, String key) {
+        Preconditions.checkNotNullArgument(localeCode);
+
+        if (StringUtils.isEmpty(values)) {
+            return null;
+        }
+
+        JSONObject localizationObject = new JSONObject(values);
+
+        if (localizationObject.has(localeCode)) {
+            JSONObject localeObject = localizationObject.getJSONObject(localeCode);
+            return localeObject.has(key)
+                    ? localeObject.getString(key)
+                    : null;
+        }
+
+        return null;
+    }
+
+    protected void putValue(String localeCode, String key, String value) {
+        Preconditions.checkNotNullArgument(localeCode);
+
+        JSONObject localizationObject = values != null
+                ? new JSONObject(values)
+                : new JSONObject();
+
+        JSONObject localeObject = localizationObject.has(localeCode)
+                ? localizationObject.getJSONObject(localeCode)
+                : new JSONObject();
+
+        localeObject.put(key, value);
+        localizationObject.put(localeCode, localeObject);
+
+        setValues(localizationObject.toString());
+    }
+
+    /**
+     * Returns caption value for given locale.
+     *
+     * @param locale the locale
+     * @return caption value for given locale
+     */
+    @Nullable
+    public String getLocalizedCaption(Locale locale) {
+        Preconditions.checkNotNullArgument(locale);
+        return getLocalizedCaption(locale.toLanguageTag());
+    }
+
+    /**
+     * Returns caption value for given locale code.
+     *
+     * @param localeCode the locale code
+     * @return caption value from all values for given locale code
+     */
+    @Nullable
+    public String getLocalizedCaption(String localeCode) {
+        return getValue(localeCode, CAPTION_KEY);
+    }
+
+    /**
+     * Puts caption value with given locale.
+     *
+     * @param locale the locale
+     * @param value  the value to add
+     */
+    public void putLocalizedCaption(Locale locale, String value) {
+        Preconditions.checkNotNullArgument(locale);
+        putLocalizedCaption(locale.toLanguageTag(), value);
+    }
+
+    /**
+     * Puts caption value with given locale code.
+     *
+     * @param localeCode the locale code
+     * @param value      the value to add
+     */
+    public void putLocalizedCaption(String localeCode, String value) {
+        putValue(localeCode, CAPTION_KEY, value);
+    }
+
+    /**
+     * Returns message value for given locale.
+     *
+     * @param locale the locale
+     * @return message value for given locale
+     */
+    @Nullable
+    public String getLocalizedMessage(Locale locale) {
+        Preconditions.checkNotNullArgument(locale);
+        return getLocalizedMessage(locale.toLanguageTag());
+    }
+
+    /**
+     * Returns message value for given locale code.
+     *
+     * @param localeCode the locale code
+     * @return message value for given locale code
+     */
+    @Nullable
+    public String getLocalizedMessage(String localeCode) {
+        return getValue(localeCode, MESSAGE_KEY);
+    }
+
+    /**
+     * Puts message value with given locale.
+     *
+     * @param locale the locale
+     * @param value  the value to put
+     */
+    public void putLocalizedMessage(Locale locale, String value) {
+        Preconditions.checkNotNullArgument(locale);
+        putLocalizedMessage(locale.toLanguageTag(), value);
+    }
+
+    /**
+     * Puts message value with given locale code.
+     *
+     * @param localeCode the locale code
+     * @param value      the value to put
+     */
+    public void putLocalizedMessage(String localeCode, String value) {
+        putValue(localeCode, MESSAGE_KEY, value);
     }
 }

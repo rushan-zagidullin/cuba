@@ -22,20 +22,14 @@ import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.security.entity.ConstraintOperationType;
 import com.haulmont.cuba.security.entity.LocalizedConstraintMessage;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Locale;
 
 @Service(ConstraintLocalizationService.NAME)
 public class ConstraintLocalizationServiceBean implements ConstraintLocalizationService {
-
-    protected static final String CAPTION_KEY = "caption";
-    protected static final String MESSAGE_KEY = "message";
 
     @Inject
     private DataManager dataManager;
@@ -62,91 +56,5 @@ public class ConstraintLocalizationServiceBean implements ConstraintLocalization
         } else {
             throw new IllegalStateException("Several entities with the same 'entity name/operation type' combination");
         }
-    }
-
-    @Nullable
-    protected String getValue(String values, String localeCode, String key) {
-        Preconditions.checkNotNullArgument(localeCode);
-
-        if (StringUtils.isEmpty(values)) {
-            return null;
-        }
-
-        JSONObject localizationObject = new JSONObject(values);
-
-        if (localizationObject.has(localeCode)) {
-            JSONObject localeObject = localizationObject.getJSONObject(localeCode);
-            return localeObject.has(key)
-                    ? localeObject.getString(key)
-                    : null;
-        }
-
-        return null;
-    }
-
-    protected String putValue(String values, String localeCode, String key, String value) {
-        Preconditions.checkNotNullArgument(localeCode);
-
-
-        JSONObject localizationObject = values != null
-                ? new JSONObject(values)
-                : new JSONObject();
-
-        JSONObject localeObject = localizationObject.has(localeCode)
-                ? localizationObject.getJSONObject(localeCode)
-                : new JSONObject();
-
-        localeObject.put(key, value);
-        localizationObject.put(localeCode, localeObject);
-
-        return localizationObject.toString();
-    }
-
-    @Nullable
-    @Override
-    public String getLocalizedCaption(String values, Locale locale) {
-        Preconditions.checkNotNullArgument(locale);
-        return getLocalizedCaption(values, locale.toLanguageTag());
-    }
-
-    @Nullable
-    @Override
-    public String getLocalizedCaption(String values, String localeCode) {
-        return getValue(values, localeCode, CAPTION_KEY);
-    }
-
-    @Override
-    public String putLocalizedCaption(String values, Locale locale, String value) {
-        Preconditions.checkNotNullArgument(locale);
-        return putLocalizedCaption(values, locale.toLanguageTag(), value);
-    }
-
-    @Override
-    public String putLocalizedCaption(String values, String localeCode, String value) {
-        return putValue(values, localeCode, CAPTION_KEY, value);
-    }
-
-    @Nullable
-    @Override
-    public String getLocalizedMessage(String values, Locale locale) {
-        Preconditions.checkNotNullArgument(locale);
-        return getLocalizedMessage(values, locale.toLanguageTag());
-    }
-
-    @Nullable
-    @Override
-    public String getLocalizedMessage(String values, String localeCode) {
-        return getValue(values, localeCode, MESSAGE_KEY);
-    }
-
-    @Override
-    public String putLocalizedMessage(String values, Locale locale, String value) {
-        Preconditions.checkNotNullArgument(locale);
-        return putLocalizedMessage(values, locale.toLanguageTag(), value);
-    }
-
-    @Override
-    public String putLocalizedMessage(String values, String localeCode, String value) {
-        return putValue(values, localeCode, MESSAGE_KEY, value);
     }
 }

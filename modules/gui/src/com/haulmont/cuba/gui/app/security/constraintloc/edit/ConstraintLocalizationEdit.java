@@ -16,7 +16,6 @@
 
 package com.haulmont.cuba.gui.app.security.constraintloc.edit;
 
-import com.haulmont.cuba.core.app.ConstraintLocalizationService;
 import com.haulmont.cuba.core.global.GlobalConfig;
 import com.haulmont.cuba.core.global.UserSessionSource;
 import com.haulmont.cuba.gui.components.AbstractEditor;
@@ -49,9 +48,6 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     @Inject
     protected UserSessionSource userSessionSource;
 
-    @Inject
-    protected ConstraintLocalizationService constraintLocalizationService;
-
     protected LocalizationValueChangeListener captionValueChangeListener;
     protected LocalizationValueChangeListener messageValueChangeListener;
 
@@ -79,9 +75,8 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
             messageValueChangeListener.suspend();
 
             Locale selectedLocale = (Locale) e.getValue();
-            String values = getItem().getValues();
-            caption.setValue(constraintLocalizationService.getLocalizedCaption(values, selectedLocale));
-            message.setValue(constraintLocalizationService.getLocalizedMessage(values, selectedLocale));
+            caption.setValue(getItem().getLocalizedCaption(selectedLocale));
+            message.setValue(getItem().getLocalizedMessage(selectedLocale));
 
             captionValueChangeListener.resume();
             messageValueChangeListener.resume();
@@ -96,8 +91,8 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     protected LocalizationValueChangeListener createCaptionValueChangeListener() {
         return new LocalizationValueChangeListener() {
             @Override
-            protected String getUpdatedMessages(String originMessages, Locale selectedLocale, String value) {
-                return constraintLocalizationService.putLocalizedCaption(originMessages, selectedLocale, value);
+            protected void updateValues(LocalizedConstraintMessage item, Locale selectedLocale, String value) {
+                item.putLocalizedCaption(selectedLocale, value);
             }
         };
     }
@@ -110,8 +105,8 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     protected LocalizationValueChangeListener createMessageValueChangeListener() {
         return new LocalizationValueChangeListener() {
             @Override
-            protected String getUpdatedMessages(String originMessages, Locale selectedLocale, String value) {
-                return constraintLocalizationService.putLocalizedMessage(originMessages, selectedLocale, value);
+            protected void updateValues(LocalizedConstraintMessage item, Locale selectedLocale, String value) {
+                item.putLocalizedMessage(selectedLocale, value);
             }
         };
     }
@@ -123,8 +118,7 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
         public void valueChanged(ValueChangeEvent e) {
             if (active) {
                 Locale selectedLocale = localesSelect.getValue();
-                String values = getUpdatedMessages(getItem().getValues(), selectedLocale, (String) e.getValue());
-                getItem().setValues(values);
+                updateValues(getItem(), selectedLocale, (String) e.getValue());
             }
         }
 
@@ -136,6 +130,6 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
             active = true;
         }
 
-        protected abstract String getUpdatedMessages(String originMessages, Locale selectedLocale, String value);
+        protected abstract void updateValues(LocalizedConstraintMessage item, Locale selectedLocale, String value);
     }
 }
