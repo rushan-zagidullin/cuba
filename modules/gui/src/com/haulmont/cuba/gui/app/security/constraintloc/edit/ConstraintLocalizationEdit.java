@@ -16,8 +16,8 @@
 
 package com.haulmont.cuba.gui.app.security.constraintloc.edit;
 
-import com.haulmont.cuba.core.global.GlobalConfig;
-import com.haulmont.cuba.core.global.UserSessionSource;
+import com.haulmont.chile.core.model.MetaClass;
+import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.gui.components.AbstractEditor;
 import com.haulmont.cuba.gui.components.LookupField;
 import com.haulmont.cuba.gui.components.ResizableTextArea;
@@ -37,6 +37,9 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     protected LookupField localesSelect;
 
     @Inject
+    protected TextField entityName;
+
+    @Inject
     protected TextField caption;
 
     @Inject
@@ -48,6 +51,12 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     @Inject
     protected UserSessionSource userSessionSource;
 
+    @Inject
+    protected Metadata metadata;
+
+    @Inject
+    protected ExtendedEntities extendedEntities;
+
     protected LocalizationValueChangeListener captionValueChangeListener;
     protected LocalizationValueChangeListener messageValueChangeListener;
 
@@ -55,9 +64,22 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     protected void postInit() {
         operationTypeField.setTextInputAllowed(false);
 
+        initEntityNameField();
         initCaptionField();
         initMessageField();
         initLocalesField();
+    }
+
+    protected void initEntityNameField() {
+        String entityName = getItem().getEntityName();
+        MetaClass metaClass = metadata.getClass(entityName);
+
+        if (metaClass != null) {
+            MessageTools messageTools = messages.getTools();
+            this.entityName.setValue(messageTools.getEntityCaption(metaClass) + " (" + metaClass.getName() + ")");
+        } else {
+            this.entityName.setValue(entityName);
+        }
     }
 
     protected void initLocalesField() {
@@ -75,8 +97,9 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
             messageValueChangeListener.suspend();
 
             Locale selectedLocale = (Locale) e.getValue();
-            caption.setValue(getItem().getLocalizedCaption(selectedLocale));
-            message.setValue(getItem().getLocalizedMessage(selectedLocale));
+            String localeCode = messages.getTools().localeToString(selectedLocale);
+            caption.setValue(getItem().getLocalizedCaption(localeCode));
+            message.setValue(getItem().getLocalizedMessage(localeCode));
 
             captionValueChangeListener.resume();
             messageValueChangeListener.resume();
@@ -91,8 +114,8 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     protected LocalizationValueChangeListener createCaptionValueChangeListener() {
         return new LocalizationValueChangeListener() {
             @Override
-            protected void updateValues(LocalizedConstraintMessage item, Locale selectedLocale, String value) {
-                item.putLocalizedCaption(selectedLocale, value);
+            protected void updateValues(LocalizedConstraintMessage item, String localeCode, String value) {
+                item.putLocalizedCaption(localeCode, value);
             }
         };
     }
@@ -105,8 +128,8 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
     protected LocalizationValueChangeListener createMessageValueChangeListener() {
         return new LocalizationValueChangeListener() {
             @Override
-            protected void updateValues(LocalizedConstraintMessage item, Locale selectedLocale, String value) {
-                item.putLocalizedMessage(selectedLocale, value);
+            protected void updateValues(LocalizedConstraintMessage item, String localeCode, String value) {
+                item.putLocalizedMessage(localeCode, value);
             }
         };
     }
@@ -118,7 +141,8 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
         public void valueChanged(ValueChangeEvent e) {
             if (active) {
                 Locale selectedLocale = localesSelect.getValue();
-                updateValues(getItem(), selectedLocale, (String) e.getValue());
+                String localeCode = messages.getTools().localeToString(selectedLocale);
+                updateValues(getItem(), localeCode, (String) e.getValue());
             }
         }
 
@@ -130,6 +154,6 @@ public class ConstraintLocalizationEdit extends AbstractEditor<LocalizedConstrai
             active = true;
         }
 
-        protected abstract void updateValues(LocalizedConstraintMessage item, Locale selectedLocale, String value);
+        protected abstract void updateValues(LocalizedConstraintMessage item, String localeCode, String value);
     }
 }

@@ -373,7 +373,7 @@ public class GroupBrowser extends AbstractWindow {
             super(target, ACTION_ID);
             this.openType = openType;
             setCaption(getMessage("action.localize.caption"));
-            setIcon("font-icon:LANGUAGE");
+            setIcon("icons/globe.png");
         }
 
         @Override

@@ -36,8 +36,11 @@
         <fieldGroup id="fieldGroup"
                     datasource="localizationDs">
             <column width="${width}">
-                <field property="entityName"
-                       editable="false"/>
+                <field id="entityField">
+                    <textField id="entityName"
+                               caption="msg://com.haulmont.cuba.security.entity/LocalizedConstraintMessage.entityName"
+                               editable="false"/>
+                </field>
                 <field property="operationType"
                        editable="false"/>
                 <field id="localesField">

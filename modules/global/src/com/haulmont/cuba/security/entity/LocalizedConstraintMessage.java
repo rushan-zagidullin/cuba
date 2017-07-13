@@ -27,7 +27,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import java.util.Locale;
 
 /**
  * Localized messages for security constraint.
@@ -112,18 +111,6 @@ public class LocalizedConstraintMessage extends StandardEntity {
     }
 
     /**
-     * Returns caption value for given locale.
-     *
-     * @param locale the locale
-     * @return caption value for given locale
-     */
-    @Nullable
-    public String getLocalizedCaption(Locale locale) {
-        Preconditions.checkNotNullArgument(locale);
-        return getLocalizedCaption(locale.toLanguageTag());
-    }
-
-    /**
      * Returns caption value for given locale code.
      *
      * @param localeCode the locale code
@@ -132,17 +119,6 @@ public class LocalizedConstraintMessage extends StandardEntity {
     @Nullable
     public String getLocalizedCaption(String localeCode) {
         return getValue(localeCode, CAPTION_KEY);
-    }
-
-    /**
-     * Puts caption value with given locale.
-     *
-     * @param locale the locale
-     * @param value  the value to add
-     */
-    public void putLocalizedCaption(Locale locale, String value) {
-        Preconditions.checkNotNullArgument(locale);
-        putLocalizedCaption(locale.toLanguageTag(), value);
     }
 
     /**
@@ -156,18 +132,6 @@ public class LocalizedConstraintMessage extends StandardEntity {
     }
 
     /**
-     * Returns message value for given locale.
-     *
-     * @param locale the locale
-     * @return message value for given locale
-     */
-    @Nullable
-    public String getLocalizedMessage(Locale locale) {
-        Preconditions.checkNotNullArgument(locale);
-        return getLocalizedMessage(locale.toLanguageTag());
-    }
-
-    /**
      * Returns message value for given locale code.
      *
      * @param localeCode the locale code
@@ -176,17 +140,6 @@ public class LocalizedConstraintMessage extends StandardEntity {
     @Nullable
     public String getLocalizedMessage(String localeCode) {
         return getValue(localeCode, MESSAGE_KEY);
-    }
-
-    /**
-     * Puts message value with given locale.
-     *
-     * @param locale the locale
-     * @param value  the value to put
-     */
-    public void putLocalizedMessage(Locale locale, String value) {
-        Preconditions.checkNotNullArgument(locale);
-        putLocalizedMessage(locale.toLanguageTag(), value);
     }
 
     /**
