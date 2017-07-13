@@ -1328,17 +1328,17 @@ public class WebWindow implements Window, Component.Wrapper,
 
     protected class WebDialogOptions extends DialogOptions {
         @Override
-        public Integer getWidth() {
+        public Float getWidth() {
             com.vaadin.ui.Window dialogWindow = asDialogWindow();
             if (dialogWindow != null) {
-                return (int)dialogWindow.getWidth();
+                return dialogWindow.getWidth();
             }
 
             return super.getWidth();
         }
 
         @Override
-        public DialogOptions setWidth(Integer width) {
+        public DialogOptions setWidth(Float width) {
             super.setWidth(width);
 
             if (width != null) {
@@ -1359,17 +1359,17 @@ public class WebWindow implements Window, Component.Wrapper,
         }
 
         @Override
-        public Integer getHeight() {
+        public Float getHeight() {
             com.vaadin.ui.Window dialogWindow = asDialogWindow();
             if (dialogWindow != null) {
-                return (int)dialogWindow.getHeight();
+                return dialogWindow.getHeight();
             }
 
             return super.getHeight();
         }
 
         @Override
-        public DialogOptions setHeight(Integer height) {
+        public DialogOptions setHeight(Float height) {
             super.setHeight(height);
 
             if (height != null) {
