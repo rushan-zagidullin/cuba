@@ -106,8 +106,10 @@ public abstract class WindowManager {
         private OpenMode openMode;
         private boolean mutable = true;
 
-        private Integer width;
-        private Integer height;
+        private Float width;
+        private SizeUnit widthUnit;
+        private Float height;
+        private SizeUnit heightUnit;
         private Boolean resizable;
         private Boolean closeable;
         private Boolean modal;
@@ -133,53 +135,53 @@ public abstract class WindowManager {
             return instance;
         }
 
-        public Integer getHeight() {
+        public Float getHeight() {
             return height;
         }
 
-        public OpenType height(Integer heightPx) {
+        public OpenType height(Float height) {
             OpenType instance = getMutableInstance();
 
-            instance.height = heightPx;
+            instance.height = height;
             return instance;
         }
 
-        public OpenType setHeight(Integer heightPx) {
+        public OpenType setHeight(Float height) {
             OpenType instance = getMutableInstance();
 
-            instance.height = heightPx;
+            instance.height = height;
             return instance;
         }
 
         public OpenType heightAuto() {
             OpenType instance = getMutableInstance();
 
-            instance.height = -1;
+            instance.height = -1.0f;
             return instance;
         }
 
-        public Integer getWidth() {
+        public Float getWidth() {
             return width;
         }
 
-        public OpenType width(Integer widthPx) {
+        public OpenType width(Float width) {
             OpenType instance = getMutableInstance();
 
-            instance.width = widthPx;
+            instance.width = width;
             return instance;
         }
 
-        public OpenType setWidth(Integer widthPx) {
+        public OpenType setWidth(Float width) {
             OpenType instance = getMutableInstance();
 
-            instance.width = widthPx;
+            instance.width = width;
             return instance;
         }
 
         public OpenType widthAuto() {
             OpenType instance = getMutableInstance();
 
-            instance.width = -1;
+            instance.width = -1.0f;
             return instance;
         }
 

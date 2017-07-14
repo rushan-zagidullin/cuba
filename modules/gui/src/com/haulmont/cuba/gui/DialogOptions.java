@@ -27,8 +27,8 @@ import static com.haulmont.cuba.gui.components.Component.AUTO_SIZE;
  * Dialog options of a window. Can be changed at run time from the window controller:
  * <pre>
  * getDialogOptions()
- *     .setWidth(640)
- *     .setHeight(480);
+ *     .setWidth("640px')
+ *     .setHeight("480px");
  * </pre>
  * <p>
  * A window can be forced to open as a dialog in {@link AbstractWindow#init} using the {@link #setForceDialog(Boolean)} method:

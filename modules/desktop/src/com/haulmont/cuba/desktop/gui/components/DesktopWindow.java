@@ -1423,13 +1423,14 @@ public class DesktopWindow implements Window, Component.Disposable,
 
     protected class DesktopDialogOptions extends DialogOptions {
         @Override
-        public DialogOptions setWidth(Integer width) {
+        public DialogOptions setWidth(Float width) {
             super.setWidth(width);
 
             if (width != null) {
                 DialogWindow dialogWindow = asDialogWindow();
                 if (dialogWindow != null) {
-                    dialogWindow.setFixedWidth(width >= 0 ? width : null);
+                    Integer intWidth = Math.round(width);
+                    dialogWindow.setFixedWidth(intWidth >= 0 ? intWidth : null);
 
                     Dimension dim = new Dimension();
                     if (dialogWindow.getFixedWidth() != null) {
@@ -1458,24 +1459,25 @@ public class DesktopWindow implements Window, Component.Disposable,
         }
 
         @Override
-        public Integer getWidth() {
+        public Float getWidth() {
             DialogWindow dialogWindow = asDialogWindow();
 
             if (dialogWindow == null) {
                 return super.getWidth();
             } else {
-                return dialogWindow.getFixedWidth() != null ? dialogWindow.getFixedWidth() : -1;
+                return dialogWindow.getFixedWidth() != null ? dialogWindow.getFixedWidth() : -1.0f;
             }
         }
 
         @Override
-        public DialogOptions setHeight(Integer height) {
+        public DialogOptions setHeight(Float height) {
             super.setHeight(height);
 
             if (height != null) {
                 DialogWindow dialogWindow = asDialogWindow();
                 if (dialogWindow != null) {
-                    dialogWindow.setFixedHeight(height >= 0 ? height : null);
+                    Integer intHeight = Math.round(height);
+                    dialogWindow.setFixedHeight(intHeight >= 0 ? intHeight : null);
 
                     Dimension dim = new Dimension();
                     if (dialogWindow.getFixedWidth() != null) {
@@ -1494,13 +1496,13 @@ public class DesktopWindow implements Window, Component.Disposable,
         }
 
         @Override
-        public Integer getHeight() {
+        public Float getHeight() {
             DialogWindow dialogWindow = asDialogWindow();
 
             if (dialogWindow == null) {
                 return super.getHeight();
             } else {
-                return dialogWindow.getFixedHeight() != null ? dialogWindow.getFixedHeight() : -1;
+                return dialogWindow.getFixedHeight() != null ? dialogWindow.getFixedHeight() : -1.0f;
             }
         }
 

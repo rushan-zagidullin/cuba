@@ -17,6 +17,8 @@
 package com.haulmont.cuba.gui;
 
 import com.haulmont.cuba.gui.components.Frame;
+import com.haulmont.cuba.gui.components.SizeUnit;
+import com.haulmont.cuba.gui.components.SizeWithUnit;
 import com.haulmont.cuba.gui.components.Window;
 
 /**
@@ -35,10 +37,12 @@ import com.haulmont.cuba.gui.components.Window;
 @Deprecated
 public class DialogParams {
 
-    public static final int AUTO_SIZE_PX = -1;
+    public static final float AUTO_SIZE_PX = -1.0f;
 
-    private Integer width;
-    private Integer height;
+    private Float width;
+    private SizeUnit widthUnit;
+    private Float height;
+    private SizeUnit heightUnit;
     private Boolean resizable;
     private Boolean closeable;
     private Boolean modal;
@@ -48,29 +52,71 @@ public class DialogParams {
 
     public DialogParams copyFrom(DialogParams dialogParams) {
         setHeight(dialogParams.getHeight());
+        setHeightUnit(dialogParams.getHeightUnit());
         setModal(dialogParams.getModal());
         setWidth(dialogParams.getWidth());
+        setWidthUnit(dialogParams.getWidthUnit());
         setCloseable(dialogParams.getCloseable());
         setResizable(dialogParams.getResizable());
         return this;
     }
 
-    public Integer getHeight() {
+    public Float getHeight() {
         return height;
     }
 
-    public DialogParams setHeight(Integer height) {
+    public DialogParams setHeight(Float height) {
         this.height = height;
+        this.heightUnit = SizeUnit.PIXELS;
         return this;
     }
 
-    public Integer getWidth() {
+    public DialogParams setHeight(String height) {
+        SizeWithUnit size = SizeWithUnit.parseStringSize(height);
+        if (size != null) {
+            this.height = size.getSize();
+            this.heightUnit = size.getUnit();
+        }
+
+        return this;
+    }
+
+    public SizeUnit getHeightUnit() {
+        return heightUnit;
+    }
+
+    protected void setHeightUnit(SizeUnit heightUnit) {
+        this.heightUnit = heightUnit;
+    }
+
+    public Float getWidth() {
         return width;
     }
 
-    public DialogParams setWidth(Integer width) {
+    public DialogParams setWidth(Float width) {
         this.width = width;
+        this.widthUnit = SizeUnit.PIXELS;
         return this;
+    }
+
+    public DialogParams setWidth(String width) {
+        SizeWithUnit size = SizeWithUnit.parseStringSize(width);
+        if (size != null) {
+            this.width = size.getSize();
+            this.widthUnit = size.getUnit();
+
+            return this;
+        } else {
+            return setWidthAuto();
+        }
+    }
+
+    public SizeUnit getWidthUnit() {
+        return widthUnit;
+    }
+
+    protected void setWidthUnit(SizeUnit widthUnit) {
+        this.widthUnit = widthUnit;
     }
 
     public DialogParams setWidthAuto() {
@@ -108,7 +154,9 @@ public class DialogParams {
     @Deprecated
     public DialogParams reset() {
         this.height = null;
+        this.heightUnit = null;
         this.width = null;
+        this.widthUnit = null;
         this.resizable = null;
         this.closeable = null;
         this.modal = null;

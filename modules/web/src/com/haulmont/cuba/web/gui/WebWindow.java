@@ -1359,6 +1359,33 @@ public class WebWindow implements Window, Component.Wrapper,
         }
 
         @Override
+        public DialogOptions setWidth(String width) {
+            super.setWidth(width);
+
+            if (StringUtils.isNotEmpty(width)) {
+                com.vaadin.ui.Window dialogWindow = asDialogWindow();
+                if (dialogWindow != null) {
+                    if ("auto".equalsIgnoreCase(width)) {
+                        dialogWindow.setWidthUndefined();
+                        component.setWidthUndefined();
+                        getContainer().setWidthUndefined();
+                    } else {
+                        dialogWindow.setWidth(width);
+                        component.setWidth(width);
+                    }
+                }
+            }
+
+            return this;
+        }
+
+        @Override
+        public SizeUnit getWidthUnit() {
+            // TODO: gg,
+            return super.getWidthUnit();
+        }
+
+        @Override
         public Float getHeight() {
             com.vaadin.ui.Window dialogWindow = asDialogWindow();
             if (dialogWindow != null) {
@@ -1387,6 +1414,33 @@ public class WebWindow implements Window, Component.Wrapper,
             }
 
             return this;
+        }
+
+        @Override
+        public DialogOptions setHeight(String height) {
+            super.setHeight(height);
+
+            if (StringUtils.isNotEmpty(height)) {
+                com.vaadin.ui.Window dialogWindow = asDialogWindow();
+                if (dialogWindow != null) {
+                    if ("auto".equalsIgnoreCase(height)) {
+                        dialogWindow.setHeightUndefined();
+                        component.setHeightUndefined();
+                        getContainer().setHeightUndefined();
+                    } else {
+                        dialogWindow.setHeight(height);
+                        component.setHeight(height);
+                    }
+                }
+            }
+
+            return this;
+        }
+
+        @Override
+        public SizeUnit getHeightUnit() {
+            // TODO: gg,
+            return super.getHeightUnit();
         }
 
         @Override

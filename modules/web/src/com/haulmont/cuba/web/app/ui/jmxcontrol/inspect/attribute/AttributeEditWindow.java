@@ -44,7 +44,7 @@ public class AttributeEditWindow extends AbstractEditor<ManagedBeanAttribute> {
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
-        getDialogOptions().setWidth(themeConstants.getInt("cuba.web.AttributeEditWindow.width"));
+        getDialogOptions().setWidth(themeConstants.get("cuba.web.AttributeEditWindow.width"));
     }
 
     @Override
