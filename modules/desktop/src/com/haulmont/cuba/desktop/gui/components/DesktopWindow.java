@@ -1457,11 +1457,12 @@ public class DesktopWindow implements Window, Component.Disposable,
         }
 
         @Override
-        public void setWidthUnit(SizeUnit widthUnit) {
+        public DialogOptions setWidthUnit(SizeUnit widthUnit) {
             if (widthUnit != SizeUnit.PIXELS) {
                 throw new UnsupportedOperationException("In the desktop module only pixels are allowed");
             }
-            super.setWidthUnit(widthUnit);
+
+            return super.setWidthUnit(widthUnit);
         }
 
         @Override
@@ -1521,12 +1522,12 @@ public class DesktopWindow implements Window, Component.Disposable,
         }
 
         @Override
-        public void setHeightUnit(SizeUnit heightUnit) {
+        public DialogOptions setHeightUnit(SizeUnit heightUnit) {
             if (heightUnit != SizeUnit.PIXELS) {
                 throw new UnsupportedOperationException("In the desktop module only pixels are allowed");
             }
 
-            super.setHeightUnit(heightUnit);
+            return super.setHeightUnit(heightUnit);
         }
 
         @Override

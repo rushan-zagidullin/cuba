@@ -73,8 +73,8 @@ public class DialogOptions {
         return heightUnit;
     }
 
-    public void setHeightUnit(SizeUnit heightUnit) {
-        this.heightUnit = heightUnit;
+    public DialogOptions setHeightUnit(SizeUnit heightUnit) {
+        return setHeight(this.height, heightUnit);
     }
 
     /**
@@ -90,15 +90,17 @@ public class DialogOptions {
      * @param height height in pixels
      */
     public DialogOptions setHeight(Float height) {
-        this.height = height;
-        return this;
+        return setHeight(height, this.heightUnit);
     }
 
     public DialogOptions setHeight(String height) {
         SizeWithUnit size = SizeWithUnit.parseStringSize(height);
+        return setHeight(size.getSize(), size.getUnit());
+    }
 
-        this.height = size.getSize();
-        this.heightUnit = size.getUnit();
+    protected DialogOptions setHeight(Float height, SizeUnit unit) {
+        this.height = height;
+        this.heightUnit = unit;
 
         return this;
     }
@@ -141,8 +143,8 @@ public class DialogOptions {
         return widthUnit;
     }
 
-    public void setWidthUnit(SizeUnit widthUnit) {
-        this.widthUnit = widthUnit;
+    public DialogOptions setWidthUnit(SizeUnit widthUnit) {
+        return setWidth(this.width, widthUnit);
     }
 
     /**
@@ -158,16 +160,17 @@ public class DialogOptions {
      * @param width width in pixels
      */
     public DialogOptions setWidth(Float width) {
-        this.width = width;
-        return this;
+        return setWidth(width, this.widthUnit);
     }
 
     public DialogOptions setWidth(String width) {
         SizeWithUnit size = SizeWithUnit.parseStringSize(width);
+        return setWidth(size.getSize(), size.getUnit());
+    }
 
-        this.width = size.getSize();
-        this.widthUnit = size.getUnit();
-
+    protected DialogOptions setWidth(Float width, SizeUnit unit) {
+        this.width = width;
+        this.widthUnit = unit;
         return this;
     }
 

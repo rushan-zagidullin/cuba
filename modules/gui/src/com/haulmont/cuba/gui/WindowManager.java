@@ -139,8 +139,10 @@ public abstract class WindowManager {
             return heightUnit;
         }
 
-        public void setHeightUnit(SizeUnit heightUnit) {
-            this.heightUnit = heightUnit;
+        public OpenType setHeightUnit(SizeUnit heightUnit) {
+            OpenType instance = getMutableInstance();
+            instance.heightUnit = heightUnit;
+            return instance;
         }
 
         public Float getHeight() {
@@ -187,8 +189,10 @@ public abstract class WindowManager {
             return widthUnit;
         }
 
-        public void setWidthUnit(SizeUnit widthUnit) {
-            this.widthUnit = widthUnit;
+        public OpenType setWidthUnit(SizeUnit widthUnit) {
+            OpenType instance = getMutableInstance();
+            instance.widthUnit = widthUnit;
+            return instance;
         }
 
         public Float getWidth() {

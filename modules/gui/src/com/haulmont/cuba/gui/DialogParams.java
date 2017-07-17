@@ -83,8 +83,9 @@ public class DialogParams {
         return heightUnit;
     }
 
-    public void setHeightUnit(SizeUnit heightUnit) {
+    public DialogParams setHeightUnit(SizeUnit heightUnit) {
         this.heightUnit = heightUnit;
+        return this;
     }
 
     public Float getWidth() {
@@ -109,8 +110,9 @@ public class DialogParams {
         return widthUnit;
     }
 
-    public void setWidthUnit(SizeUnit widthUnit) {
+    public DialogParams setWidthUnit(SizeUnit widthUnit) {
         this.widthUnit = widthUnit;
+        return this;
     }
 
     public DialogParams setWidthAuto() {
