@@ -70,6 +70,14 @@ public class DialogOptions {
         return this;
     }
 
+    public SizeUnit getHeightUnit() {
+        return heightUnit != null ? heightUnit : SizeUnit.PIXELS;
+    }
+
+    public void setHeightUnit(SizeUnit heightUnit) {
+        this.heightUnit = heightUnit;
+    }
+
     /**
      * @return actual height in pixels if window opened as a dialog or if value is set from window controller
      */
@@ -77,20 +85,13 @@ public class DialogOptions {
         return height;
     }
 
-    public SizeUnit getHeightUnit() {
-        return heightUnit;
-    }
-
     /**
      * Set height of a window if it will be opened as a dialog or change height at run time if the window is already opened as a dialog.
      *
      * @param height height in pixels
-     * @deprecated Use {@link #setHeight(String)} instead
      */
-    @Deprecated
     public DialogOptions setHeight(Float height) {
         this.height = height;
-        this.heightUnit = SizeUnit.PIXELS;
         return this;
     }
 
@@ -140,6 +141,14 @@ public class DialogOptions {
         return this;
     }
 
+    public SizeUnit getWidthUnit() {
+        return widthUnit != null ? widthUnit : SizeUnit.PIXELS;
+    }
+
+    public void setWidthUnit(SizeUnit widthUnit) {
+        this.widthUnit = widthUnit;
+    }
+
     /**
      * @return actual width in pixels if window opened as a dialog or if value is set from window controller
      */
@@ -147,20 +156,13 @@ public class DialogOptions {
         return width;
     }
 
-    public SizeUnit getWidthUnit() {
-        return widthUnit;
-    }
-
     /**
      * Set width of a window if it will be opened as a dialog or change width at run time if the window is already opened as a dialog.
      *
      * @param width width in pixels
-     * @deprecated Use {@link #setWidth(String)} instead
      */
-    @Deprecated
     public DialogOptions setWidth(Float width) {
         this.width = width;
-        this.widthUnit = SizeUnit.PIXELS;
         return this;
     }
 

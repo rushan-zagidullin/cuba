@@ -65,13 +65,8 @@ public class DialogParams {
         return height;
     }
 
-    /**
-     * Use {@link #setHeight(String)} instead.
-     */
-    @Deprecated
     public DialogParams setHeight(Float height) {
         this.height = height;
-        this.heightUnit = SizeUnit.PIXELS;
         return this;
     }
 
@@ -86,10 +81,10 @@ public class DialogParams {
     }
 
     public SizeUnit getHeightUnit() {
-        return heightUnit;
+        return heightUnit != null ? heightUnit : SizeUnit.PIXELS;
     }
 
-    protected void setHeightUnit(SizeUnit heightUnit) {
+    public void setHeightUnit(SizeUnit heightUnit) {
         this.heightUnit = heightUnit;
     }
 
@@ -97,13 +92,8 @@ public class DialogParams {
         return width;
     }
 
-    /**
-     * Use {@link #setWidth(String)} instead.
-     */
-    @Deprecated
     public DialogParams setWidth(Float width) {
         this.width = width;
-        this.widthUnit = SizeUnit.PIXELS;
         return this;
     }
 
@@ -118,10 +108,10 @@ public class DialogParams {
     }
 
     public SizeUnit getWidthUnit() {
-        return widthUnit;
+        return widthUnit != null ? widthUnit : SizeUnit.PIXELS;
     }
 
-    protected void setWidthUnit(SizeUnit widthUnit) {
+    public void setWidthUnit(SizeUnit widthUnit) {
         this.widthUnit = widthUnit;
     }
 

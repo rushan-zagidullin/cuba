@@ -135,39 +135,29 @@ public abstract class WindowManager {
             return instance;
         }
 
+        public SizeUnit getHeightUnit() {
+            return heightUnit != null ? heightUnit : SizeUnit.PIXELS;
+        }
+
+        public void setHeightUnit(SizeUnit heightUnit) {
+            this.heightUnit = heightUnit;
+        }
+
         public Float getHeight() {
             return height;
         }
 
-        public SizeUnit getHeightUnit() {
-            return heightUnit;
-        }
-
-        protected void setHeightUnit(SizeUnit heightUnit) {
-            this.heightUnit = heightUnit;
-        }
-
-        /**
-         * Use {@link #height(String)} instead.
-         */
-        @Deprecated
         public OpenType height(Float height) {
             OpenType instance = getMutableInstance();
 
             instance.height = height;
-            instance.heightUnit = SizeUnit.PIXELS;
             return instance;
         }
 
-        /**
-         * Use {@link #setHeight(String)} instead.
-         */
-        @Deprecated
         public OpenType setHeight(Float height) {
             OpenType instance = getMutableInstance();
 
             instance.height = height;
-            instance.heightUnit = SizeUnit.PIXELS;
             return instance;
         }
 
@@ -196,39 +186,29 @@ public abstract class WindowManager {
             return instance;
         }
 
+        public SizeUnit getWidthUnit() {
+            return widthUnit != null ? widthUnit : SizeUnit.PIXELS;
+        }
+
+        public void setWidthUnit(SizeUnit widthUnit) {
+            this.widthUnit = widthUnit;
+        }
+
         public Float getWidth() {
             return width;
         }
 
-        public SizeUnit getWidthUnit() {
-            return widthUnit;
-        }
-
-        protected void setWidthUnit(SizeUnit widthUnit) {
-            this.widthUnit = widthUnit;
-        }
-
-        /**
-         * Use {@link #width(String)} instead.
-         */
-        @Deprecated
         public OpenType width(Float width) {
             OpenType instance = getMutableInstance();
 
             instance.width = width;
-            instance.widthUnit = SizeUnit.PIXELS;
             return instance;
         }
 
-        /**
-         * Use {@link #setWidth(String)} instead.
-         */
-        @Deprecated
         public OpenType setWidth(Float width) {
             OpenType instance = getMutableInstance();
 
             instance.width = width;
-            instance.widthUnit = SizeUnit.PIXELS;
             return instance;
         }
 
@@ -1030,8 +1010,14 @@ public abstract class WindowManager {
         if (dialogParams.getWidth() != null && mutableOpenType.getWidth() == null) {
             mutableOpenType.setWidth(dialogParams.getWidth());
         }
+        if (dialogParams.getWidthUnit() != null && mutableOpenType.getWidthUnit() == null) {
+            mutableOpenType.setWidthUnit(dialogParams.getWidthUnit());
+        }
         if (dialogParams.getHeight() != null && mutableOpenType.getHeight() == null) {
             mutableOpenType.setHeight(dialogParams.getHeight());
+        }
+        if (dialogParams.getHeightUnit() != null && mutableOpenType.getHeightUnit() == null) {
+            mutableOpenType.setHeightUnit(dialogParams.getHeightUnit());
         }
     }
 
@@ -1044,8 +1030,16 @@ public abstract class WindowManager {
             mutableOpenType.setHeight(dialogOptions.getHeight());
         }
 
+        if (dialogOptions.getHeightUnit() != null) {
+            mutableOpenType.setHeightUnit(dialogOptions.getHeightUnit());
+        }
+
         if (dialogOptions.getWidth() != null) {
             mutableOpenType.setWidth(dialogOptions.getWidth());
+        }
+
+        if (dialogOptions.getWidthUnit() != null) {
+            mutableOpenType.setWidthUnit(dialogOptions.getWidthUnit());
         }
 
         if (dialogOptions.getResizable() != null) {
