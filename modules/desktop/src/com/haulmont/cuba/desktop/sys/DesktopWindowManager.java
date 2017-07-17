@@ -421,12 +421,14 @@ public class DesktopWindowManager extends WindowManager {
 
         dimension.width = 800;
         if (openType.getWidth() != null) {
-            dimension.width = openType.getWidth();
+            // TODO: gg,
+//            dimension.width = openType.getWidth();
         }
 
         dimension.height = 500;
         if (openType.getHeight() != null) {
-            dimension.height = openType.getHeight();
+            // TODO: gg,
+//            dimension.height = openType.getHeight();
         }
 
         boolean resizable = true;
@@ -602,14 +604,16 @@ public class DesktopWindowManager extends WindowManager {
             } else if (openType.getWidth() == DialogParams.AUTO_SIZE_PX) {
                 window.setWidth(AUTO_SIZE);
             } else {
-                dim.width = openType.getWidth();
+                // TODO: gg,
+//                dim.width = openType.getWidth();
                 if (!dialog.isResizable()) {
                     dialog.setFixedWidth(dim.width);
                 }
             }
 
             if (openType.getHeight() != null && openType.getHeight() != DialogParams.AUTO_SIZE_PX) {
-                dim.height = openType.getHeight();
+                // TODO: gg,
+//                dim.height = openType.getHeight();
 
                 if (!dialog.isResizable()) {
                     dialog.setFixedHeight(dim.height);
@@ -1436,7 +1440,8 @@ public class DesktopWindowManager extends WindowManager {
         if (messageType != null && messageType.getWidth() != null) {
             width = messageType.getWidth();
         } else if (dialogParams.getWidth() != null) {
-            width = dialogParams.getWidth();
+            // TODO: gg,
+//            width = dialogParams.getWidth();
         }
 
         LC lc = new LC();

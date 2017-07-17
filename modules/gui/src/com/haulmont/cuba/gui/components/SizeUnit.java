@@ -16,6 +16,8 @@
 
 package com.haulmont.cuba.gui.components;
 
+import org.apache.commons.lang.StringUtils;
+
 public enum SizeUnit {
     /**
      * Unit code representing pixels.
@@ -43,7 +45,7 @@ public enum SizeUnit {
     }
 
     public static SizeUnit getUnitFromSymbol(String symbol) {
-        if (symbol == null) {
+        if (StringUtils.isEmpty(symbol)) {
             return SizeUnit.PIXELS; // Defaults to pixels
         }
 
@@ -53,6 +55,6 @@ public enum SizeUnit {
             }
         }
 
-        return SizeUnit.PIXELS; // Defaults to pixels
+        throw new IllegalArgumentException("Passed symbol cannot be recognized as known SizeUnit");
     }
 }

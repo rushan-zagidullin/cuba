@@ -51,6 +51,7 @@ import com.haulmont.cuba.web.gui.WebWindow;
 import com.haulmont.cuba.web.gui.components.WebAbstractComponent;
 import com.haulmont.cuba.web.gui.components.WebButton;
 import com.haulmont.cuba.web.gui.components.WebComponentsHelper;
+import com.haulmont.cuba.web.gui.components.WebWrapperUtils;
 import com.haulmont.cuba.web.gui.components.mainwindow.WebAppWorkArea;
 import com.haulmont.cuba.web.sys.WindowBreadCrumbs;
 import com.haulmont.cuba.web.toolkit.ui.CubaLabel;
@@ -734,11 +735,13 @@ public class WebWindowManager extends WindowManager {
                 layout.setWidthUndefined();
                 window.setWidthAuto();
             } else {
-                vWindow.setWidth(openType.getWidth().floatValue(), Unit.PIXELS);
+                vWindow.setWidth(openType.getWidth(),
+                        WebWrapperUtils.toVaadinUnit(openType.getWidthUnit()));
             }
 
             if (openType.getHeight() != null && openType.getHeight() != AUTO_SIZE_PX) {
-                vWindow.setHeight(openType.getHeight().floatValue(), Unit.PIXELS);
+                vWindow.setHeight(openType.getHeight(),
+                        WebWrapperUtils.toVaadinUnit(openType.getHeightUnit()));
                 layout.setHeight("100%");
                 window.setHeightFull();
             } else {
