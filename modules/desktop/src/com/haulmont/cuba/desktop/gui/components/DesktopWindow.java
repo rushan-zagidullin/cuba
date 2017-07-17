@@ -1425,7 +1425,16 @@ public class DesktopWindow implements Window, Component.Disposable,
         @Override
         public DialogOptions setWidth(Float width) {
             super.setWidth(width);
+            return setWidthInternal(width);
+        }
 
+        @Override
+        public DialogOptions setWidth(String width) {
+            super.setWidth(width);
+            return setWidthInternal(getWidth());
+        }
+
+        private DialogOptions setWidthInternal(Float width) {
             if (width != null) {
                 DialogWindow dialogWindow = asDialogWindow();
                 if (dialogWindow != null) {
@@ -1444,8 +1453,15 @@ public class DesktopWindow implements Window, Component.Disposable,
                     dialogWindow.pack();
                 }
             }
-
             return this;
+        }
+
+        @Override
+        public void setWidthUnit(SizeUnit widthUnit) {
+            if (widthUnit != SizeUnit.PIXELS) {
+                throw new UnsupportedOperationException("In the desktop module only pixels are allowed");
+            }
+            super.setWidthUnit(widthUnit);
         }
 
         @Override
@@ -1472,7 +1488,16 @@ public class DesktopWindow implements Window, Component.Disposable,
         @Override
         public DialogOptions setHeight(Float height) {
             super.setHeight(height);
+            return setHeightInternal(height);
+        }
 
+        @Override
+        public DialogOptions setHeight(String height) {
+            super.setHeight(height);
+            return setHeightInternal(getHeight());
+        }
+
+        protected DialogOptions setHeightInternal(Float height) {
             if (height != null) {
                 DialogWindow dialogWindow = asDialogWindow();
                 if (dialogWindow != null) {
@@ -1493,6 +1518,15 @@ public class DesktopWindow implements Window, Component.Disposable,
             }
 
             return this;
+        }
+
+        @Override
+        public void setHeightUnit(SizeUnit heightUnit) {
+            if (heightUnit != SizeUnit.PIXELS) {
+                throw new UnsupportedOperationException("In the desktop module only pixels are allowed");
+            }
+
+            super.setHeightUnit(heightUnit);
         }
 
         @Override
