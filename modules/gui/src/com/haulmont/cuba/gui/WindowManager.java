@@ -136,7 +136,7 @@ public abstract class WindowManager {
         }
 
         public SizeUnit getHeightUnit() {
-            return heightUnit != null ? heightUnit : SizeUnit.PIXELS;
+            return heightUnit;
         }
 
         public void setHeightUnit(SizeUnit heightUnit) {
@@ -169,13 +169,10 @@ public abstract class WindowManager {
             OpenType instance = getMutableInstance();
 
             SizeWithUnit size = SizeWithUnit.parseStringSize(height);
-            if (size != null) {
-                instance.height = size.getSize();
-                instance.heightUnit = size.getUnit();
-                return instance;
-            } else {
-                return heightAuto();
-            }
+
+            instance.height = size.getSize();
+            instance.heightUnit = size.getUnit();
+            return instance;
         }
 
         public OpenType heightAuto() {
@@ -187,7 +184,7 @@ public abstract class WindowManager {
         }
 
         public SizeUnit getWidthUnit() {
-            return widthUnit != null ? widthUnit : SizeUnit.PIXELS;
+            return widthUnit;
         }
 
         public void setWidthUnit(SizeUnit widthUnit) {
@@ -220,13 +217,10 @@ public abstract class WindowManager {
             OpenType instance = getMutableInstance();
 
             SizeWithUnit size = SizeWithUnit.parseStringSize(width);
-            if (size != null) {
-                instance.width = size.getSize();
-                instance.widthUnit = size.getUnit();
-                return instance;
-            } else {
-                return widthAuto();
-            }
+
+            instance.width = size.getSize();
+            instance.widthUnit = size.getUnit();
+            return instance;
         }
 
         public OpenType widthAuto() {

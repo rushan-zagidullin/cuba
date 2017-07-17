@@ -1349,7 +1349,10 @@ public class WebWindow implements Window, Component.Wrapper,
                         component.setWidthUndefined();
                         getContainer().setWidthUndefined();
                     } else {
-                        dialogWindow.setWidth(width, Unit.PIXELS);
+                        Unit unit = getWidthUnit() != null
+                                ? WebWrapperUtils.toVaadinUnit(getWidthUnit())
+                                : Unit.PIXELS;
+                        dialogWindow.setWidth(width, unit);
                         component.setWidth(100, Unit.PERCENTAGE);
                     }
                 }
@@ -1371,7 +1374,7 @@ public class WebWindow implements Window, Component.Wrapper,
                         getContainer().setWidthUndefined();
                     } else {
                         dialogWindow.setWidth(width);
-                        component.setWidth(width);
+                        component.setWidth(100, Unit.PERCENTAGE);
                     }
                 }
             }
@@ -1381,7 +1384,11 @@ public class WebWindow implements Window, Component.Wrapper,
 
         @Override
         public SizeUnit getWidthUnit() {
-            // TODO: gg,
+            com.vaadin.ui.Window dialogWindow = asDialogWindow();
+            if (dialogWindow != null) {
+                return WebWrapperUtils.toSizeUnit(dialogWindow.getWidthUnits());
+            }
+
             return super.getWidthUnit();
         }
 
@@ -1407,7 +1414,10 @@ public class WebWindow implements Window, Component.Wrapper,
                         component.setHeightUndefined();
                         getContainer().setHeightUndefined();
                     } else {
-                        dialogWindow.setHeight(height, Unit.PIXELS);
+                        Unit unit = getHeightUnit() != null
+                                ? WebWrapperUtils.toVaadinUnit(getHeightUnit())
+                                : Unit.PIXELS;
+                        dialogWindow.setHeight(height, unit);
                         component.setHeight(100, Unit.PERCENTAGE);
                     }
                 }
@@ -1429,7 +1439,7 @@ public class WebWindow implements Window, Component.Wrapper,
                         getContainer().setHeightUndefined();
                     } else {
                         dialogWindow.setHeight(height);
-                        component.setHeight(height);
+                        component.setWidth(100, Unit.PERCENTAGE);
                     }
                 }
             }
@@ -1439,7 +1449,11 @@ public class WebWindow implements Window, Component.Wrapper,
 
         @Override
         public SizeUnit getHeightUnit() {
-            // TODO: gg,
+            com.vaadin.ui.Window dialogWindow = asDialogWindow();
+            if (dialogWindow != null) {
+                return WebWrapperUtils.toSizeUnit(dialogWindow.getHeightUnits());
+            }
+
             return super.getHeightUnit();
         }
 

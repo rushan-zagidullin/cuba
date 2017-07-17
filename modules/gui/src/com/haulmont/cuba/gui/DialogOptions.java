@@ -36,7 +36,6 @@ import static com.haulmont.cuba.gui.components.Component.AUTO_SIZE;
  * getDialogOptions()
  *     .setForceDialog(true);
  * </pre>
- *
  */
 public class DialogOptions {
     private Float width;
@@ -71,7 +70,7 @@ public class DialogOptions {
     }
 
     public SizeUnit getHeightUnit() {
-        return heightUnit != null ? heightUnit : SizeUnit.PIXELS;
+        return heightUnit;
     }
 
     public void setHeightUnit(SizeUnit heightUnit) {
@@ -97,14 +96,11 @@ public class DialogOptions {
 
     public DialogOptions setHeight(String height) {
         SizeWithUnit size = SizeWithUnit.parseStringSize(height);
-        if (size != null) {
-            this.height = size.getSize();
-            this.heightUnit = size.getUnit();
 
-            return this;
-        } else {
-            return setHeightAuto();
-        }
+        this.height = size.getSize();
+        this.heightUnit = size.getUnit();
+
+        return this;
     }
 
     /**
@@ -142,7 +138,7 @@ public class DialogOptions {
     }
 
     public SizeUnit getWidthUnit() {
-        return widthUnit != null ? widthUnit : SizeUnit.PIXELS;
+        return widthUnit;
     }
 
     public void setWidthUnit(SizeUnit widthUnit) {
@@ -168,14 +164,11 @@ public class DialogOptions {
 
     public DialogOptions setWidth(String width) {
         SizeWithUnit size = SizeWithUnit.parseStringSize(width);
-        if (size != null) {
-            this.width = size.getSize();
-            this.widthUnit = size.getUnit();
 
-            return this;
-        } else {
-            return setWidthAuto();
-        }
+        this.width = size.getSize();
+        this.widthUnit = size.getUnit();
+
+        return this;
     }
 
     /**
@@ -211,7 +204,7 @@ public class DialogOptions {
 
     /**
      * Center window only if it is already opened
-     * */
+     */
     public DialogOptions center() {
         return this;
     }

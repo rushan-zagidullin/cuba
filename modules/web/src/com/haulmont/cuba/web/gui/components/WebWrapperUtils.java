@@ -267,7 +267,20 @@ public final class WebWrapperUtils {
             case PERCENTAGE:
                 return Sizeable.Unit.PERCENTAGE;
             default:
-                throw new UnsupportedOperationException("Unsupported SizeUnit");
+                throw new UnsupportedOperationException("Unsupported Size Unit");
+        }
+    }
+
+    public static SizeUnit toSizeUnit(Sizeable.Unit units) {
+        checkNotNullArgument(units);
+
+        switch (units) {
+            case PIXELS:
+                return SizeUnit.PIXELS;
+            case PERCENTAGE:
+                return SizeUnit.PERCENTAGE;
+            default:
+                throw new UnsupportedOperationException("Unsupported Size Unit");
         }
     }
 }

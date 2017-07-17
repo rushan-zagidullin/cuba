@@ -16,6 +16,8 @@
 
 package com.haulmont.cuba.gui.components;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +27,7 @@ import java.util.regex.Pattern;
  * parsing such pairs from a string.
  */
 public class SizeWithUnit implements Serializable {
-    public static final String SIZE_PATTERN_STRING = "^(-?\\d*(?:\\.\\d+)?)(%|px|em|rem|ex|in|cm|mm|pt|pc)?$";
+    public static final String SIZE_PATTERN_STRING = "^(-?\\d*(?:\\.\\d+)?)(%|px)?$";
 
     protected float size;
     protected SizeUnit unit;
@@ -52,9 +54,9 @@ public class SizeWithUnit implements Serializable {
     }
 
     /**
-     * Returns the unit stored in this object.
+     * Returns the size unit stored in this object.
      *
-     * @return the unit stored in this object
+     * @return the size unit stored in this object
      */
     public SizeUnit getUnit() {
         return unit;
@@ -62,27 +64,22 @@ public class SizeWithUnit implements Serializable {
 
     /**
      * Returns an object whose numeric value and unit are taken from the string
-     * s. If s does not specify a unit and defaultUnit is not null, defaultUnit
-     * is used as the unit. If defaultUnit is null and s is a nonempty string
-     * representing a unitless number, an exception is thrown. Null or empty
-     * string will produce {-1,Unit#PIXELS}.
+     * {@code sizeString}. If {@code sizeString} does not specify a unit and {@code defaultUnit} is not null,
+     * {@code defaultUnit} is used as the unit. Null or empty string will produce {-1, SizeUnit#PIXELS}.
      *
-     * @param s           the string to be parsed
-     * @param defaultUnit The unit to be used if s does not contain any unit. Use null
-     *                    for no default unit.
+     * @param sizeString  the string to be parsed
+     * @param defaultUnit The unit to be used if {@code sizeString} does not contain any unit.
+     *                    Use {@code null} for no default unit.
      * @return an object containing the parsed value and unit
      */
-    public static SizeWithUnit parseStringSize(String s, SizeUnit defaultUnit) {
-        if (s == null) {
-            return null;
+    public static SizeWithUnit parseStringSize(String sizeString, SizeUnit defaultUnit) {
+        if (StringUtils.isEmpty(sizeString)) {
+            return new SizeWithUnit(-1, SizeUnit.PIXELS);
         }
-        s = s.trim();
-        if ("".equals(s)) {
-            return null;
-        }
-        float size = 0;
-        SizeUnit unit = null;
-        Matcher matcher = SIZE_PATTERN.matcher(s);
+
+        float size;
+        SizeUnit unit;
+        Matcher matcher = SIZE_PATTERN.matcher(sizeString);
         if (matcher.find()) {
             size = Float.parseFloat(matcher.group(1));
             if (size < 0) {
@@ -98,16 +95,16 @@ public class SizeWithUnit implements Serializable {
                 }
             }
         } else {
-            throw new IllegalArgumentException("Invalid size argument: \"" + s
+            throw new IllegalArgumentException("Invalid size argument: \"" + sizeString
                     + "\" (should match " + SIZE_PATTERN.pattern() + ")");
         }
+
         return new SizeWithUnit(size, unit);
     }
 
     /**
      * Returns an object whose numeric value and unit are taken from the string
-     * size. Null or empty string will produce {-1,Unit#PIXELS}. An exception is
-     * thrown if s specifies a number without a unit.
+     * size. Null or empty string will produce {-1, SizeUnit#PIXELS}.
      *
      * @param size the string to be parsed
      * @return an object containing the parsed value and unit

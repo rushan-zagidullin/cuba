@@ -72,16 +72,15 @@ public class DialogParams {
 
     public DialogParams setHeight(String height) {
         SizeWithUnit size = SizeWithUnit.parseStringSize(height);
-        if (size != null) {
-            this.height = size.getSize();
-            this.heightUnit = size.getUnit();
-        }
+
+        this.height = size.getSize();
+        this.heightUnit = size.getUnit();
 
         return this;
     }
 
     public SizeUnit getHeightUnit() {
-        return heightUnit != null ? heightUnit : SizeUnit.PIXELS;
+        return heightUnit;
     }
 
     public void setHeightUnit(SizeUnit heightUnit) {
@@ -99,16 +98,15 @@ public class DialogParams {
 
     public DialogParams setWidth(String width) {
         SizeWithUnit size = SizeWithUnit.parseStringSize(width);
-        if (size != null) {
-            this.width = size.getSize();
-            this.widthUnit = size.getUnit();
-        }
+
+        this.width = size.getSize();
+        this.widthUnit = size.getUnit();
 
         return this;
     }
 
     public SizeUnit getWidthUnit() {
-        return widthUnit != null ? widthUnit : SizeUnit.PIXELS;
+        return widthUnit;
     }
 
     public void setWidthUnit(SizeUnit widthUnit) {
