@@ -1431,7 +1431,7 @@ public class DesktopWindow implements Window, Component.Disposable,
         @Override
         public DialogOptions setWidth(String width) {
             super.setWidth(width);
-            return setWidthInternal(getWidth());
+            return setWidthInternal(super.getWidth());
         }
 
         private DialogOptions setWidthInternal(Float width) {
@@ -1494,7 +1494,7 @@ public class DesktopWindow implements Window, Component.Disposable,
         @Override
         public DialogOptions setHeight(String height) {
             super.setHeight(height);
-            return setHeightInternal(getHeight());
+            return setHeightInternal(super.getHeight());
         }
 
         protected DialogOptions setHeightInternal(Float height) {

@@ -604,16 +604,14 @@ public class DesktopWindowManager extends WindowManager {
             } else if (openType.getWidth() == DialogParams.AUTO_SIZE_PX) {
                 window.setWidth(AUTO_SIZE);
             } else {
-                // TODO: gg,
-//                dim.width = openType.getWidth();
+                dim.width = openType.getWidth().intValue();
                 if (!dialog.isResizable()) {
                     dialog.setFixedWidth(dim.width);
                 }
             }
 
             if (openType.getHeight() != null && openType.getHeight() != DialogParams.AUTO_SIZE_PX) {
-                // TODO: gg,
-//                dim.height = openType.getHeight();
+                dim.height = openType.getHeight().intValue();
 
                 if (!dialog.isResizable()) {
                     dialog.setFixedHeight(dim.height);
@@ -1440,8 +1438,7 @@ public class DesktopWindowManager extends WindowManager {
         if (messageType != null && messageType.getWidth() != null) {
             width = messageType.getWidth();
         } else if (dialogParams.getWidth() != null) {
-            // TODO: gg,
-//            width = dialogParams.getWidth();
+            width = dialogParams.getWidth().intValue();
         }
 
         LC lc = new LC();

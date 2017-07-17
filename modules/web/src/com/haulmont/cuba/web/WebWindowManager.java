@@ -1183,7 +1183,7 @@ public class WebWindowManager extends WindowManager {
         if (messageType.getWidth() != null) {
             width = messageType.getWidth().floatValue();
         } else if (dialogParams.getWidth() != null) {
-            width = dialogParams.getWidth().floatValue();
+            width = dialogParams.getWidth();
         } else {
             width = app.getThemeConstants().getInt("cuba.web.WebWindowManager.messageDialog.width");
         }
@@ -1243,7 +1243,7 @@ public class WebWindowManager extends WindowManager {
         if (messageType.getWidth() != null) {
             width = messageType.getWidth().floatValue();
         } else if (getDialogParams().getWidth() != null) {
-            width = getDialogParams().getWidth().floatValue();
+            width = getDialogParams().getWidth();
         } else {
             width = app.getThemeConstants().getInt("cuba.web.WebWindowManager.optionDialog.width");
         }
