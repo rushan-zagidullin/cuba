@@ -65,6 +65,14 @@ public class DialogParams {
         return height;
     }
 
+    /**
+     * @deprecated Use {@link #setHeight(Float)} instead.
+     */
+    @Deprecated
+    public DialogParams setHeight(Integer height) {
+        return setHeight(height.floatValue());
+    }
+
     public DialogParams setHeight(Float height) {
         this.height = height;
         return this;
@@ -90,6 +98,13 @@ public class DialogParams {
 
     public Float getWidth() {
         return width;
+    }
+
+    /**
+     * @deprecated Use {@link #setWidth(Float)} instead.
+     */
+    public DialogParams setWidth(Integer width) {
+        return setWidth(width.floatValue());
     }
 
     public DialogParams setWidth(Float width) {

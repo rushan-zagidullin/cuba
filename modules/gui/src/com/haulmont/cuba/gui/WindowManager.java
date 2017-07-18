@@ -149,6 +149,22 @@ public abstract class WindowManager {
             return height;
         }
 
+        /**
+         * @deprecated Use {@link #height(Float)} instead.
+         */
+        @Deprecated
+        public OpenType height(Integer height) {
+            return height(height.floatValue());
+        }
+
+        /**
+         * @deprecated Use {@link #setHeight(Float)} instead.
+         */
+        @Deprecated
+        public OpenType setHeight(Integer height) {
+            return setHeight(height.floatValue());
+        }
+
         public OpenType height(Float height) {
             OpenType instance = getMutableInstance();
 
@@ -197,6 +213,22 @@ public abstract class WindowManager {
 
         public Float getWidth() {
             return width;
+        }
+
+        /**
+         * @deprecated Use {@link #width(Float)} instead.
+         */
+        @Deprecated
+        public OpenType width(Integer width) {
+            return width(width.floatValue());
+        }
+
+        /**
+         * @deprecated Use {@link #setWidth(Float)} instead.
+         */
+        @Deprecated
+        public OpenType setWidth(Integer width) {
+            return setWidth(width.floatValue());
         }
 
         public OpenType width(Float width) {

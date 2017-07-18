@@ -97,6 +97,18 @@ public class DialogOptions {
      * at run time if the window is already opened as a dialog.
      *
      * @param height height
+     * @deprecated Use {@link #setHeight(Float)} instead.
+     */
+    @Deprecated
+    public DialogOptions setHeight(Integer height) {
+        return setHeight(height.floatValue());
+    }
+
+    /**
+     * Set height of a window if it will be opened as a dialog or change height
+     * at run time if the window is already opened as a dialog.
+     *
+     * @param height height
      */
     public DialogOptions setHeight(Float height) {
         return setHeight(height, this.heightUnit);
@@ -177,6 +189,18 @@ public class DialogOptions {
      */
     public Float getWidth() {
         return width;
+    }
+
+    /**
+     * Set width of a window if it will be opened as a dialog or change width
+     * at run time if the window is already opened as a dialog.
+     *
+     * @param width width
+     * @deprecated Use {@link #setWidth(Float)} instead.
+     */
+    @Deprecated
+    public DialogOptions setWidth(Integer width) {
+        return setWidth(width.floatValue());
     }
 
     /**

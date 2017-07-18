@@ -323,6 +323,22 @@ public interface Frame
             return width;
         }
 
+        /**
+         * @deprecated Use {@link #width(Float)} instead.
+         */
+        @Deprecated
+        public MessageType width(Integer width) {
+            return width(width.floatValue());
+        }
+
+        /**
+         * @deprecated Use {@link #setWidth(Float)} instead.
+         */
+        @Deprecated
+        public MessageType setWidth(Integer width) {
+            return setWidth(width.floatValue());
+        }
+
         public MessageType width(Float width) {
             MessageType instance = getMutableInstance();
 
