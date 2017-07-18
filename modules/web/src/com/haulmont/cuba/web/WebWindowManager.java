@@ -1179,16 +1179,24 @@ public class WebWindowManager extends WindowManager {
         layout.setComponentAlignment(button, Alignment.BOTTOM_RIGHT);
 
         float width;
+        SizeUnit unit;
         DialogParams dialogParams = getDialogParams();
         if (messageType.getWidth() != null) {
-            width = messageType.getWidth().floatValue();
+            width = messageType.getWidth();
+            unit = messageType.getWidthUnit();
         } else if (dialogParams.getWidth() != null) {
             width = dialogParams.getWidth();
+            unit = dialogParams.getWidthUnit();
         } else {
-            width = app.getThemeConstants().getInt("cuba.web.WebWindowManager.messageDialog.width");
+            SizeWithUnit size = SizeWithUnit.parseStringSize(
+                    app.getThemeConstants().get("cuba.web.WebWindowManager.messageDialog.width"));
+            width = size.getSize();
+            unit = size.getUnit();
         }
 
-        vWindow.setWidth(width, Unit.PIXELS);
+        vWindow.setWidth(width, unit != null
+                ? WebWrapperUtils.toVaadinUnit(unit)
+                : Unit.PIXELS);
         vWindow.setResizable(false);
 
         boolean modal = true;
@@ -1240,12 +1248,18 @@ public class WebWindowManager extends WindowManager {
         }
 
         float width;
+        SizeUnit unit;
         if (messageType.getWidth() != null) {
-            width = messageType.getWidth().floatValue();
+            width = messageType.getWidth();
+            unit = messageType.getWidthUnit();
         } else if (getDialogParams().getWidth() != null) {
             width = getDialogParams().getWidth();
+            unit = getDialogParams().getWidthUnit();
         } else {
-            width = app.getThemeConstants().getInt("cuba.web.WebWindowManager.optionDialog.width");
+            SizeWithUnit size = SizeWithUnit.parseStringSize(
+                    app.getThemeConstants().get("cuba.web.WebWindowManager.optionDialog.width"));
+            width = size.getSize();
+            unit = size.getUnit();
         }
 
         if (messageType.getModal() != null) {
@@ -1254,7 +1268,9 @@ public class WebWindowManager extends WindowManager {
 
         getDialogParams().reset();
 
-        window.setWidth(width, Unit.PIXELS);
+        window.setWidth(width, unit != null
+                ? WebWrapperUtils.toVaadinUnit(unit)
+                : Unit.PIXELS);
         window.setResizable(false);
         window.setModal(true);
 

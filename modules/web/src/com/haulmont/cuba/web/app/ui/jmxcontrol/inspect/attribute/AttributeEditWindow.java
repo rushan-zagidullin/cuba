@@ -82,7 +82,7 @@ public class AttributeEditWindow extends AbstractEditor<ManagedBeanAttribute> {
                 return true;
             }
         } catch (Exception e) {
-            int width = themeConstants.getInt("cuba.web.AttributeEditWindow.messageDialog.width");
+            String width = themeConstants.get("cuba.web.AttributeEditWindow.messageDialog.width");
 
             showMessageDialog(String.format(getMessage("editAttribute.exception"), mba.getName()),
                     e.getClass().getCanonicalName() + " " + e.getMessage() + "\n",

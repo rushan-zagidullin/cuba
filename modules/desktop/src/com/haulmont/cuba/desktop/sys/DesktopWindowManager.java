@@ -1439,11 +1439,14 @@ public class DesktopWindowManager extends WindowManager {
         }
 
         int width = 500;
+        SizeUnit unit = null;
         DialogParams dialogParams = getDialogParams();
         if (messageType != null && messageType.getWidth() != null) {
-            width = messageType.getWidth();
+            width = messageType.getWidth().intValue();
+            unit = messageType.getWidthUnit();
         } else if (dialogParams.getWidth() != null) {
             width = dialogParams.getWidth().intValue();
+            unit = dialogParams.getWidthUnit();
         }
 
         LC lc = new LC();
@@ -1479,6 +1482,9 @@ public class DesktopWindowManager extends WindowManager {
         panel.add(buttonsPanel, "alignx right");
 
         if (width != AUTO_SIZE_PX) {
+            if (unit != null && unit != SizeUnit.PIXELS) {
+                throw new UnsupportedOperationException("Dialog size can be set only in pixels");
+            }
             dialog.setLayout(new MigLayout(new LC().insets("0").width(width + "px")));
             dialog.setFixedWidth(width);
             dialog.add(panel, "width 100%, growy 0");
