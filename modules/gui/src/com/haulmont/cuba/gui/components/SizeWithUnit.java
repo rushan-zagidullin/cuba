@@ -65,7 +65,7 @@ public class SizeWithUnit implements Serializable {
     /**
      * Returns an object whose numeric value and unit are taken from the string
      * {@code sizeString}. If {@code sizeString} does not specify a unit and {@code defaultUnit} is not null,
-     * {@code defaultUnit} is used as the unit. Null or empty string will produce {-1, SizeUnit#PIXELS}.
+     * {@code defaultUnit} is used as the unit. Null, empty or 'AUTO' string will produce {-1, SizeUnit#PIXELS}.
      *
      * @param sizeString  the string to be parsed
      * @param defaultUnit The unit to be used if {@code sizeString} does not contain any unit.
@@ -73,7 +73,7 @@ public class SizeWithUnit implements Serializable {
      * @return an object containing the parsed value and unit
      */
     public static SizeWithUnit parseStringSize(String sizeString, SizeUnit defaultUnit) {
-        if (StringUtils.isEmpty(sizeString)) {
+        if (StringUtils.isEmpty(sizeString) || "auto".equalsIgnoreCase(sizeString)) {
             return new SizeWithUnit(-1, SizeUnit.PIXELS);
         }
 
@@ -104,7 +104,7 @@ public class SizeWithUnit implements Serializable {
 
     /**
      * Returns an object whose numeric value and unit are taken from the string
-     * size. Null or empty string will produce {-1, SizeUnit#PIXELS}.
+     * size. Null, empty or 'AUTO' string will produce {-1, SizeUnit#PIXELS}.
      *
      * @param size the string to be parsed
      * @return an object containing the parsed value and unit

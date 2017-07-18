@@ -1423,18 +1423,13 @@ public class DesktopWindow implements Window, Component.Disposable,
 
     protected class DesktopDialogOptions extends DialogOptions {
         @Override
-        public DialogOptions setWidth(Float width) {
-            super.setWidth(width);
-            return setWidthInternal(width);
-        }
+        protected DialogOptions setWidth(Float width, SizeUnit unit) {
+            if (unit != SizeUnit.PIXELS) {
+                throw new UnsupportedOperationException("Dialog size can be set only in pixels");
+            }
 
-        @Override
-        public DialogOptions setWidth(String width) {
-            super.setWidth(width);
-            return setWidthInternal(super.getWidth());
-        }
+            super.setWidth(width, unit);
 
-        private DialogOptions setWidthInternal(Float width) {
             if (width != null) {
                 DialogWindow dialogWindow = asDialogWindow();
                 if (dialogWindow != null) {
@@ -1453,16 +1448,8 @@ public class DesktopWindow implements Window, Component.Disposable,
                     dialogWindow.pack();
                 }
             }
+
             return this;
-        }
-
-        @Override
-        public DialogOptions setWidthUnit(SizeUnit widthUnit) {
-            if (widthUnit != SizeUnit.PIXELS) {
-                throw new UnsupportedOperationException("In the desktop module only pixels are allowed");
-            }
-
-            return super.setWidthUnit(widthUnit);
         }
 
         @Override
@@ -1487,18 +1474,13 @@ public class DesktopWindow implements Window, Component.Disposable,
         }
 
         @Override
-        public DialogOptions setHeight(Float height) {
-            super.setHeight(height);
-            return setHeightInternal(height);
-        }
+        protected DialogOptions setHeight(Float height, SizeUnit unit) {
+            if (unit != SizeUnit.PIXELS) {
+                throw new UnsupportedOperationException("In the desktop module only pixels are allowed");
+            }
 
-        @Override
-        public DialogOptions setHeight(String height) {
-            super.setHeight(height);
-            return setHeightInternal(super.getHeight());
-        }
+            super.setHeight(height, unit);
 
-        protected DialogOptions setHeightInternal(Float height) {
             if (height != null) {
                 DialogWindow dialogWindow = asDialogWindow();
                 if (dialogWindow != null) {
@@ -1519,15 +1501,6 @@ public class DesktopWindow implements Window, Component.Disposable,
             }
 
             return this;
-        }
-
-        @Override
-        public DialogOptions setHeightUnit(SizeUnit heightUnit) {
-            if (heightUnit != SizeUnit.PIXELS) {
-                throw new UnsupportedOperationException("In the desktop module only pixels are allowed");
-            }
-
-            return super.setHeightUnit(heightUnit);
         }
 
         @Override
