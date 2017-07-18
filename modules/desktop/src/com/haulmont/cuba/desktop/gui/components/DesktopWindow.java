@@ -1433,7 +1433,7 @@ public class DesktopWindow implements Window, Component.Disposable,
             if (width != null) {
                 DialogWindow dialogWindow = asDialogWindow();
                 if (dialogWindow != null) {
-                    Integer intWidth = Math.round(width);
+                    int intWidth = width.intValue();
                     dialogWindow.setFixedWidth(intWidth >= 0 ? intWidth : null);
 
                     Dimension dim = new Dimension();
@@ -1484,7 +1484,7 @@ public class DesktopWindow implements Window, Component.Disposable,
             if (height != null) {
                 DialogWindow dialogWindow = asDialogWindow();
                 if (dialogWindow != null) {
-                    Integer intHeight = Math.round(height);
+                    int intHeight = height.intValue();
                     dialogWindow.setFixedHeight(intHeight >= 0 ? intHeight : null);
 
                     Dimension dim = new Dimension();
