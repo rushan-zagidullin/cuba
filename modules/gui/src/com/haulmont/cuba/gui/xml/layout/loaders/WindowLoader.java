@@ -92,9 +92,7 @@ public class WindowLoader extends FrameLoader<Window> {
 
             String xmlWidthValue = dialogModeElement.attributeValue("width");
             if (StringUtils.isNotEmpty(xmlWidthValue)) {
-                if ("auto".equalsIgnoreCase(xmlWidthValue)) {
-                    dialogOptions.setWidth(Component.AUTO_SIZE);
-                } else if (!StringUtils.isBlank(xmlWidthValue)) {
+                if (StringUtils.isNotBlank(xmlWidthValue)) {
                     String themeWidthValue = loadThemeString(xmlWidthValue);
                     dialogOptions.setWidth(themeWidthValue);
                 }
@@ -102,9 +100,7 @@ public class WindowLoader extends FrameLoader<Window> {
 
             String xmlHeightValue = dialogModeElement.attributeValue("height");
             if (StringUtils.isNotEmpty(xmlHeightValue)) {
-                if ("auto".equalsIgnoreCase(xmlHeightValue)) {
-                    dialogOptions.setHeight(Component.AUTO_SIZE);
-                } else if (!StringUtils.isBlank(xmlHeightValue)) {
+                if (StringUtils.isNotBlank(xmlHeightValue)) {
                     String themeHeightValue = loadThemeString(xmlHeightValue);
                     dialogOptions.setHeight(themeHeightValue);
                 }
