@@ -69,30 +69,47 @@ public class DialogOptions {
         return this;
     }
 
+    /**
+     * @return units used in height property
+     */
     public SizeUnit getHeightUnit() {
         return heightUnit;
     }
 
+    /**
+     * Sets the unit used for the height.
+     *
+     * @param heightUnit the unit used for the height
+     */
     public DialogOptions setHeightUnit(SizeUnit heightUnit) {
         return setHeight(this.height, heightUnit);
     }
 
     /**
-     * @return actual height in pixels if window opened as a dialog or if value is set from window controller
+     * @return actual height if window opened as a dialog or if value is set from window controller
      */
     public Float getHeight() {
         return height;
     }
 
     /**
-     * Set height of a window if it will be opened as a dialog or change height at run time if the window is already opened as a dialog.
+     * Set height of a window if it will be opened as a dialog or change height
+     * at run time if the window is already opened as a dialog.
      *
-     * @param height height in pixels
+     * @param height height
      */
     public DialogOptions setHeight(Float height) {
         return setHeight(height, this.heightUnit);
     }
 
+    /**
+     * Sets the height of a window if it will be opened as a dialog
+     * using String presentation or change height at run time if the window is already opened as a dialog.
+     * <p>
+     * Null, empty or 'AUTO' string will produce undefined height and set units to pixels.
+     *
+     * @param height height string representation
+     */
     public DialogOptions setHeight(String height) {
         SizeWithUnit size = SizeWithUnit.parseStringSize(height);
         return setHeight(size.getSize(), size.getUnit());
@@ -139,30 +156,47 @@ public class DialogOptions {
         return this;
     }
 
+    /**
+     * @return units used in width property
+     */
     public SizeUnit getWidthUnit() {
         return widthUnit;
     }
 
+    /**
+     * Sets the unit used for the width.
+     *
+     * @param widthUnit the unit used for the width
+     */
     public DialogOptions setWidthUnit(SizeUnit widthUnit) {
         return setWidth(this.width, widthUnit);
     }
 
     /**
-     * @return actual width in pixels if window opened as a dialog or if value is set from window controller
+     * @return actual width if window opened as a dialog or if value is set from window controller
      */
     public Float getWidth() {
         return width;
     }
 
     /**
-     * Set width of a window if it will be opened as a dialog or change width at run time if the window is already opened as a dialog.
+     * Set width of a window if it will be opened as a dialog or change width
+     * at run time if the window is already opened as a dialog.
      *
-     * @param width width in pixels
+     * @param width width
      */
     public DialogOptions setWidth(Float width) {
         return setWidth(width, this.widthUnit);
     }
 
+    /**
+     * Sets the width of a window if it will be opened as a dialog
+     * using String presentation or change width at run time if the window is already opened as a dialog.
+     * <p>
+     * Null, empty or 'AUTO' string will produce undefined width and set units to pixels.
+     *
+     * @param width width string representation
+     */
     public DialogOptions setWidth(String width) {
         SizeWithUnit size = SizeWithUnit.parseStringSize(width);
         return setWidth(size.getSize(), size.getUnit());
