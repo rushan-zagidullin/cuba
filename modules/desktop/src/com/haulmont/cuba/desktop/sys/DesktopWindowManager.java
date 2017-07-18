@@ -604,6 +604,9 @@ public class DesktopWindowManager extends WindowManager {
             } else if (openType.getWidth() == DialogParams.AUTO_SIZE_PX) {
                 window.setWidth(AUTO_SIZE);
             } else {
+                if (openType.getWidthUnit() != SizeUnit.PIXELS) {
+                    throw new UnsupportedOperationException("Dialog size can be set only in pixels");
+                }
                 dim.width = openType.getWidth().intValue();
                 if (!dialog.isResizable()) {
                     dialog.setFixedWidth(dim.width);
@@ -611,8 +614,10 @@ public class DesktopWindowManager extends WindowManager {
             }
 
             if (openType.getHeight() != null && openType.getHeight() != DialogParams.AUTO_SIZE_PX) {
+                if (openType.getHeightUnit() != SizeUnit.PIXELS) {
+                    throw new UnsupportedOperationException("Dialog size can be set only in pixels");
+                }
                 dim.height = openType.getHeight().intValue();
-
                 if (!dialog.isResizable()) {
                     dialog.setFixedHeight(dim.height);
                 }
