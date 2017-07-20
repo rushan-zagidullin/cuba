@@ -16,9 +16,9 @@
 
 package com.haulmont.cuba.web.gui.components.imageresources;
 
-import com.haulmont.cuba.gui.components.Resource;
+import com.haulmont.cuba.gui.components.ResourceView;
 
-public interface WebResource extends Resource {
+public interface WebResource extends ResourceView.Resource {
 
     com.vaadin.server.Resource getResource();
 }

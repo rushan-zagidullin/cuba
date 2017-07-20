@@ -17,18 +17,18 @@
 package com.haulmont.cuba.web.gui.components.imageresources;
 
 import com.haulmont.bali.util.Preconditions;
-import com.haulmont.cuba.gui.components.FileResource;
+import com.haulmont.cuba.gui.components.ResourceView;
 import com.haulmont.cuba.web.gui.components.WebImage;
 
 import java.io.File;
 
 public class WebFileResource extends WebImage.WebAbstractStreamSettingsResource
-        implements WebResource, FileResource {
+        implements WebResource, ResourceView.FileResource {
 
     protected File file;
 
     @Override
-    public FileResource setFile(File file) {
+    public ResourceView.FileResource setFile(File file) {
         Preconditions.checkNotNullArgument(file);
 
         this.file = file;

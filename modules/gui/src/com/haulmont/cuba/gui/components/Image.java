@@ -19,35 +19,13 @@ package com.haulmont.cuba.gui.components;
 import com.haulmont.chile.core.model.MetaPropertyPath;
 import com.haulmont.cuba.gui.data.Datasource;
 
-import java.util.EventObject;
-
 /**
  * The Image component is intended for displaying graphic content.
  * <p>
  * It can be bound to a datasource or configured manually.
  */
-public interface Image extends Component, Component.HasCaption {
+public interface Image extends ResourceView {
     String NAME = "image";
-
-    /**
-     * @return {@link Resource} instance
-     */
-    Resource getSource();
-
-    /**
-     * Sets the given {@link Resource} to the component.
-     *
-     * @param resource Resource instance
-     */
-    void setSource(Resource resource);
-
-    /**
-     * Creates the image resource with the given <code>type</code> and sets it to the component.
-     *
-     * @param type image resource class to be created
-     * @return created image resource instance
-     */
-    <T extends Resource> T setSource(Class<T> type);
 
     /**
      * Sets datasource and its property.
@@ -65,14 +43,6 @@ public interface Image extends Component, Component.HasCaption {
     MetaPropertyPath getMetaPropertyPath();
 
     /**
-     * Creates image resource implementation by its type.
-     *
-     * @param type image resource type
-     * @return image resource instance with given type
-     */
-    <T extends Resource> T createResource(Class<T> type);
-
-    /**
      * @return image scale mode
      */
     ScaleMode getScaleMode();
@@ -83,68 +53,6 @@ public interface Image extends Component, Component.HasCaption {
      * @param scaleMode scale mode
      */
     void setScaleMode(ScaleMode scaleMode);
-
-    /**
-     * Sets this component's alternate text that can be presented instead of the component's normal content for
-     * accessibility purposes.
-     *
-     * @param alternateText a short, human-readable description of this component's content
-     */
-    void setAlternateText(String alternateText);
-
-    /**
-     * Gets this component's alternate text that can be presented instead of the component's normal content for
-     * accessibility purposes.
-     *
-     * @return alternate text
-     */
-    String getAlternateText();
-
-    /**
-     * Adds a listener that will be notified when a source of an image is changed.
-     */
-    void addSourceChangeListener(SourceChangeListener listener);
-
-    /**
-     * Removes a listener that will be notified when a source of an image is changed.
-     */
-    void removeSourceChangeListener(SourceChangeListener listener);
-
-    /**
-     * Listener that will be notified when a source of an image is changed.
-     */
-    @FunctionalInterface
-    interface SourceChangeListener {
-        void sourceChanged(SourceChangeEvent event);
-    }
-
-    /**
-     * SourceChangeEvent is fired when a source of an image is changed.
-     */
-    class SourceChangeEvent extends EventObject {
-        protected Resource oldSource;
-        protected Resource newSource;
-
-        public SourceChangeEvent(Object source, Resource oldSource, Resource newSource) {
-            super(source);
-
-            this.oldSource = oldSource;
-            this.newSource = newSource;
-        }
-
-        @Override
-        public Image getSource() {
-            return (Image) super.getSource();
-        }
-
-        public Resource getOldSource() {
-            return oldSource;
-        }
-
-        public Resource getNewSource() {
-            return newSource;
-        }
-    }
 
     /**
      * Defines image scale mode.

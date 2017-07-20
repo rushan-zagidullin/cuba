@@ -21,14 +21,14 @@ import com.haulmont.cuba.core.app.FileStorageService;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.FileStorageException;
-import com.haulmont.cuba.gui.components.FileDescriptorResource;
+import com.haulmont.cuba.gui.components.ResourceView;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.web.gui.components.WebImage;
 import com.vaadin.server.StreamResource;
 import org.apache.commons.lang.StringUtils;
 
 public class WebFileDescriptorResource extends WebImage.WebAbstractStreamSettingsResource
-        implements WebResource, FileDescriptorResource {
+        implements WebResource, ResourceView.FileDescriptorResource {
 
     protected static final String FILE_STORAGE_EXCEPTION_MESSAGE = "Can't create FileDescriptorResource. " +
             "An error occurred while finding file in file storage";
@@ -38,7 +38,7 @@ public class WebFileDescriptorResource extends WebImage.WebAbstractStreamSetting
     protected String mimeType;
 
     @Override
-    public FileDescriptorResource setFileDescriptor(FileDescriptor fileDescriptor) {
+    public ResourceView.FileDescriptorResource setFileDescriptor(FileDescriptor fileDescriptor) {
         Preconditions.checkNotNullArgument(fileDescriptor);
 
         this.fileDescriptor = fileDescriptor;
