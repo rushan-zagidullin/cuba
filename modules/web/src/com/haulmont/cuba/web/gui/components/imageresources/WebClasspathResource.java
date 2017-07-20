@@ -17,26 +17,26 @@
 package com.haulmont.cuba.web.gui.components.imageresources;
 
 import com.haulmont.bali.util.Preconditions;
-import com.haulmont.cuba.gui.components.Image;
+import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.core.global.Resources;
+import com.haulmont.cuba.gui.components.ClasspathResource;
 import com.haulmont.cuba.web.gui.components.WebImage;
 import com.vaadin.server.StreamResource;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.InputStream;
-import java.util.function.Supplier;
+public class WebClasspathResource extends WebImage.WebAbstractStreamSettingsResource
+        implements WebResource, ClasspathResource {
 
-public class WebStreamImageResource extends WebImage.WebAbstractStreamSettingsImageResource implements WebImageResource, Image.StreamImageResource {
-
-    protected Supplier<InputStream> streamSupplier;
+    protected String path;
 
     protected String mimeType;
 
     @Override
-    public Image.StreamImageResource setStreamSupplier(Supplier<InputStream> streamSupplier) {
-        Preconditions.checkNotNullArgument(streamSupplier);
+    public ClasspathResource setPath(String path) {
+        Preconditions.checkNotNullArgument(path);
 
-        this.streamSupplier = streamSupplier;
+        this.path = path;
         hasSource = true;
 
         fireResourceUpdateEvent();
@@ -45,22 +45,22 @@ public class WebStreamImageResource extends WebImage.WebAbstractStreamSettingsIm
     }
 
     @Override
-    public Supplier<InputStream> getStreamSupplier() {
-        return streamSupplier;
+    public String getPath() {
+        return path;
     }
 
     @Override
     protected void createResource() {
-        String name = StringUtils.isNotEmpty(fileName) ? fileName : RandomStringUtils.random(16, true, true);
+        String name = StringUtils.isNotEmpty(fileName) ? fileName : FilenameUtils.getName(path);
 
         resource = new StreamResource(() ->
-                streamSupplier.get(), name);
+                AppBeans.get(Resources.class).getResourceAsStream(path), name);
 
         StreamResource streamResource = (StreamResource) this.resource;
 
+        streamResource.setMIMEType(mimeType);
         streamResource.setCacheTime(cacheTime);
         streamResource.setBufferSize(bufferSize);
-        streamResource.setMIMEType(mimeType);
     }
 
     @Override

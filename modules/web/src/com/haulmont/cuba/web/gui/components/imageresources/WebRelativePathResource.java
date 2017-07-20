@@ -17,7 +17,7 @@
 package com.haulmont.cuba.web.gui.components.imageresources;
 
 import com.haulmont.bali.util.Preconditions;
-import com.haulmont.cuba.gui.components.Image;
+import com.haulmont.cuba.gui.components.RelativePathResource;
 import com.haulmont.cuba.web.controllers.ControllerUtils;
 import com.haulmont.cuba.web.gui.components.WebImage;
 import com.vaadin.server.ExternalResource;
@@ -25,14 +25,14 @@ import com.vaadin.server.ExternalResource;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class WebRelativePathImageResource extends WebImage.WebAbstractImageResource implements WebImageResource, Image.RelativePathImageResource {
+public class WebRelativePathResource extends WebImage.WebAbstractResource implements WebResource, RelativePathResource {
 
     protected String path;
 
     protected String mimeType;
 
     @Override
-    public Image.RelativePathImageResource setPath(String path) {
+    public RelativePathResource setPath(String path) {
         Preconditions.checkNotNullArgument(path);
 
         this.path = path;
@@ -54,7 +54,7 @@ public class WebRelativePathImageResource extends WebImage.WebAbstractImageResou
             URL context = new URL(ControllerUtils.getLocationWithoutParams());
             resource = new ExternalResource(new URL(context, path));
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Can't create RelativePathImageResource", e);
+            throw new RuntimeException("Can't create RelativePathResource", e);
         }
     }
 

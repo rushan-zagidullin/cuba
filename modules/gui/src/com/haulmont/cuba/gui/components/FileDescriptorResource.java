@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package com.haulmont.cuba.web.gui.components.imageresources;
+package com.haulmont.cuba.gui.components;
 
-import com.haulmont.cuba.gui.components.Image;
+import com.haulmont.cuba.core.entity.FileDescriptor;
 
-public interface WebImageResource extends Image.ImageResource {
+/**
+ * A resource that can be obtained from the <code>FileStorage</code> using the given <code>FileDescriptor</code>.
+ */
+public interface FileDescriptorResource extends Resource, HasMimeType, HasStreamSettings {
+    FileDescriptorResource setFileDescriptor(FileDescriptor fileDescriptor);
 
-    com.vaadin.server.Resource getResource();
+    FileDescriptor getFileDescriptor();
 }

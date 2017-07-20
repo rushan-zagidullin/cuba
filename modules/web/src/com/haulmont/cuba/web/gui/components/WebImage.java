@@ -24,7 +24,7 @@ import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.MetadataTools;
 import com.haulmont.cuba.gui.GuiDevelopmentException;
-import com.haulmont.cuba.gui.components.Image;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.gui.data.impl.WeakItemChangeListener;
 import com.haulmont.cuba.gui.data.impl.WeakItemPropertyChangeListener;
@@ -32,8 +32,6 @@ import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.web.gui.components.imageresources.*;
 import com.haulmont.cuba.web.toolkit.ui.CubaImage;
 import com.vaadin.server.DownloadStream;
-import com.vaadin.server.Resource;
-import com.vaadin.server.StreamResource;
 import com.vaadin.shared.util.SharedUtil;
 
 import java.io.InputStream;
@@ -43,7 +41,7 @@ import java.util.function.Supplier;
 public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
     protected static final String IMAGE_STYLENAME = "c-image";
 
-    protected ImageResource value;
+    protected Resource value;
 
     protected Datasource datasource;
     protected MetaPropertyPath metaPropertyPath;
@@ -58,19 +56,19 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
 
     protected Runnable imageResourceUpdateHandler;
 
-    protected static final Map<Class<? extends ImageResource>, Class<? extends ImageResource>> resourcesClasses;
+    protected static final Map<Class<? extends Resource>, Class<? extends Resource>> resourcesClasses;
 
     static {
-        ImmutableMap.Builder<Class<? extends ImageResource>, Class<? extends ImageResource>> builder =
+        ImmutableMap.Builder<Class<? extends Resource>, Class<? extends Resource>> builder =
                 new ImmutableMap.Builder<>();
 
-        builder.put(UrlImageResource.class, WebUrlImageResource.class);
-        builder.put(ClasspathImageResource.class, WebClasspathImageResource.class);
-        builder.put(ThemeImageResource.class, WebThemeImageResource.class);
-        builder.put(FileDescriptorImageResource.class, WebFileDescriptorImageResource.class);
-        builder.put(FileImageResource.class, WebFileImageResource.class);
-        builder.put(StreamImageResource.class, WebStreamImageResource.class);
-        builder.put(RelativePathImageResource.class, WebRelativePathImageResource.class);
+        builder.put(UrlResource.class, WebUrlResource.class);
+        builder.put(ClasspathResource.class, WebClasspathResource.class);
+        builder.put(ThemeResource.class, WebThemeResource.class);
+        builder.put(FileDescriptorResource.class, WebFileDescriptorResource.class);
+        builder.put(FileResource.class, WebFileResource.class);
+        builder.put(StreamResource.class, WebStreamResource.class);
+        builder.put(RelativePathResource.class, WebRelativePathResource.class);
 
         resourcesClasses = builder.build();
     }
@@ -80,7 +78,7 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
         component.setPrimaryStyleName(IMAGE_STYLENAME);
 
         imageResourceUpdateHandler = () -> {
-            Resource vRes = this.value == null ? null : ((WebAbstractImageResource) this.value).getResource();
+            com.vaadin.server.Resource vRes = this.value == null ? null : ((WebAbstractResource) this.value).getResource();
             component.setSource(vRes);
         };
     }
@@ -149,24 +147,24 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
 
     protected void updateComponent() {
         Object propertyValue = InstanceUtils.getValueEx(datasource.getItem(), metaPropertyPath.getPath());
-        ImageResource resource = createImageResource(propertyValue);
+        Resource resource = createImageResource(propertyValue);
 
         updateValue(resource);
     }
 
-    protected ImageResource createImageResource(final Object resourceObject) {
+    protected Resource createImageResource(final Object resourceObject) {
         if (resourceObject == null) {
             return null;
         }
 
         if (resourceObject instanceof FileDescriptor) {
-            FileDescriptorImageResource imageResource = createResource(FileDescriptorImageResource.class);
+            FileDescriptorResource imageResource = createResource(FileDescriptorResource.class);
             imageResource.setFileDescriptor((FileDescriptor) resourceObject);
             return imageResource;
         }
 
         if (resourceObject instanceof byte[]) {
-            StreamImageResource imageResource = createResource(StreamImageResource.class);
+            StreamResource imageResource = createResource(StreamResource.class);
             Supplier<InputStream> streamSupplier = () ->
                     new ByteArrayDataProvider((byte[]) resourceObject).provide();
             imageResource.setStreamSupplier(streamSupplier);
@@ -177,12 +175,12 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
     }
 
     @Override
-    public ImageResource getSource() {
+    public Resource getSource() {
         return value;
     }
 
     @Override
-    public void setSource(ImageResource resource) {
+    public void setSource(Resource resource) {
         if (SharedUtil.equals(this.value, resource)) {
             return;
         }
@@ -190,7 +188,7 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
     }
 
     @Override
-    public <T extends ImageResource> T setSource(Class<T> type) {
+    public <T extends Resource> T setSource(Class<T> type) {
         T resource = createResource(type);
 
         updateValue(resource);
@@ -198,22 +196,22 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
         return resource;
     }
 
-    protected void updateValue(ImageResource value) {
-        ImageResource oldValue = this.value;
+    protected void updateValue(Resource value) {
+        Resource oldValue = this.value;
         if (oldValue != null) {
-            ((WebAbstractImageResource) oldValue).setResourceUpdatedHandler(null);
+            ((WebAbstractResource) oldValue).setResourceUpdatedHandler(null);
         }
 
         this.value = value;
 
-        Resource vResource = null;
-        if (value != null && ((WebAbstractImageResource) value).hasSource()) {
-            vResource = ((WebAbstractImageResource) value).getResource();
+        com.vaadin.server.Resource vResource = null;
+        if (value != null && ((WebAbstractResource) value).hasSource()) {
+            vResource = ((WebAbstractResource) value).getResource();
         }
         component.setSource(vResource);
 
         if (value != null) {
-            ((WebAbstractImageResource) value).setResourceUpdatedHandler(imageResourceUpdateHandler);
+            ((WebAbstractResource) value).setResourceUpdatedHandler(imageResourceUpdateHandler);
         }
 
         getEventRouter().fireEvent(SourceChangeListener.class, SourceChangeListener::sourceChanged,
@@ -221,8 +219,8 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
     }
 
     @Override
-    public <T extends ImageResource> T createResource(Class<T> type) {
-        Class<? extends Image.ImageResource> imageResourceClass = resourcesClasses.get(type);
+    public <T extends Resource> T createResource(Class<T> type) {
+        Class<? extends Resource> imageResourceClass = resourcesClasses.get(type);
         if (imageResourceClass == null) {
             throw new IllegalStateException(String.format("Can't find image resource class for '%s'", type.getTypeName()));
         }
@@ -259,14 +257,24 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
         component.setScaleMode(scaleMode.name().toLowerCase().replace("_", "-"));
     }
 
-    public abstract static class WebAbstractImageResource implements WebImageResource {
-        protected Resource resource;
+    @Override
+    public void setAlternateText(String alternateText) {
+        component.setAlternateText(alternateText);
+    }
+
+    @Override
+    public String getAlternateText() {
+        return component.getAlternateText();
+    }
+
+    public abstract static class WebAbstractResource implements WebResource {
+        protected com.vaadin.server.Resource resource;
         protected Runnable resourceUpdateHandler;
 
         protected boolean hasSource = false;
 
         @Override
-        public Resource getResource() {
+        public com.vaadin.server.Resource getResource() {
             if (resource == null) {
                 createResource();
             }
@@ -292,7 +300,8 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
         protected abstract void createResource();
     }
 
-    public abstract static class WebAbstractStreamSettingsImageResource extends WebAbstractImageResource implements HasStreamSettings {
+    public abstract static class WebAbstractStreamSettingsResource extends WebAbstractResource
+            implements HasStreamSettings {
         protected long cacheTime = DownloadStream.DEFAULT_CACHETIME;
         protected int bufferSize;
         protected String fileName;
@@ -302,7 +311,7 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
             this.cacheTime = cacheTime;
 
             if (resource != null) {
-                ((StreamResource) resource).setCacheTime(cacheTime);
+                ((com.vaadin.server.StreamResource) resource).setCacheTime(cacheTime);
             }
         }
 
@@ -316,7 +325,7 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
             this.bufferSize = bufferSize;
 
             if (resource != null) {
-                ((StreamResource) resource).setBufferSize(bufferSize);
+                ((com.vaadin.server.StreamResource) resource).setBufferSize(bufferSize);
             }
         }
 
@@ -330,7 +339,7 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
             this.fileName = fileName;
 
             if (resource != null) {
-                ((StreamResource) resource).setFilename(fileName);
+                ((com.vaadin.server.StreamResource) resource).setFilename(fileName);
             }
         }
 
