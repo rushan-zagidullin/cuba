@@ -17,8 +17,8 @@
 package com.haulmont.cuba.web.gui.components.imageresources;
 
 import com.haulmont.bali.util.Preconditions;
-import com.haulmont.cuba.gui.components.Image;
-import com.haulmont.cuba.web.gui.components.WebImage;
+import com.haulmont.cuba.gui.components.ResourceView;
+import com.haulmont.cuba.web.gui.components.WebAbstractResourceView;
 import com.vaadin.server.StreamResource;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
@@ -26,14 +26,15 @@ import org.apache.commons.lang.StringUtils;
 import java.io.InputStream;
 import java.util.function.Supplier;
 
-public class WebStreamImageResource extends WebImage.WebAbstractStreamSettingsImageResource implements WebImageResource, Image.StreamImageResource {
+public class WebStreamResource extends WebAbstractResourceView.WebAbstractStreamSettingsResource
+        implements WebResource, ResourceView.StreamResource {
 
     protected Supplier<InputStream> streamSupplier;
 
     protected String mimeType;
 
     @Override
-    public Image.StreamImageResource setStreamSupplier(Supplier<InputStream> streamSupplier) {
+    public ResourceView.StreamResource setStreamSupplier(Supplier<InputStream> streamSupplier) {
         Preconditions.checkNotNullArgument(streamSupplier);
 
         this.streamSupplier = streamSupplier;

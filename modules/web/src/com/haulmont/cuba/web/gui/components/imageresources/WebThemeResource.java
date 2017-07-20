@@ -17,16 +17,17 @@
 package com.haulmont.cuba.web.gui.components.imageresources;
 
 import com.haulmont.bali.util.Preconditions;
-import com.haulmont.cuba.gui.components.Image;
-import com.haulmont.cuba.web.gui.components.WebImage;
+import com.haulmont.cuba.gui.components.ResourceView;
+import com.haulmont.cuba.web.gui.components.WebAbstractResourceView;
 import com.vaadin.server.ThemeResource;
 
-public class WebThemeImageResource extends WebImage.WebAbstractImageResource implements WebImageResource, Image.ThemeImageResource {
+public class WebThemeResource extends WebAbstractResourceView.WebAbstractResource
+        implements WebResource, ResourceView.ThemeResource {
 
     protected String path;
 
     @Override
-    public Image.ThemeImageResource setPath(String path) {
+    public ResourceView.ThemeResource setPath(String path) {
         Preconditions.checkNotNullArgument(path);
 
         this.path = path;

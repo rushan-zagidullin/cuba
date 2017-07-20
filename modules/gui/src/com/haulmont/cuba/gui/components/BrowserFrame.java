@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-package com.haulmont.cuba.web.gui.components.imageresources;
+package com.haulmont.cuba.gui.components;
 
-import com.haulmont.cuba.gui.components.Image;
-
-public interface WebImageResource extends Image.ImageResource {
-
-    com.vaadin.server.Resource getResource();
+public interface BrowserFrame extends ResourceView {
+    String NAME = "browserFrame";
 }

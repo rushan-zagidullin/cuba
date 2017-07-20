@@ -17,20 +17,21 @@
 package com.haulmont.cuba.web.gui.components.imageresources;
 
 import com.haulmont.bali.util.Preconditions;
-import com.haulmont.cuba.gui.components.Image;
-import com.haulmont.cuba.web.gui.components.WebImage;
+import com.haulmont.cuba.gui.components.ResourceView;
+import com.haulmont.cuba.web.gui.components.WebAbstractResourceView;
 import com.vaadin.server.ExternalResource;
 
 import java.net.URL;
 
-public class WebUrlImageResource extends WebImage.WebAbstractImageResource implements WebImageResource, Image.UrlImageResource {
+public class WebUrlResource extends WebAbstractResourceView.WebAbstractResource
+        implements WebResource, ResourceView.UrlResource {
 
     protected URL url;
 
     protected String mimeType;
 
     @Override
-    public Image.UrlImageResource setUrl(URL url) {
+    public ResourceView.UrlResource setUrl(URL url) {
         Preconditions.checkNotNullArgument(url);
 
         this.url = url;
