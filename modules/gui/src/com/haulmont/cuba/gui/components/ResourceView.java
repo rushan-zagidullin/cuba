@@ -18,6 +18,10 @@ package com.haulmont.cuba.gui.components;
 
 import java.util.EventObject;
 
+/**
+ * A class that implements this interface is intended for viewing different resources, e.g.
+ * {@link UrlResource}, {@link FileResource}, etc.
+ */
 public interface ResourceView extends Component, Component.HasCaption {
 
     /**
