@@ -93,7 +93,7 @@ public interface ResourceView extends Component, Component.HasCaption {
         protected Resource oldSource;
         protected Resource newSource;
 
-        public SourceChangeEvent(Object source, Resource oldSource, Resource newSource) {
+        public SourceChangeEvent(ResourceView source, Resource oldSource, Resource newSource) {
             super(source);
 
             this.oldSource = oldSource;
