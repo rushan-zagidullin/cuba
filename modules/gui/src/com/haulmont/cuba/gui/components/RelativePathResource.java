@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package com.haulmont.cuba.web.gui.components.imageresources;
+package com.haulmont.cuba.gui.components;
 
-import com.haulmont.cuba.gui.components.ResourceView;
+/**
+ * A resource that is stored in the directory of your application, e.g.:
+ * <code>${catalina.base}/webapps/appName/static/image.png</code>.
+ */
+public interface RelativePathResource extends Resource, ResourceView.HasMimeType {
+    /**
+     * @param path path to the resource, e.g. "static/image.png"
+     * @return current RelativePathResource instance
+     */
+    RelativePathResource setPath(String path);
 
-public interface WebResource extends ResourceView.Resource {
-
-    com.vaadin.server.Resource getResource();
+    String getPath();
 }

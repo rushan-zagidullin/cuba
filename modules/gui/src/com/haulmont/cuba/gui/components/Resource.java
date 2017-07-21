@@ -17,18 +17,7 @@
 package com.haulmont.cuba.gui.components;
 
 /**
- * Marker interface to indicate that the implementing class supports MIME type setting.
+ * Marker interface to indicate that the implementing class can be used as a resource.
  */
-public interface HasMimeType {
-    /**
-     * Sets the mime type of the resource.
-     *
-     * @param mimeType the MIME type to be set
-     */
-    void setMimeType(String mimeType);
-
-    /**
-     * @return resource MIME type
-     */
-    String getMimeType();
+public interface Resource {
 }

@@ -17,10 +17,7 @@
 package com.haulmont.cuba.gui.xml.layout.loaders;
 
 import com.haulmont.cuba.gui.GuiDevelopmentException;
-import com.haulmont.cuba.gui.components.HasMimeType;
-import com.haulmont.cuba.gui.components.HasStreamSettings;
-import com.haulmont.cuba.gui.components.Image;
-import com.haulmont.cuba.gui.components.ResourceView;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.data.Datasource;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Element;
@@ -99,7 +96,7 @@ public class ImageLoader extends AbstractComponentLoader<Image> {
             throw new GuiDevelopmentException("No path provided for the RelativePathResource", context.getFullFrameId());
         }
 
-        ResourceView.RelativePathResource resource = resultComponent.createResource(ResourceView.RelativePathResource.class);
+        RelativePathResource resource = resultComponent.createResource(RelativePathResource.class);
 
         resource.setPath(path);
 
@@ -120,7 +117,7 @@ public class ImageLoader extends AbstractComponentLoader<Image> {
             throw new GuiDevelopmentException("No url provided for the UrlResource", context.getFullFrameId());
         }
 
-        ResourceView.UrlResource resource = resultComponent.createResource(ResourceView.UrlResource.class);
+        UrlResource resource = resultComponent.createResource(UrlResource.class);
         try {
             resource.setUrl(new URL(url));
 
@@ -143,7 +140,7 @@ public class ImageLoader extends AbstractComponentLoader<Image> {
             throw new GuiDevelopmentException("No path provided for the ClasspathResource", context.getFullFrameId());
         }
 
-        ResourceView.ClasspathResource resource = resultComponent.createResource(ResourceView.ClasspathResource.class);
+        ClasspathResource resource = resultComponent.createResource(ClasspathResource.class);
 
         resource.setPath(classpathPath);
 
@@ -165,7 +162,7 @@ public class ImageLoader extends AbstractComponentLoader<Image> {
             throw new GuiDevelopmentException("No path provided for the ThemeResource", context.getFullFrameId());
         }
 
-        resultComponent.setSource(ResourceView.ThemeResource.class).setPath(themePath);
+        resultComponent.setSource(ThemeResource.class).setPath(themePath);
 
         return true;
     }
@@ -186,7 +183,7 @@ public class ImageLoader extends AbstractComponentLoader<Image> {
             throw new GuiDevelopmentException(msg, context.getFullFrameId());
         }
 
-        ResourceView.FileResource resource = resultComponent.createResource(ResourceView.FileResource.class);
+        FileResource resource = resultComponent.createResource(FileResource.class);
 
         resource.setFile(file);
 
@@ -217,14 +214,14 @@ public class ImageLoader extends AbstractComponentLoader<Image> {
         }
     }
 
-    protected void loadMimeType(HasMimeType resource, Element resourceElement) {
+    protected void loadMimeType(ResourceView.HasMimeType resource, Element resourceElement) {
         String mimeType = resourceElement.attributeValue("mimeType");
         if (StringUtils.isNotEmpty(mimeType)) {
             resource.setMimeType(mimeType);
         }
     }
 
-    protected void loadStreamSettings(HasStreamSettings resource, Element resourceElement) {
+    protected void loadStreamSettings(ResourceView.HasStreamSettings resource, Element resourceElement) {
         String cacheTime = resourceElement.attributeValue("cacheTime");
         if (StringUtils.isNotEmpty(cacheTime)) {
             resource.setCacheTime(Long.parseLong(cacheTime));

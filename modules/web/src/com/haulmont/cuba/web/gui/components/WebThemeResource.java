@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package com.haulmont.cuba.web.gui.components.imageresources;
+package com.haulmont.cuba.web.gui.components;
 
 import com.haulmont.bali.util.Preconditions;
-import com.haulmont.cuba.gui.components.ResourceView;
-import com.haulmont.cuba.web.gui.components.WebImage;
+import com.haulmont.cuba.gui.components.ThemeResource;
 
-public class WebThemeResource extends WebImage.WebAbstractResource implements WebResource, ResourceView.ThemeResource {
+public class WebThemeResource extends WebAbstractResource implements WebResource, ThemeResource {
 
     protected String path;
 
     @Override
-    public ResourceView.ThemeResource setPath(String path) {
+    public ThemeResource setPath(String path) {
         Preconditions.checkNotNullArgument(path);
 
         this.path = path;

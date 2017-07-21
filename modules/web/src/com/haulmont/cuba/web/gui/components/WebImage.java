@@ -29,9 +29,7 @@ import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.gui.data.impl.WeakItemChangeListener;
 import com.haulmont.cuba.gui.data.impl.WeakItemPropertyChangeListener;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
-import com.haulmont.cuba.web.gui.components.imageresources.*;
 import com.haulmont.cuba.web.toolkit.ui.CubaImage;
-import com.vaadin.server.DownloadStream;
 import com.vaadin.shared.util.SharedUtil;
 
 import java.io.InputStream;
@@ -152,6 +150,28 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
         updateValue(resource);
     }
 
+    protected void updateValue(Resource value) {
+        Resource oldValue = this.value;
+        if (oldValue != null) {
+            ((WebAbstractResource) oldValue).setResourceUpdatedHandler(null);
+        }
+
+        this.value = value;
+
+        com.vaadin.server.Resource vResource = null;
+        if (value != null && ((WebAbstractResource) value).hasSource()) {
+            vResource = ((WebAbstractResource) value).getResource();
+        }
+        component.setSource(vResource);
+
+        if (value != null) {
+            ((WebAbstractResource) value).setResourceUpdatedHandler(imageResourceUpdateHandler);
+        }
+
+        getEventRouter().fireEvent(SourceChangeListener.class, SourceChangeListener::sourceChanged,
+                new SourceChangeEvent(this, oldValue, this.value));
+    }
+
     protected Resource createImageResource(final Object resourceObject) {
         if (resourceObject == null) {
             return null;
@@ -194,28 +214,6 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
         updateValue(resource);
 
         return resource;
-    }
-
-    protected void updateValue(Resource value) {
-        Resource oldValue = this.value;
-        if (oldValue != null) {
-            ((WebAbstractResource) oldValue).setResourceUpdatedHandler(null);
-        }
-
-        this.value = value;
-
-        com.vaadin.server.Resource vResource = null;
-        if (value != null && ((WebAbstractResource) value).hasSource()) {
-            vResource = ((WebAbstractResource) value).getResource();
-        }
-        component.setSource(vResource);
-
-        if (value != null) {
-            ((WebAbstractResource) value).setResourceUpdatedHandler(imageResourceUpdateHandler);
-        }
-
-        getEventRouter().fireEvent(SourceChangeListener.class, SourceChangeListener::sourceChanged,
-                new SourceChangeEvent(this, oldValue, this.value));
     }
 
     @Override
@@ -265,87 +263,5 @@ public class WebImage extends WebAbstractComponent<CubaImage> implements Image {
     @Override
     public String getAlternateText() {
         return component.getAlternateText();
-    }
-
-    public abstract static class WebAbstractResource implements WebResource {
-        protected com.vaadin.server.Resource resource;
-        protected Runnable resourceUpdateHandler;
-
-        protected boolean hasSource = false;
-
-        @Override
-        public com.vaadin.server.Resource getResource() {
-            if (resource == null) {
-                createResource();
-            }
-            return resource;
-        }
-
-        protected boolean hasSource() {
-            return hasSource;
-        }
-
-        protected void fireResourceUpdateEvent() {
-            resource = null;
-
-            if (resourceUpdateHandler != null) {
-                resourceUpdateHandler.run();
-            }
-        }
-
-        protected void setResourceUpdatedHandler(Runnable resourceUpdated) {
-            this.resourceUpdateHandler = resourceUpdated;
-        }
-
-        protected abstract void createResource();
-    }
-
-    public abstract static class WebAbstractStreamSettingsResource extends WebAbstractResource
-            implements HasStreamSettings {
-        protected long cacheTime = DownloadStream.DEFAULT_CACHETIME;
-        protected int bufferSize;
-        protected String fileName;
-
-        @Override
-        public void setCacheTime(long cacheTime) {
-            this.cacheTime = cacheTime;
-
-            if (resource != null) {
-                ((com.vaadin.server.StreamResource) resource).setCacheTime(cacheTime);
-            }
-        }
-
-        @Override
-        public long getCacheTime() {
-            return cacheTime;
-        }
-
-        @Override
-        public void setBufferSize(int bufferSize) {
-            this.bufferSize = bufferSize;
-
-            if (resource != null) {
-                ((com.vaadin.server.StreamResource) resource).setBufferSize(bufferSize);
-            }
-        }
-
-        @Override
-        public int getBufferSize() {
-            return bufferSize;
-        }
-
-        @Override
-        public void setFileName(String fileName) {
-            this.fileName = fileName;
-
-            if (resource != null) {
-                ((com.vaadin.server.StreamResource) resource).setFilename(fileName);
-            }
-        }
-
-        @Override
-        public String getFileName() {
-            return fileName;
-        }
     }
 }
