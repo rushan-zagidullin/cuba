@@ -17,6 +17,7 @@
 
 package com.haulmont.cuba.core.sys;
 
+import com.google.common.collect.Lists;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
@@ -292,7 +293,7 @@ public class FetchGroupManager {
             // Always add SoftDelete properties to support EntityManager contract
             if (SoftDelete.class.isAssignableFrom(entityClass)) {
                 for (String property : getInterfaceProperties(SoftDelete.class)) {
-                    fetchGroupFields.add(createFetchGroupField(entityClass, parentField, property));
+                    fetchGroupFields.add(findOrElseCreateFetchGroupField(entityClass, parentField, property, fetchGroupFields));
                 }
             }
 
@@ -301,37 +302,108 @@ public class FetchGroupManager {
                     && !EmbeddableEntity.class.isAssignableFrom(entityClass)) {
                 MetaProperty uuidProp = metadata.getClassNN(entityClass).getProperty("uuid");
                 if (uuidProp != null && metadataTools.isPersistent(uuidProp)) {
-                    fetchGroupFields.add(createFetchGroupField(entityClass, parentField, "uuid"));
+                    fetchGroupFields.add(findOrElseCreateFetchGroupField(entityClass, parentField, "uuid", fetchGroupFields));
                 }
             }
         }
 
-        for (ViewProperty property : view.getProperties()) {
+        for (ViewProperty property : Lists.newArrayList(view.getProperties())) {
             String propertyName = property.getName();
             MetaClass metaClass = metadata.getClassNN(entityClass);
             MetaProperty metaProperty = metaClass.getPropertyNN(propertyName);
 
             if (metadataTools.isPersistent(metaProperty) && (metaProperty.getRange().isClass() || useFetchGroup)) {
-                FetchGroupField field = createFetchGroupField(entityClass, parentField, propertyName, property.getFetchMode());
+                FetchGroupField field = findOrElseCreateFetchGroupField(entityClass, parentField, propertyName, property.getFetchMode(), fetchGroupFields);
                 fetchGroupFields.add(field);
                 if (property.getView() != null) {
                     processView(property.getView(), field, fetchGroupFields, useFetchGroup);
                 }
             }
 
+        }
+
+        for (ViewProperty property : Lists.newArrayList(view.getProperties())) {
+            String propertyName = property.getName();
+            MetaClass metaClass = metadata.getClassNN(entityClass);
+
             List<String> relatedProperties = metadataTools.getRelatedProperties(entityClass, propertyName);
             for (String relatedProperty : relatedProperties) {
-                MetaProperty relatedMetaProp = metaClass.getPropertyNN(relatedProperty);
-                if (!view.containsProperty(relatedProperty) && (relatedMetaProp.getRange().isClass() || useFetchGroup)) {
-                    FetchGroupField field = createFetchGroupField(entityClass, parentField, relatedProperty);
+                MetaPropertyPath metaPropertyPath = metaClass.getPropertyPath(relatedProperty);
+                MetaProperty[] metaProperties = metaPropertyPath.getMetaProperties();
+                MetaProperty relatedMetaProp = metaProperties[0];
+                if (!containsMetaPropertyPath(view, metaPropertyPath) && (relatedMetaProp.getRange().isClass() || useFetchGroup)) {
+                    fillInView(view, metaPropertyPath);
+                    FetchGroupField field = findOrElseCreateFetchGroupField(entityClass, parentField, relatedMetaProp.getName(), fetchGroupFields);
                     fetchGroupFields.add(field);
                     if (relatedMetaProp.getRange().isClass()) {
-                        View relatedView = viewRepository.getView(relatedMetaProp.getRange().asClass(), View.MINIMAL);
+                        View relatedView = view.getProperty(relatedMetaProp.getName()).getView();
                         processView(relatedView, field, fetchGroupFields, useFetchGroup);
                     }
                 }
             }
         }
+    }
+
+    private FetchGroupField findOrElseCreateFetchGroupField(Class<? extends Entity> entityClass, FetchGroupField parentField, String relatedProperty, Set<FetchGroupField> fetchGroupFields) {
+        return findOrElseCreateFetchGroupField(entityClass, parentField, relatedProperty, FetchMode.AUTO, fetchGroupFields);
+    }
+
+    private FetchGroupField findOrElseCreateFetchGroupField(Class<? extends Entity> entityClass,
+                                                            FetchGroupField parentField,
+                                                            String relatedProperty,
+                                                            FetchMode fetchMode,
+                                                            Set<FetchGroupField> fetchGroupFields) {
+        MetaClass metaClass = getRealClass(entityClass, relatedProperty);
+        MetaProperty metaProperty = metaClass.getPropertyNN(relatedProperty);
+        MetaPropertyPath metaPropertyPath = parentField == null ?
+                new MetaPropertyPath(metaClass, metaProperty) :
+                new MetaPropertyPath(parentField.metaPropertyPath, metaProperty);
+
+        return fetchGroupFields.stream()
+                .filter(fetchGroupField -> Objects.equals(fetchGroupField.metaClass, metaClass))
+                .filter(fetchGroupField -> Objects.equals(fetchGroupField.metaPropertyPath, metaPropertyPath))
+                .findFirst()
+                .map(fetchGroupField -> {
+                    if (fetchMode != null && !FetchMode.AUTO.equals(fetchMode)) {
+                        fetchGroupField.fetchMode = fetchMode;
+                    }
+                    return fetchGroupField;
+                })
+                .orElseGet(() ->
+                        createFetchGroupField(entityClass, parentField, relatedProperty, fetchMode)
+                );
+    }
+
+    private void fillInView(View view, MetaPropertyPath metaPropertyPath) {
+        View curView = view;
+        for (MetaProperty metaProperty : metaPropertyPath.getMetaProperties()) {
+            if (curView == null) {
+                throw new IllegalArgumentException("Wrong metaPropertyPath");
+            }
+            if (!curView.containsProperty(metaProperty.getName())) {
+                View relatedView = metaProperty.getRange().isClass() ?
+                        viewRepository.getView(metaProperty.getRange().asClass(), View.MINIMAL) :
+                        null;
+                curView.addProperty(metaProperty.getName(), relatedView);
+                curView = relatedView;
+            }
+        }
+    }
+
+    private boolean containsMetaPropertyPath(View view, MetaPropertyPath metaPropertyPath) {
+        MetaProperty[] metaProperties = metaPropertyPath.getMetaProperties();
+        ViewProperty viewProperty = view.getProperty(metaProperties[0].getName());
+        if (viewProperty == null) {
+            return false;
+        }
+        if (metaProperties.length > 1) {
+            if (viewProperty.getView() == null) {
+                return false;
+            }
+            MetaProperty[] nextMetaProperties = Arrays.copyOfRange(metaProperties, 1, metaProperties.length);
+            return containsMetaPropertyPath(viewProperty.getView(), new MetaPropertyPath(nextMetaProperties[0].getDomain(), nextMetaProperties));
+        }
+        return true;
     }
 
     private List<String> getInterfaceProperties(Class<?> intf) {

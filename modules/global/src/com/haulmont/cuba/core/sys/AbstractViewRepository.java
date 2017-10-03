@@ -21,6 +21,7 @@ import com.haulmont.bali.util.Preconditions;
 import com.haulmont.bali.util.ReflectionHelper;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
+import com.haulmont.chile.core.model.MetaPropertyPath;
 import com.haulmont.chile.core.model.Range;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.*;
@@ -320,15 +321,43 @@ public class AbstractViewRepository implements ViewRepository {
             } else {
                 List<String> relatedProperties = metadata.getTools().getRelatedProperties(metaProperty);
                 for (String relatedPropertyName : relatedProperties) {
-                    MetaProperty relatedProperty = metaClass.getPropertyNN(relatedPropertyName);
+                    MetaPropertyPath metaPropertyPath = metaClass.getPropertyPath(relatedPropertyName);
+                    assert metaPropertyPath != null;
+                    MetaProperty relatedProperty = metaPropertyPath.getMetaProperties()[0];
                     if (metadata.getTools().isPersistent(relatedProperty)) {
-                        addPersistentAttributeToMinimalView(metaClass, visited, info, view, relatedProperty);
+                        addMetaPropertyPathToMinimalView(visited, info, view, metaPropertyPath);
                     } else {
                         log.warn("Transient attribute '" + relatedPropertyName
                                 + "' is listed in 'related' properties of another transient attribute '" + metaProperty.getName() + "'");
                     }
                 }
             }
+        }
+    }
+
+    protected void addMetaPropertyPathToMinimalView(Set<ViewInfo> visited, ViewInfo info, View view, MetaPropertyPath metaPropertyPath) {
+        MetaProperty[] metaProperties = metaPropertyPath.getMetaProperties();
+        MetaProperty metaProperty = metaProperties[0];
+        if (metaProperty.getRange().isClass()
+                && !metaProperty.getRange().getCardinality().isMany()) {
+            MetaClass metaClass = metaProperty.getRange().asClass();
+
+            Map<String, View> views = storage.get(metaClass);
+            View refMinimalView = (views == null ? null : views.get(View.MINIMAL));
+            if (refMinimalView == null) {
+                visited.add(info);
+                refMinimalView = deployDefaultView(metaClass, View.MINIMAL, visited);
+                visited.remove(info);
+            }
+            view.addProperty(metaProperty.getName(), refMinimalView);
+            if (metaProperties.length > 1) {
+                ViewInfo relatedViewInfo = new ViewInfo(metaClass.getJavaClass(), refMinimalView.getName());
+                MetaProperty[] nextMetaProperties = Arrays.copyOfRange(metaProperties, 1, metaProperties.length);
+                MetaPropertyPath nextMetaPropertyPath = new MetaPropertyPath(metaClass, nextMetaProperties);
+                addMetaPropertyPathToMinimalView(visited, relatedViewInfo, refMinimalView, nextMetaPropertyPath);
+            }
+        } else {
+            view.addProperty(metaProperty.getName());
         }
     }
 

@@ -20,6 +20,7 @@ package com.haulmont.cuba.core.global;
 import com.haulmont.chile.core.model.Instance;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
+import com.haulmont.chile.core.model.MetaPropertyPath;
 import com.haulmont.cuba.core.entity.BaseEntityInternalAccess;
 import com.haulmont.cuba.core.entity.BaseGenericIdEntity;
 import org.eclipse.persistence.queries.FetchGroup;
@@ -27,6 +28,7 @@ import org.eclipse.persistence.queries.FetchGroupTracker;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class GlobalPersistentAttributesLoadChecker implements PersistentAttribut
                 return true;
             } else {
                 for (String relatedProperty : relatedProperties) {
-                    if (!isLoaded(entity, relatedProperty))
+                    if (!isLoaded(entity, metaClass.getPropertyPath(relatedProperty)))
                         return false;
                 }
                 return true;
@@ -69,6 +71,24 @@ public class GlobalPersistentAttributesLoadChecker implements PersistentAttribut
         }
 
         return isLoadedSpecificCheck(entity, property, metaClass, metaProperty);
+    }
+
+    public boolean isLoaded(Object entity, MetaPropertyPath metaPropertyPath) {
+        String[] propertyPath = metaPropertyPath.getPath();
+        if (!isLoaded(entity, metaPropertyPath.getMetaProperties()[0].getName())) {
+            return false;
+        }
+        if (propertyPath.length > 1) {
+            Object value = ((Instance) entity).getValue(propertyPath[0]);
+            if (!(value instanceof Instance)) {
+                throw new IllegalArgumentException("");
+            }
+            MetaProperty[] nextMetaProperties = Arrays.copyOfRange(metaPropertyPath.getMetaProperties(), 1, propertyPath.length );
+            if (!isLoaded(value, new MetaPropertyPath(nextMetaProperties[0].getDomain(), nextMetaProperties))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     protected PropertyLoadedState isLoadedCommonCheck(Object entity, String property) {
